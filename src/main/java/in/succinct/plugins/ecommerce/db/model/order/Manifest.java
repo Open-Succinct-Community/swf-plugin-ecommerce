@@ -14,8 +14,8 @@ import java.sql.Timestamp;
 
 @MENU("Fulfillment")
 public interface Manifest extends Model {
-	public String getManifestId();
-	public void setManifestId(String id);
+	public String getManifestNumber();
+	public void setManifestNumber(String number);
 
 	@IS_NULLABLE
     public String getCourier();
@@ -51,8 +51,8 @@ public interface Manifest extends Model {
 	
 	@PROTECTION(Kind.NON_EDITABLE)
 	@COLUMN_DEF(StandardDefault.ZERO)
-	public long getImageContentSize();
-	public void setImageContentSize(long size);
+	public int getImageContentSize();
+	public void setImageContentSize(int size);
 	
 	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
 	public boolean isClosed(); 

@@ -22,7 +22,6 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public class OrderLineImpl  extends ModelImpl<OrderLine>{
@@ -289,9 +288,17 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         }
     }
 
-    public void manifest(){
+    public void manifest(Manifest target){
 	    OrderLine line = getProxy();
-	    line.setManifestedQuantity(line.getToManifestQuantity());
-	    line.save();
+	    if (line.getToManifestQuantity() > 0){
+            line.setManifestedQuantity(line.getToManifestQuantity());
+            Map<String,OrderLineAttribute> map = getAttributeMap();
+
+            map.get("manifest_number").setValue(target.getManifestNumber());
+            map.get("courier").setValue(target.getCourier());
+
+            line.saveAttributeMap(map);
+            line.save();
+	    }
     }
 }

@@ -30,8 +30,8 @@ public class ManifestShippingUpdatesTask extends EntityTask<Manifest> {
 		Select s = new Select().from(OrderLineAttribute.class);
 		
 		Expression where = new Expression(s.getPool(),  Conjunction.AND); 
-		where.add(new Expression(s.getPool(), "NAME" , Operator.EQ, "manifest_id"));
-		where.add(new Expression(s.getPool(), "VALUE" , Operator.EQ, m.getManifestId()));
+		where.add(new Expression(s.getPool(), "NAME" , Operator.EQ, "manifest_number"));
+		where.add(new Expression(s.getPool(), "VALUE" , Operator.EQ, m.getManifestNumber()));
 		List<OrderLineAttribute> olas = s.where(where).execute();
 		List<Task> tasks = new LinkedList<>();
 		olas.forEach(a->{

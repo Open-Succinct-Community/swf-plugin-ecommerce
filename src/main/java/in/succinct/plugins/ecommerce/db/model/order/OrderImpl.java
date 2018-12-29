@@ -23,6 +23,10 @@ public class OrderImpl  extends ModelImpl<Order>{
 	
 	private Map<String,OrderAttribute> map = null;
 
+	public String getOrderNumber(){
+		return String.valueOf(getProxy().getId());
+	}
+
 	public synchronized Map<String,OrderAttribute> getAttributeMap() {
 		if (map == null) {
 			map = new  UnboundedCache<String,OrderAttribute>() {

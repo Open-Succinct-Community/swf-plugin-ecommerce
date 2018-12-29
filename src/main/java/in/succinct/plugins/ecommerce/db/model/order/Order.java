@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
@@ -17,6 +18,10 @@ import java.util.Map;
 
 @MENU("Fulfillment")
 public interface Order extends Model {
+
+    @IS_VIRTUAL
+    public String getOrderNumber();
+
     @PARTICIPANT
     public long getCompanyId();
     public void setCompanyId(long id);

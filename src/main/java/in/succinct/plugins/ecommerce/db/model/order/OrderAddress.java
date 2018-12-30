@@ -6,10 +6,11 @@ import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
+import org.apache.commons.math3.analysis.function.Add;
 
-@IS_VIRTUAL(false)
-public interface OrderAddress extends Address {
+public interface OrderAddress extends Model, Address {
 	@UNIQUE_KEY
 	public long getOrderId();
 	public void setOrderId(long id); 

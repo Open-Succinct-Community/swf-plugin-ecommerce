@@ -14,8 +14,5 @@
         <module name="wiggles" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="petsy" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

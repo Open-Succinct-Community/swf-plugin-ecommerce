@@ -9,7 +9,6 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.order.tasks.ship.CreateManifestTask;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
-import in.succinct.plugins.ecommerce.db.model.sequence.SequentialNumber;
 
 public class PreferredCarriersController extends ModelController<PreferredCarrier> {
     public PreferredCarriersController(Path path) {
@@ -19,8 +18,7 @@ public class PreferredCarriersController extends ModelController<PreferredCarrie
     @RequireLogin
     @SingleRecordAction(icon = "glyphicon-th-list" , tooltip = "Open Manifest")
     public View createManifest(long id){
-        PreferredCarrier preferredCarrier = Database.getTable(PreferredCarrier.class).get(id);
-        TaskManager.instance().executeAsync(new CreateManifestTask(SequentialNumber.get(preferredCarrier.getName()+".Manifest").next() ,preferredCarrier.getFacilityId(),preferredCarrier.getName()));
+        TaskManager.instance().executeAsync(new CreateManifestTask(id));
         getPath().addInfoMessage("Manifest Job Submitted");
         return back();
     }

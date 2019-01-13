@@ -14,7 +14,12 @@ import com.venky.swf.sql.Select;
 
 @MENU("Catalog")
 public interface UnitOfMeasure extends Model {
+	public static final String KILOGRAMS = "Kgs";
+	public static final String GRAMS = "Gms";
+	public static final String CENTIMETERS = "Cms";
+	public static final String INCHES = "Inches";
 	@UNIQUE_KEY
+	@Enumeration(KILOGRAMS + "," + GRAMS +"," + CENTIMETERS + ","+ INCHES + ",EACH,DOZEN,Celcius,Fahrenheit")
 	public String getName(); 
 	public void setName(String name); 
 	

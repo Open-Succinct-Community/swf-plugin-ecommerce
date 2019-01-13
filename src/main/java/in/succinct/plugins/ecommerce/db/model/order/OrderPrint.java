@@ -18,6 +18,7 @@ public interface OrderPrint extends Model{
 	public  void setDocumentId(String id);
 	
 	public static final String DOCUMENT_TYPE_PACK_SLIP = "PACK_SLIP";
+	public static final String DOCUMENT_TYPE_CARRIER_LABEL = "CARRIER_LABEL";
 	
 	@UNIQUE_KEY
 	public String getDocumentType(); 

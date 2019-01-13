@@ -37,7 +37,9 @@ public class OrderImpl  extends ModelImpl<Order>{
 				protected OrderAttribute getValue(String name) {
 					OrderAttribute attr =  Database.getTable(OrderAttribute.class).newRecord();
 					attr.setName(name);
-					attr.setOrderId(getProxy().getId());
+					if(!getProxy().getRawRecord().isNewRecord()){
+						attr.setOrderId(getProxy().getId());
+					}
 					return attr;
 				}
 			};

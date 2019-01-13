@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
+import com.venky.swf.db.annotations.column.validations.Enumeration;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
@@ -8,6 +9,7 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
+import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
@@ -17,13 +19,9 @@ public interface Manifest extends Model {
 	public String getManifestNumber();
 	public void setManifestNumber(String number);
 
-	@IS_NULLABLE
-    public String getCourier();
-	public void setCourier(String courier);
-
-	public Long getFacilityId();
-	public void setFacilityId(Long facilityId);
-	public Facility getFacility();
+	public Long getPreferredCarrierId();
+	public void setPreferredCarrierId(Long id);
+	public PreferredCarrier getPreferredCarrier();
 
 	@IS_NULLABLE
 	public Timestamp getPickupNoLaterThan();

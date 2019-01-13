@@ -233,5 +233,5 @@ public interface OrderLine extends Model {
     public void acknowledge();
     public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCount, Bucket rejectedLineCount );
 
-    public void manifest(Manifest target);
+    public void manifest();
 }

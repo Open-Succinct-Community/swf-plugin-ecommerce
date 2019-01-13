@@ -45,6 +45,9 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 				protected OrderLineAttribute getValue(String name) {
 					OrderLineAttribute attr =  Database.getTable(OrderLineAttribute.class).newRecord();
 					attr.setName(name);
+					if(!getProxy().getRawRecord().isNewRecord()){
+                        attr.setOrderLineId(getProxy().getId());
+                    }
 					return attr;
 				}
 			};
@@ -288,16 +291,10 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         }
     }
 
-    public void manifest(Manifest target){
+    public void manifest(){
 	    OrderLine line = getProxy();
 	    if (line.getToManifestQuantity() > 0){
             line.setManifestedQuantity(line.getToManifestQuantity());
-            Map<String,OrderLineAttribute> map = getAttributeMap();
-
-            map.get("manifest_number").setValue(target.getManifestNumber());
-            map.get("courier").setValue(target.getCourier());
-
-            line.saveAttributeMap(map);
             line.save();
 	    }
     }

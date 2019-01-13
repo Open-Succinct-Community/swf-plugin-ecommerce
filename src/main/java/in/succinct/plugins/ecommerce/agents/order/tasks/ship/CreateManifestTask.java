@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks.ship;
 
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.agents.order.tasks.manifest.ManifestOrderTask;
@@ -14,7 +15,10 @@ import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
+import in.succinct.plugins.ecommerce.db.model.sequence.SequentialNumber;
 
+import java.security.cert.Extension;
 import java.util.List;
 
 
@@ -26,6 +30,12 @@ public class CreateManifestTask implements Task{
 	}
 	
 	private Priority priority = Priority.DEFAULT;
+
+	long preferredCarrierId = -1;
+	public CreateManifestTask(long preferredCarrierId) {
+		this.preferredCarrierId = preferredCarrierId;
+	}
+
 	public void setTaskPriority(Priority priority){
 		this.priority = priority;
 	}
@@ -34,40 +44,21 @@ public class CreateManifestTask implements Task{
 		return priority;
 	}
 
-	String manifestNumber = null;
-	long facilityId = -1;
-	String courier= null;
-	public CreateManifestTask(String manifestNumber, long facilityId, String courier) {
-        this.manifestNumber = manifestNumber;
-		this.facilityId = facilityId;
-		this.courier = courier;
-	}
 	@Override
 	public void execute() {
-	    Facility lockedFacility = Database.getTable(Facility.class).lock(facilityId);
+	    PreferredCarrier preferredCarrier = Database.getTable(PreferredCarrier.class).lock(preferredCarrierId);
 
 		Select manifestSelect = new Select().from(Manifest.class);
 		Expression where = new Expression(manifestSelect.getPool(),Conjunction.AND);
-        where.add(new Expression(manifestSelect.getPool(),"FACILITY_ID",Operator.EQ, facilityId));
+        where.add(new Expression(manifestSelect.getPool(),"PREFERRED_CARRIER_ID",Operator.EQ, preferredCarrier.getId()));
         where.add(new Expression(manifestSelect.getPool(),"CLOSED",Operator.EQ, false));
-		if (manifestNumber != null){
-            where.add(new Expression(manifestSelect.getPool(),"MANIFEST_NUMBER",Operator.EQ, manifestNumber));
-        }else {
-            where.add(new Expression(manifestSelect.getPool(),"MANIFEST_NUMBER",Operator.EQ));
-        }
-        if (courier != null){
-            where.add(new Expression(manifestSelect.getPool(),"COURIER",Operator.EQ, courier));
-        }else {
-            where.add(new Expression(manifestSelect.getPool(),"COURIER",Operator.EQ));
-        }
 
-		List<Manifest> manifests = manifestSelect.where(where).orderBy("ID").execute();
+        List<Manifest> manifests = manifestSelect.where(where).orderBy("ID").execute();
 		Manifest manifest = null;
 		if (manifests.isEmpty()) {
 			manifest = Database.getTable(Manifest.class).newRecord();
-			manifest.setManifestNumber(manifestNumber);
-			manifest.setFacilityId(facilityId);
-			manifest.setCourier(courier);
+			manifest.setManifestNumber(SequentialNumber.get(preferredCarrier.getName()+".Manifest").next());
+			manifest.setPreferredCarrierId(preferredCarrier.getId());
 			manifest.save();
 		}else {
 			manifest = manifests.get(0);
@@ -80,7 +71,7 @@ public class CreateManifestTask implements Task{
 		Expression where = new Expression(orderSelect.getPool(), Conjunction.AND);
 		where.add(new Expression(orderSelect.getPool(),"FULFILLMENT_STATUS" , Operator.EQ, Order.FULFILLMENT_STATUS_PACKED));
 		orderSelect.where(where).add(" and exists ( select 1 from " + ModelReflector.instance(OrderLine.class).getTableName() + " ol  where ol.order_id = " +
-				ModelReflector.instance(Order.class).getTableName() +".id and ol.ship_from_id = " + facilityId + ")");
+				ModelReflector.instance(Order.class).getTableName() +".id and ol.ship_from_id = " + manifest.getPreferredCarrier().getFacilityId() + ")");
 
 		List<Order> packedOrders = orderSelect.orderBy("ID").execute();
 		packedOrders.forEach(o-> {
@@ -90,7 +81,7 @@ public class CreateManifestTask implements Task{
 
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + " [manifestNumber=" + StringUtil.valueOf(manifestNumber) + ", facilityId=" + facilityId +  ", courierCode=" + courier + "]";
+		return getClass().getSimpleName() + " [preferredCarrierId=" + preferredCarrierId + "]";
 	}
 	@Override
 	public int hashCode() {
@@ -104,9 +95,6 @@ public class CreateManifestTask implements Task{
 
         CreateManifestTask that = (CreateManifestTask) o;
 
-        if (facilityId != that.facilityId) return false;
-        if (manifestNumber != null ? !manifestNumber.equals(that.manifestNumber) : that.manifestNumber != null)
-            return false;
-        return courier != null ? courier.equals(that.courier) : that.courier == null;
+        return (preferredCarrierId == that.preferredCarrierId);
     }
 }

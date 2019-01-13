@@ -11,6 +11,7 @@
         <module name="swf-db-io-xls" />
         <module name="swf-plugin-calendar" />
         <module name="swf-plugin-collab" />
+        <module name="swf-plugin-wiki" />
         <module name="wiggles" />
       </profile>
     </annotationProcessing>

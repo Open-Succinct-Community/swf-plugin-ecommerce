@@ -11,6 +11,7 @@ import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import java.util.Map;
 
 @MENU("Fulfillment")
 public interface Order extends Model {
+    public String getReference();
+    public void setReference(String reference);
 
     @IS_VIRTUAL
     public String getOrderNumber();

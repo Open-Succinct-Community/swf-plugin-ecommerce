@@ -1,7 +1,6 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks.pack;
 
 import com.venky.core.util.Bucket;
-import com.venky.extension.Registry;
 import com.venky.swf.db.Database;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.routing.Config;
@@ -10,7 +9,8 @@ import com.venky.swf.views.controls.page.Body;
 import com.venky.swf.views.controls.page.Css;
 import com.venky.swf.views.controls.page.Head;
 import com.venky.swf.views.controls.page.Html;
-import com.venky.swf.views.controls.page.Script;
+import com.venky.swf.views.controls.page.Image;
+import com.venky.swf.views.controls.page.LinkedImage;
 import com.venky.swf.views.controls.page.layout.Div;
 import com.venky.swf.views.controls.page.layout.Table;
 import com.venky.swf.views.controls.page.layout.Table.Column;
@@ -23,6 +23,7 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.integration.fedex.ShipWebServiceClient;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
 import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
@@ -42,6 +43,8 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
     @Override
     protected void execute(Order order) {
+        new ShipWebServiceClient(order).ship();
+
         Html html = new Html();
         Head head = new Head();
         html.addControl(head);
@@ -76,8 +79,10 @@ public class PacklistPrintTask extends EntityTask<Order> {
         barcodes.createColumn().addControl(orderBarcode);
 
 
-        String courier = order.getAttribute("Courier").getValue();
-        String trackingNumber = order.getAttribute("TrackingNumber").getValue();
+        String courier = order.getAttribute("courier").getValue();
+        String trackingNumber = order.getAttribute("tracking_number").getValue();
+        long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
+
 
         Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);
 
@@ -117,6 +122,14 @@ public class PacklistPrintTask extends EntityTask<Order> {
         value.setText(String.valueOf(btotal.value()));
         value.addClass("numeric");
 
+        List<OrderPrint> prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
+
+        for (OrderPrint print : prints) {
+            Div carrierLabel = createCarrierLabel(print);
+            table.createRow().createColumn(2).addControl(carrierLabel);
+        }
+
+
         OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
         print.setOrderId(order.getId());
         print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
@@ -126,6 +139,13 @@ public class PacklistPrintTask extends EntityTask<Order> {
         print.setImageContentSize(bytes.length);
         print.setImageContentName("packlist"+order.getOrderNumber()+".html");
         print.save();
+    }
+
+    private Div createCarrierLabel(OrderPrint print) {
+        Div div = new Div();
+        div.addClass(print.getDocumentType());
+        div.addControl(new Image("/orders/show/" + print.getOrderId() + "/order_prints/view/" + print.getId()));
+        return div;
     }
 
     protected void createHead(Head head , Order order){

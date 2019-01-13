@@ -1,0 +1,2 @@
+mvn clean package
+ava -cp 'target/dependency/*' -Daxis.ClientConfigFile=src/main/resources/wsdl/client-config.wsdd org.apache.axis.wsdl.WSDL2Java -w -o src/main/java/ -p com.fedex.ship.stub src/main/resources/wsdl/ShipService_v23.wsdl

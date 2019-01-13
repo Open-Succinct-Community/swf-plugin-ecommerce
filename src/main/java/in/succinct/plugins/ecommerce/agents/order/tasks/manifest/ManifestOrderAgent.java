@@ -28,7 +28,7 @@ public class ManifestOrderAgent extends  AgentSeederTask implements AgentSeederT
         List<Task> tasks = new ArrayList<>();
 
         for (Manifest m : manifests){
-            CreateManifestTask task = new CreateManifestTask(m.getManifestNumber(), m.getFacilityId(), m.getCourier());
+            CreateManifestTask task = new CreateManifestTask(m.getPreferredCarrierId());
             task.setTaskPriority(getTaskPriority());
             tasks.add(task);
         }

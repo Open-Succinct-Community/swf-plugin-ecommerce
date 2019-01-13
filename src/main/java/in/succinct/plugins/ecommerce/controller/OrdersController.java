@@ -12,6 +12,7 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
+import in.succinct.plugins.ecommerce.agents.order.tasks.manifest.ManifestOrderAgent;
 import in.succinct.plugins.ecommerce.agents.order.tasks.pack.PacklistPrintTask;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
@@ -84,8 +85,8 @@ public class OrdersController extends ModelController<Order> {
             return back();
         }
 	}
-	@SingleRecordAction(icon="glyphicon-barcode", tooltip="Print Shipping Labels")
-	public View printShippingLabels(long orderId) {
+	@SingleRecordAction(icon="glyphicon-barcode", tooltip="Manifest")
+	public View manifest(long orderId) {
 		Order order = Database.getTable(Order.class).get(orderId);
 		OrderPrint print = null;
 		for (OrderPrint p : order.getOrderPrints()) {
@@ -104,7 +105,6 @@ public class OrdersController extends ModelController<Order> {
 			}
 			if (orderPacked){
 				getPath().addInfoMessage("Labels being generated.. check after some time.");
-				TaskManager.instance().executeAsync(new PacklistPrintTask(orderId),false);
 			}else {
 				getPath().addErrorMessage("Order is not yet packed.");
 			}

@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
+import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
@@ -47,6 +48,7 @@ public interface MasterItemCategory extends Model{
     }
 
     @CONNECTED_VIA("MASTER_ITEM_CATEGORY_ID")
+    @HIDDEN
     List<ItemCategory> getItemCategories();
 
 }

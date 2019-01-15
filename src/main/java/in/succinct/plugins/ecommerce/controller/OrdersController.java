@@ -85,8 +85,8 @@ public class OrdersController extends ModelController<Order> {
             return back();
         }
 	}
-	@SingleRecordAction(icon="glyphicon-barcode", tooltip="Manifest")
-	public View manifest(long orderId) {
+	@SingleRecordAction(icon="glyphicon-barcode", tooltip="Print Pack List")
+	public View print(long orderId) {
 		Order order = Database.getTable(Order.class).get(orderId);
 		OrderPrint print = null;
 		for (OrderPrint p : order.getOrderPrints()) {
@@ -104,6 +104,7 @@ public class OrdersController extends ModelController<Order> {
 				}
 			}
 			if (orderPacked){
+				TaskManager.instance().executeAsync(new PacklistPrintTask(orderId),false);
 				getPath().addInfoMessage("Labels being generated.. check after some time.");
 			}else {
 				getPath().addErrorMessage("Order is not yet packed.");

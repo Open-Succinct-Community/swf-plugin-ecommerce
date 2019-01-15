@@ -43,7 +43,11 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
     @Override
     protected void execute(Order order) {
-        new ShipWebServiceClient(order).ship();
+        List<OrderPrint> prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
+        if (prints.isEmpty()) {
+            new ShipWebServiceClient(order).ship();
+            prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
+        }
 
         Html html = new Html();
         Head head = new Head();
@@ -122,7 +126,6 @@ public class PacklistPrintTask extends EntityTask<Order> {
         value.setText(String.valueOf(btotal.value()));
         value.addClass("numeric");
 
-        List<OrderPrint> prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
 
         for (OrderPrint print : prints) {
             Div carrierLabel = createCarrierLabel(print);
@@ -144,7 +147,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
     private Div createCarrierLabel(OrderPrint print) {
         Div div = new Div();
         div.addClass(print.getDocumentType());
-        div.addControl(new Image("/orders/show/" + print.getOrderId() + "/order_prints/view/" + print.getId()));
+        div.addControl(new Image(Config.instance().getServerBaseUrl() + "/orders/show/" + print.getOrderId() + "/order_prints/view/" + print.getId()));
         return div;
     }
 

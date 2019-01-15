@@ -65,6 +65,7 @@ import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.routing.Config;
+import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasureConversionTable;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -190,14 +191,25 @@ public class ShipWebServiceClient {
         //requestedShipment.setSpecialServicesRequested(addShipmentSpecialServicesRequested());
         //
         //Not Required as Domestic
-        //requestedShipment.setCustomsClearanceDetail(addCustomsClearanceDetail());
+        requestedShipment.setCustomsClearanceDetail(addCustomsClearanceDetail());
         //
         requestedShipment.setLabelSpecification(addLabelSpecification());
         //
         requestedShipment.setPackageCount(new NonNegativeInteger("1"));
         //
-        requestedShipment.setRequestedPackageLineItems(new RequestedPackageLineItem[]{addRequestedPackageLineItem()});
+        List<RequestedPackageLineItem> packageLineItems = new ArrayList<>();
+        order.getOrderLines().forEach(ol->{
+            if (ol.getManifestedQuantity() > 0){
+                packageLineItems.add(addRequestedPackageLineItem(ol));
+            }
+        });
+
+
+        requestedShipment.setRequestedPackageLineItems(packageLineItems.toArray(new RequestedPackageLineItem[]{}));
         request.setRequestedShipment(requestedShipment);
+
+        cat.warning("Input:\n" + AxisObjectUtil.serializeAxisObject(request,false,true));
+
         //
         return request;
     }
@@ -205,7 +217,7 @@ public class ShipWebServiceClient {
     //
     private void writeServiceOutput(ProcessShipmentReply reply) throws Exception {
         try {
-            cat.info("Output:\n" + AxisObjectUtil.serializeAxisObject(reply,true,true));
+            cat.info("Output:\n" + AxisObjectUtil.serializeAxisObject(reply,false,true));
             cat.info(reply.getTransactionDetail().getCustomerTransactionId());
             CompletedShipmentDetail csd = reply.getCompletedShipmentDetail();
             String masterTrackingNumber = printMasterTrackingNumber(csd);
@@ -223,7 +235,7 @@ public class ShipWebServiceClient {
 
             order.saveAttributeMap(map);
         } catch (Exception e) {
-            e.printStackTrace();
+            cat.log(Level.WARNING,e.getMessage(),e);
         } finally {
             //
         }
@@ -453,11 +465,11 @@ public class ShipWebServiceClient {
 
         shipperAddress.setStreetLines(new String[]{addressLine1.toString(),addressLine2.toString()});
         shipperAddress.setCity(facility.getCity().getName());
-        shipperAddress.setStateOrProvinceCode(facility.getState().getName());
+        shipperAddress.setStateOrProvinceCode(facility.getState().getCode());
         shipperAddress.setPostalCode(facility.getPincode());
         shipperAddress.setCountryCode(facility.getCountry().getIsoCode());
         shipperAddress.setCountryName(facility.getCountry().getName());
-        //shipperAddress.setResidential(false);
+        shipperAddress.setResidential(false);
 
         shipperParty.setContact(shipperContact);
         shipperParty.setAddress(shipperAddress);
@@ -507,7 +519,7 @@ public class ShipWebServiceClient {
 
         addressRecip.setStreetLines(new String[]{addressLine1.toString(),addressLine2.toString()});
         addressRecip.setCity(shipTo.getCity().getName());
-        addressRecip.setStateOrProvinceCode(shipTo.getState().getName());
+        addressRecip.setStateOrProvinceCode(shipTo.getState().getCode());
         addressRecip.setPostalCode(shipTo.getPincode());
         addressRecip.setCountryCode(shipTo.getCountry().getIsoCode());
         addressRecip.setCountryName(shipTo.getCountry().getName());
@@ -556,7 +568,12 @@ public class ShipWebServiceClient {
 
     private Payment addDutiesPayment() {
         Payment payment = new Payment(); // Payment information
-        payment.setPaymentType(PaymentType.SENDER);
+        if (carrier.isTaxesPaidBySender()){
+            payment.setPaymentType(PaymentType.SENDER);
+        }else {
+            payment.setPaymentType(PaymentType.RECIPIENT);
+        }
+        /*
         Payor payor = new Payor();
         Party responsibleParty = new Party();
         responsibleParty.setAccountNumber(getPayorAccountNumber());
@@ -566,6 +583,7 @@ public class ShipWebServiceClient {
         responsibleParty.setContact(new Contact());
         payor.setResponsibleParty(responsibleParty);
         payment.setPayor(payor);
+        */
         return payment;
     }
 
@@ -577,38 +595,29 @@ public class ShipWebServiceClient {
         }
     }
 
-    private RequestedPackageLineItem addRequestedPackageLineItem() {
+    private RequestedPackageLineItem addRequestedPackageLineItem(OrderLine ol) {
         RequestedPackageLineItem requestedPackageLineItem = new RequestedPackageLineItem();
         requestedPackageLineItem.setSequenceNumber(new PositiveInteger("1"));
         requestedPackageLineItem.setGroupPackageCount(new NonNegativeInteger("1"));
 
-        Bucket weight = new Bucket();
-        ObjectHolder<Double> length = new ObjectHolder<Double>(0.0D);
-        ObjectHolder<Double> width = new ObjectHolder<Double>(0.0D);
-        ObjectHolder<Double> height = new ObjectHolder<Double>(0.0D);
-        order.getOrderLines().stream().filter(ol -> ol.getManifestedQuantity() > 0).forEach(ol -> {
-            Sku sku = ol.getSku();
-            double l = UnitOfMeasureConversionTable.convert(sku.getLength(), UnitOfMeasure.MEASURES_LENGTH, sku.getLengthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS));
-            double w = UnitOfMeasureConversionTable.convert(sku.getWidth(), UnitOfMeasure.MEASURES_LENGTH, sku.getWidthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS));
-            double h = UnitOfMeasureConversionTable.convert(sku.getHeight(), UnitOfMeasure.MEASURES_LENGTH, sku.getHeightUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS));
+        Sku sku = ol.getSku();
+        double l = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getLength(), UnitOfMeasure.MEASURES_LENGTH, sku.getLengthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+        double w = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getWidth(), UnitOfMeasure.MEASURES_LENGTH, sku.getWidthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+        double h = Math.ceil(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(sku.getHeight(), UnitOfMeasure.MEASURES_LENGTH, sku.getHeightUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
 
-            weight.increment(UnitOfMeasureConversionTable.convert(sku.getWeight(), UnitOfMeasure.MEASURES_WEIGHT, sku.getWeightUOM(), UnitOfMeasure.getWeightMeasure(UnitOfMeasure.KILOGRAMS)));
-            if (length.value < l) {
-                length.value = Math.ceil(l);
-            }
-            if (width.value < w) {
-                width.value = Math.ceil(w);
-            }
-            height.value += Math.ceil(h * ol.getManifestedQuantity());
-        });
+        double wt = ol.getManifestedQuantity() *
+                UnitOfMeasureConversionTable.convert(sku.getWeight(), UnitOfMeasure.MEASURES_WEIGHT, sku.getWeightUOM(), UnitOfMeasure.getWeightMeasure(UnitOfMeasure.KILOGRAMS));
 
 
-        requestedPackageLineItem.setWeight(addPackageWeight(weight.doubleValue(), WeightUnits.KG));
-        requestedPackageLineItem.setDimensions(addPackageDimensions(length.value.intValue(), width.value.intValue(), height.value.intValue(), LinearUnits.CM));
+
+        requestedPackageLineItem.setWeight(addPackageWeight(wt, WeightUnits.KG));
+        requestedPackageLineItem.setDimensions(addPackageDimensions((int)l,(int)h,(int)w, LinearUnits.CM));
         requestedPackageLineItem.setCustomerReferences(new CustomerReference[]{
                 addCustomerReference(CustomerReferenceType.CUSTOMER_REFERENCE.getValue(), String.valueOf(order.getReference())),
                 addCustomerReference(CustomerReferenceType.INVOICE_NUMBER.getValue(), order.getOrderNumber()),
-                addCustomerReference(CustomerReferenceType.P_O_NUMBER.getValue(), order.getOrderNumber()),
+                addCustomerReference(CustomerReferenceType.P_O_NUMBER.getValue(), "B2C" ), //order.getOrderNumber()
+                addCustomerReference(CustomerReferenceType.DEPARTMENT_NUMBER.getValue(),carrier.isTaxesPaidBySender()? "BILL D/T: SENDER" : "BILL D/T: RECEIPIENT"),
+
         });
         return requestedPackageLineItem;
     }
@@ -649,40 +658,62 @@ public class ShipWebServiceClient {
     private CustomsClearanceDetail addCustomsClearanceDetail() {
         CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
         customs.setDutiesPayment(addDutiesPayment());
-        customs.setCustomsValue(addMoney("INR", 400.00));
+        customs.setCustomsValue(addMoney("INR", order.getSellingPrice() * 0.18));//GST!!
         customs.setDocumentContent(InternationalDocumentContentType.NON_DOCUMENTS);
         customs.setCommercialInvoice(addCommercialInvoice());
-        customs.setCommodities(new Commodity[]{addCommodity()});// Commodity details
+        List<Commodity> commodities = new ArrayList<>();
+        order.getOrderLines().forEach(ol->{
+            if (ol.getManifestedQuantity() > 0){
+                commodities.add(addCommodity(ol));
+            }
+        });
+        if (!commodities.isEmpty()){
+            customs.setCommodities(commodities.toArray(new Commodity[]{}));// Commodity details
+        }
         return customs;
     }
 
     private  CommercialInvoice addCommercialInvoice() {
         CommercialInvoice commercialInvoice = new CommercialInvoice();
         commercialInvoice.setPurpose(PurposeOfShipmentType.SOLD);
+        /*
         commercialInvoice.setCustomerReferences(new CustomerReference[]{
-                addCustomerReference(CustomerReferenceType.CUSTOMER_REFERENCE.getValue(), "1234"),
+                addCustomerReference(CustomerReferenceType.CUSTOMER_REFERENCE.getValue(), order.getReference()),
         });
+        */
         return commercialInvoice;
     }
 
-    private  Commodity addCommodity() {
+    private  Commodity addCommodity(OrderLine ol) {
         Commodity commodity = new Commodity();
         commodity.setNumberOfPieces(new NonNegativeInteger("1"));
-        commodity.setDescription("Books");
-        commodity.setCountryOfManufacture("IN");
+        commodity.setDescription("Vetinary medicines");
+        commodity.setCountryOfManufacture("IN"); //TODO May be imported! need to check tht.
         commodity.setWeight(new Weight());
-        commodity.getWeight().setValue(new BigDecimal(1.0));
+        Bucket wt = new Bucket();
+        Bucket qty = new Bucket();
+        wt.increment(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(ol.getSku().getWeight() , UnitOfMeasure.MEASURES_WEIGHT,ol.getSku().getWeightUOM().getName(),UnitOfMeasure.KILOGRAMS));
+        wt.increment(0); // TODO ADD BOX Weight.??
+
+        commodity.getWeight().setValue(new BigDecimal(wt.doubleValue()));
         commodity.getWeight().setUnits(WeightUnits.KG);
-        commodity.setQuantity(new BigDecimal("4.0"));
+        commodity.setQuantity(new BigDecimal(ol.getManifestedQuantity()));
         commodity.setQuantityUnits("EA");
         commodity.setUnitPrice(new Money());
-        commodity.getUnitPrice().setAmount(new java.math.BigDecimal(100.000000));
+        commodity.getUnitPrice().setAmount(new java.math.BigDecimal(ol.getSellingPrice()/ol.getManifestedQuantity()));
         commodity.getUnitPrice().setCurrency("INR");
         commodity.setCustomsValue(new Money());
-        commodity.getCustomsValue().setAmount(new java.math.BigDecimal(400.000000));
+        commodity.getCustomsValue().setAmount(new java.math.BigDecimal(ol.getSellingPrice() * ol.getSku().getTaxRate() / 100.0));
         commodity.getCustomsValue().setCurrency("INR");
         commodity.setCountryOfManufacture("IN");
-        commodity.setHarmonizedCode("490199009100");
+        ItemCategory hsn = ol.getSku().getItem().getItemCategory("HSN");
+        if (hsn != null){
+            String  hsnCode = hsn.getMasterItemCategoryValue().getAllowedValue();
+            commodity.setHarmonizedCode(hsnCode);
+        }else {
+            throw new RuntimeException("HSN Code not configured for item " + ol.getSku().getItem().getName());
+        }
+
         return commodity;
     }
 
@@ -750,6 +781,8 @@ public class ShipWebServiceClient {
             print.setImageContentType(MimeType.IMAGE_PNG.toString());
             print.setImageContentName(shippingDocumentType + "." + trackingNumber + ".png");
             print.setImage(new ByteArrayInputStream(sdpart.getImage()));
+            print.setImageContentSize(sdpart.getImage().length);
+
             print.save();
         }
     }
@@ -768,6 +801,7 @@ public class ShipWebServiceClient {
                     print.setImageContentType(MimeType.IMAGE_PNG.toString());
                     print.setImageContentName(labelName + "." + trackingNumber + "_" + a + ".png");
                     print.setImage(new ByteArrayInputStream(sdpart.getImage()));
+                    print.setImageContentSize(sdpart.getImage().length);
                     print.save();
                 }
             }

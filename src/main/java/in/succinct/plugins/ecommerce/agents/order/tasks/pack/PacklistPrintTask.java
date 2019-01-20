@@ -57,6 +57,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
         Body body = new Body();
         Table table = new Table();
+        table.addClass("packlist");
 
         body.addControl(table);
         html.addControl(body);
@@ -70,7 +71,9 @@ public class PacklistPrintTask extends EntityTask<Order> {
                 break;
             }
         }
-        table.createHeader().createColumn(2).setText("Packing Slip");
+        table.createHeader().createColumn(3).setText("Packing Slip");
+
+
         Row address = table.createRow();
         Div shipToAddress = createShipToAddress(shipTo);
         address.createColumn().addControl(shipToAddress);
@@ -127,10 +130,6 @@ public class PacklistPrintTask extends EntityTask<Order> {
         value.addClass("numeric");
 
 
-        for (OrderPrint print : prints) {
-            Div carrierLabel = createCarrierLabel(print);
-            table.createRow().createColumn(2).addControl(carrierLabel);
-        }
 
 
         OrderPrint print = Database.getTable(OrderPrint.class).newRecord();

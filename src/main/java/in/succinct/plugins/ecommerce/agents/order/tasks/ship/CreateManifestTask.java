@@ -75,7 +75,7 @@ public class CreateManifestTask implements Task{
 
 		List<Order> packedOrders = orderSelect.orderBy("ID").execute();
 		packedOrders.forEach(o-> {
-			TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()));
+			TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);
 		});
 	}
 

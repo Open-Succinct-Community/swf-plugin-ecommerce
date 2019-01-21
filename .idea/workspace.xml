@@ -2,14 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6695031c-d3c2-43a0-8c85-cae4017cde5f" name="Default Changelist" comment="">
-      <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/x.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/pack/PacklistPrintTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/pack/PacklistPrintTask.java" afterDir="false" />
-      <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/pom.xml" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/pom.xml" afterDir="false" />
-      <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" afterDir="false" />
-      <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/db/model/Page.java" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/db/model/Page.java" afterDir="false" />
-      <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/extensions/SyntaxHighlighterExtension.java" beforeDir="false" />
-      <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/CreateManifestTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/CreateManifestTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/PreferredCarriersController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/PreferredCarriersController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/manifest/BeforeSaveManifest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/manifest/BeforeSaveManifest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/target/" />
     <ignored path="$PROJECT_DIR$/../swf-all/swf-plugin-collab/target/" />
@@ -32,9 +29,9 @@
     <session id="84167019">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="36" />
-          <entry key="project.open.time.1" value="9" />
-          <entry key="project.open.time.11" value="2" />
+          <entry key="project.closed" value="38" />
+          <entry key="project.open.time.1" value="10" />
+          <entry key="project.open.time.11" value="3" />
           <entry key="project.open.time.12" value="2" />
           <entry key="project.open.time.14" value="1" />
           <entry key="project.open.time.2" value="5" />
@@ -51,7 +48,8 @@
           <entry key="project.open.time.42" value="1" />
           <entry key="project.open.time.57" value="2" />
           <entry key="project.open.time.61" value="1" />
-          <entry key="project.opened" value="37" />
+          <entry key="project.open.time.8" value="1" />
+          <entry key="project.opened" value="40" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -68,7 +66,7 @@
           <entry key="CLASS" value="43" />
           <entry key="CSS" value="2" />
           <entry key="HTML" value="7" />
-          <entry key="JAVA" value="1202" />
+          <entry key="JAVA" value="1227" />
           <entry key="PLAIN_TEXT" value="1" />
           <entry key="Properties" value="12" />
           <entry key="XML" value="9" />
@@ -87,7 +85,7 @@
           <entry key="CLASS" value="10" />
           <entry key="CSS" value="173" />
           <entry key="HTML" value="842" />
-          <entry key="JAVA" value="63843" />
+          <entry key="JAVA" value="64305" />
           <entry key="Properties" value="8" />
           <entry key="XML" value="98" />
         </counts>
@@ -100,98 +98,99 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="225">
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/menu/AppMenuBuilder.java">
+        <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/RadioGroup.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="458">
-              <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="161">
+              <caret line="88" column="36" selection-start-line="88" selection-start-column="36" selection-end-line="88" selection-end-column="36" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/PetsController.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/OrdersController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
+            <state relative-caret-position="90">
+              <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/ManifestShippingUpdatesTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="37" column="26" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/manifest/BeforeSaveManifest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="14" column="104" selection-start-line="14" selection-start-column="104" selection-end-line="14" selection-end-column="104" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="135">
+              <caret line="33" column="52" lean-forward="true" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/RecommendationImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-525">
               <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/User.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/BeforeSaveSubscription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+            <state relative-caret-position="225">
+              <caret line="22" column="60" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/PetBreedSelector.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/CreateOrderTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/Subscription.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="16" column="17" selection-start-line="16" selection-start-column="17" selection-end-line="16" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/View.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="29" selection-start-line="29" selection-end-line="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/DashboardView.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="825">
-              <caret line="70" column="15" selection-start-line="70" selection-start-column="15" selection-end-line="70" selection-end-column="15" />
+            <state relative-caret-position="465">
+              <caret line="105" column="19" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
               <folding>
-                <element signature="e#1293#1294#0" expanded="true" />
-                <element signature="e#1345#1346#0" expanded="true" />
+                <element signature="e#1519#1520#0" expanded="true" />
+                <element signature="e#1560#1561#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/AcknowledgeOrderTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1215">
-              <caret line="99" selection-start-line="99" selection-end-line="99" />
+            <state relative-caret-position="-157">
+              <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+              <folding>
+                <element signature="e#775#776#0" expanded="true" />
+                <element signature="e#809#810#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/model/ModelEditView.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="885">
-              <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/PagesController.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
+            <state relative-caret-position="270">
+              <caret line="35" column="52" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
             </state>
           </provider>
         </entry>
@@ -209,7 +208,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>getExtensionPackageRoots</find>
       <find>Submit</find>
       <find>defaultActionView</find>
       <find>permissionCache</find>
@@ -239,6 +237,7 @@
       <find>getTabLinks()</find>
       <find>getTabLinks</find>
       <find>getHotLinks()</find>
+      <find>getNumMinutesToKeyExpiration()</find>
     </findStrings>
     <replaceStrings>
       <replace>com.venky.swf.plugins.ecommerce</replace>
@@ -251,7 +250,7 @@
     </replaceStrings>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="/mnt/Media/Projects/java/github/swf-plugin-wiki" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleLocalSettings">
     <option name="projectSyncType">
@@ -263,11 +262,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/configuration/AppInstaller.java" />
-        <option value="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java" />
-        <option value="$PROJECT_DIR$/../common/src/main/java/com/venky/core/util/pkg/PackageIntrospector.java" />
-        <option value="$PROJECT_DIR$/../common/src/main/java/com/venky/core/util/pkg/JarIntrospector.java" />
-        <option value="$PROJECT_DIR$/../common/src/main/java/com/venky/core/util/PackageUtil.java" />
         <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/login/LoginView.java" />
         <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/path/Path.java" />
         <option value="/mnt/Media/Projects/java/wiggles/tmp/1.html" />
@@ -283,8 +277,6 @@
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/BundleImpl.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/SubscriptionImpl.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/Pet.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/UsersController.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/Recommendation.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/Subscription.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/RecommendationImpl.java" />
@@ -293,13 +285,11 @@
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/RecommendationRule.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/RecommendationRuleImpl.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/PetImpl.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/CreateOrderTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/Manifest.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/CreateManifestTask.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/PreferredCarriersController.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/manifest/ManifestOrderAgent.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/manifest/ManifestOrderTask.java" />
-        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/AgentRegistry.java" />
         <option value="$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/extensions/participation/UserParticipantExtension.java" />
         <option value="$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/config/State.java" />
@@ -314,6 +304,15 @@
         <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/HtmlView.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/PagesController.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/menu/AppMenuBuilder.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/UsersController.java" />
+        <option value="/mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/model/UserImpl.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java" />
+        <option value="$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/participants/admin/Address.java" />
+        <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/CheckBox.java" />
+        <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/RadioGroup.java" />
+        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/manifest/BeforeSaveManifest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/CreateOrderTask.java" />
       </list>
     </option>
   </component>
@@ -337,120 +336,18 @@
     </navigator>
     <panes>
       <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="model" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="extensions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="menu" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="swf-plugin-ecommerce" type="b2602c69:ProjectViewProjectNode" />
-              <item name="wiggles" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="resources" type="462c0819:PsiDirectoryNode" />
-              <item name="ui" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
+              <item name="swf-plugin-ecommerce" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -537,7 +434,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5008264" side_tool="true" weight="0.41060606" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.49917355" visible="true" weight="0.41060606" />
+      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49917355" weight="0.41742423" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.27933884" />
@@ -567,7 +464,7 @@
       <window_info id="Favorites" order="2" sideWeight="0.5008264" side_tool="true" weight="0.41060606" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Image Layers" order="4" />
-      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49917355" weight="0.41060606" />
+      <window_info content_ui="combo" id="Project" order="5" sideWeight="0.49917355" weight="0.41742423" />
       <window_info id="Structure" order="6" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Version Control" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Terminal" order="1" weight="0.27933884" />
@@ -576,8 +473,8 @@
       <window_info anchor="bottom" id="Message" order="4" />
       <window_info anchor="bottom" id="Find" order="5" sideWeight="0.49924242" weight="0.3289256" />
       <window_info anchor="bottom" id="Run" order="6" />
-      <window_info active="true" anchor="bottom" id="Debug" order="7" sideWeight="0.49772727" visible="true" weight="0.4016529" />
-      <window_info anchor="bottom" id="Problems" order="8" sideWeight="0.49772727" weight="0.38512397" />
+      <window_info anchor="bottom" id="Debug" order="7" sideWeight="0.49772727" weight="0.4016529" />
+      <window_info active="true" anchor="bottom" id="Problems" order="8" sideWeight="0.49772727" visible="true" weight="0.38512397" />
       <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="11" />
@@ -607,12 +504,6 @@
           <line>9</line>
           <properties />
           <option name="timeStamp" value="186" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/plugins/security/extensions/ParticipantControllerAccessExtension.java</url>
-          <line>53</line>
-          <properties />
-          <option name="timeStamp" value="202" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java</url>
@@ -788,12 +679,6 @@
           <properties />
           <option name="timeStamp" value="237" />
         </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/DashboardView.java</url>
-          <line>70</line>
-          <properties />
-          <option name="timeStamp" value="238" />
-        </line-breakpoint>
       </breakpoints>
       <breakpoints-dialog>
         <breakpoints-dialog />
@@ -815,6 +700,36 @@
     </expressions>
     <expressions id="evaluateExpression">
       <expression>
+        <expression-string>getPath().getRequest().getContentType()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>getPath().getProtocol()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>getPath().getRequest().getParameterMap()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>getPath().getFormFields()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>getSessionUser().getName()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
+        <expression-string>getSessionUser()</expression-string>
+        <language-id>JAVA</language-id>
+        <evaluation-mode>EXPRESSION</evaluation-mode>
+      </expression>
+      <expression>
         <expression-string>child.getHotLinks()</expression-string>
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
@@ -829,213 +744,9 @@
         <language-id>JAVA</language-id>
         <evaluation-mode>EXPRESSION</evaluation-mode>
       </expression>
-      <expression>
-        <expression-string>rep</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>reply.getHighestSeverity()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>e.getStackTrace()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>rule.getDosageQuantity()</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>rule.getDosageQuantity()*12/3</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
-      <expression>
-        <expression-string>applicableRules</expression-string>
-        <language-id>JAVA</language-id>
-        <evaluation-mode>EXPRESSION</evaluation-mode>
-      </expression>
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fedex/ship/stub/ShipPortType.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="11" column="52" selection-start-line="11" selection-start-column="52" selection-end-line="11" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/AxisObjectUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="39" column="42" selection-start-line="39" selection-start-column="42" selection-end-line="39" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/axis/axis/1.4/axis-1.4.jar!/org/apache/axis/encoding/ser/BeanSerializer.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1740">
-          <caret line="48" column="11" selection-start-line="48" selection-start-column="11" selection-end-line="48" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/controller/ModelController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="948" column="16" selection-start-line="948" selection-start-column="16" selection-end-line="948" selection-end-column="16" />
-          <folding>
-            <element signature="e#20817#20818#0" expanded="true" />
-            <element signature="e#20871#20872#0" expanded="true" />
-            <element signature="e#28375#28376#0" expanded="true" />
-            <element signature="e#28420#28421#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/CreateOrderTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="499">
-          <caret line="92" column="98" selection-start-line="92" selection-start-column="98" selection-end-line="92" selection-end-column="98" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../common/src/main/java/com/venky/core/util/Bucket.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="36" column="16" selection-start-line="36" selection-start-column="16" selection-end-line="36" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fedex/ship/stub/WeightUnits.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="21" column="36" selection-start-line="21" selection-start-column="36" selection-end-line="21" selection-end-column="36" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/inventory/Sku.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="409">
-          <caret line="89" column="18" selection-start-line="89" selection-start-column="18" selection-end-line="89" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/ItemCategorization.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="27" column="1" selection-start-line="27" selection-start-column="1" selection-end-line="27" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Item.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="54" column="20" selection-start-line="54" selection-start-column="20" selection-end-line="54" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/MasterItemCategoryValue.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="25" column="18" selection-start-line="25" selection-start-column="18" selection-end-line="25" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/ItemCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/MasterItemCategory.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/commons-dbcp/commons-dbcp/1.4/commons-dbcp-1.4-sources.jar!/org/apache/commons/dbcp/DelegatingStatement.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="110">
-          <caret line="248" column="5" selection-start-line="248" selection-start-column="5" selection-end-line="248" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/fedex/ship/stub/PackageRateDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="191">
-          <caret line="243" column="37" selection-start-line="243" selection-start-column="37" selection-end-line="243" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="95" column="26" selection-start-line="95" selection-start-column="26" selection-end-line="95" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/CreateManifestTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="77" column="64" selection-start-line="77" selection-start-column="64" selection-end-line="77" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/manifest/ManifestOrderTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="37" selection-start-line="37" selection-end-line="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/line/BeforeSaveOrderLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="53" column="34" selection-start-line="53" selection-start-column="34" selection-end-line="53" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/OrdersController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="106" column="89" selection-start-line="106" selection-start-column="89" selection-end-line="106" selection-end-column="89" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/table/ModelInvocationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7590">
-          <caret line="561" selection-start-line="561" selection-end-line="561" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/OrderImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1350">
-          <caret line="110" column="58" selection-start-line="110" selection-start-column="58" selection-end-line="110" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="40" column="69" selection-start-line="40" selection-start-column="69" selection-end-line="40" selection-end-column="69" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/ShipWebServiceClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7875">
-          <caret line="618" column="162" selection-start-line="618" selection-start-column="162" selection-end-line="618" selection-end-column="162" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/participation/PreferredCarrier.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="570">
@@ -1158,54 +869,12 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="4005">
           <caret line="310" selection-start-line="310" selection-end-line="310" />
-          <folding>
-            <element signature="e#8035#8036#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/View.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="29" selection-start-line="29" selection-end-line="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/DashboardView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="825">
-          <caret line="70" column="15" selection-start-line="70" selection-start-column="15" selection-end-line="70" selection-end-column="15" />
-          <folding>
-            <element signature="e#1293#1294#0" expanded="true" />
-            <element signature="e#1345#1346#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1215">
-          <caret line="99" selection-start-line="99" selection-end-line="99" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/model/ModelEditView.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="885">
-          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/PagesController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/menu/AppMenuBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="458">
+        <state relative-caret-position="555">
           <caret line="48" column="9" selection-start-line="48" selection-start-column="9" selection-end-line="48" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
@@ -1227,10 +896,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/User.java">
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/View.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="19" column="23" selection-start-line="19" selection-start-column="23" selection-end-line="19" selection-end-column="23" />
+        <state relative-caret-position="255">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/views/MarkDownView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1215">
+          <caret line="99" selection-start-line="99" selection-end-line="99" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/PagesController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="30" column="47" selection-start-line="30" selection-start-column="47" selection-end-line="30" selection-end-column="47" />
         </state>
       </provider>
     </entry>
@@ -1238,6 +921,203 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="6" column="13" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/model/ModelEditView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-130">
+          <caret line="110" column="11" selection-start-line="110" selection-start-column="11" selection-end-line="110" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/DashboardView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="70" selection-start-line="70" selection-end-line="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/plugins/security/extensions/ParticipantControllerAccessExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-120">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/annotations/column/ui/mimes/MimeType.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="191">
+          <caret line="29" column="4" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/UsersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="86" column="16" selection-start-line="86" selection-start-column="16" selection-end-line="86" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/controller/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="134" column="50" selection-start-line="134" selection-start-column="50" selection-end-line="134" selection-end-column="50" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/path/Path.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="627" column="53" selection-start-line="627" selection-start-column="53" selection-end-line="627" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/user/UserImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/model/UserImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="71" column="42" selection-start-line="71" selection-start-column="42" selection-end-line="71" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" column="76" selection-start-line="9" selection-start-column="76" selection-end-line="9" selection-end-column="76" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/user/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="11" column="79" selection-start-line="11" selection-start-column="79" selection-end-line="11" selection-end-column="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/participants/admin/Address.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="735">
+          <caret line="56" column="19" selection-start-line="56" selection-start-column="19" selection-end-line="56" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/CheckBox.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="24" column="5" selection-start-line="24" selection-start-column="5" selection-end-line="24" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/Input.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="13" column="22" selection-start-line="13" selection-start-column="22" selection-end-line="13" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/Control.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1080">
+          <caret line="90" column="16" selection-start-line="90" selection-start-column="16" selection-end-line="90" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/plugins/security/db/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="6" column="53" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/model/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="39" column="17" selection-start-line="39" selection-start-column="17" selection-end-line="39" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="270">
+          <caret line="35" column="52" selection-start-line="35" selection-start-column="52" selection-end-line="35" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/views/controls/page/text/RadioGroup.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="88" column="36" selection-start-line="88" selection-start-column="36" selection-end-line="88" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/controller/OrdersController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="6" column="36" lean-forward="true" selection-start-line="6" selection-start-column="36" selection-end-line="6" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/ship/ManifestShippingUpdatesTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="37" column="26" selection-start-line="37" selection-start-column="26" selection-end-line="37" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/manifest/BeforeSaveManifest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="104" selection-start-line="14" selection-start-column="104" selection-end-line="14" selection-end-column="104" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="33" column="52" lean-forward="true" selection-start-line="33" selection-start-column="52" selection-end-line="33" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/RecommendationImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-525">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/BeforeSaveSubscription.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="22" column="60" selection-start-line="22" selection-start-column="60" selection-end-line="22" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/agents/order/tasks/AcknowledgeOrderTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-157">
+          <caret line="19" column="11" selection-start-line="19" selection-start-column="11" selection-end-line="19" selection-end-column="11" />
+          <folding>
+            <element signature="e#775#776#0" expanded="true" />
+            <element signature="e#809#810#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/CreateOrderTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="105" column="19" selection-start-line="105" selection-start-column="19" selection-end-line="105" selection-end-column="19" />
+          <folding>
+            <element signature="e#1519#1520#0" expanded="true" />
+            <element signature="e#1560#1561#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

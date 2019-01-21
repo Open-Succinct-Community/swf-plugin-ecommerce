@@ -12,7 +12,7 @@ public class BeforeSaveManifest extends BeforeModelSaveExtension<Manifest> {
     @Override
     public void beforeSave(Manifest manifest) {
         if (manifest.isClosed() && manifest.getRawRecord().isFieldDirty("CLOSED")) {
-            TaskManager.instance().executeAsync(new ManifestShippingUpdatesTask(manifest.getId()));
+            TaskManager.instance().executeAsync(new ManifestShippingUpdatesTask(manifest.getId()),false);
         }
 
     }

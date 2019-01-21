@@ -18,7 +18,7 @@ public class PreferredCarriersController extends ModelController<PreferredCarrie
     @RequireLogin
     @SingleRecordAction(icon = "glyphicon-th-list" , tooltip = "Open Manifest")
     public View createManifest(long id){
-        TaskManager.instance().executeAsync(new CreateManifestTask(id));
+        TaskManager.instance().executeAsync(new CreateManifestTask(id),false);
         getPath().addInfoMessage("Manifest Job Submitted");
         return back();
     }

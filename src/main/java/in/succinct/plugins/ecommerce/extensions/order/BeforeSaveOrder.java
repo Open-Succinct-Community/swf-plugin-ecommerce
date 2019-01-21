@@ -29,7 +29,7 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 	@Override
 	public void beforeSave(Order order) {
 	    if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_MANIFESTED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
-            TaskManager.instance().executeAsync(new PacklistPrintTask(order.getId()));
+            TaskManager.instance().executeAsync(new PacklistPrintTask(order.getId()),false);
         }else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_PACKED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
 			Set<Long> facilityIds = new HashSet<>();
 			for (OrderLine orderLine : order.getOrderLines()) {
@@ -38,7 +38,7 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 			List<Facility> facilities = new Select().from(Facility.class).where(new Expression(ModelReflector.instance(Facility.class).getPool(),"ID", Operator.IN,facilityIds.toArray())).execute();
 			facilities.forEach(f->{
 				f.getPreferredCarriers().forEach(preferredCarrier->{
-					TaskManager.instance().executeAsync(new CreateManifestTask(preferredCarrier.getId()));
+					TaskManager.instance().executeAsync(new CreateManifestTask(preferredCarrier.getId()),false);
 				});
 			});
 		}

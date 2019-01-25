@@ -32,8 +32,8 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     public String getMeterNumber();
     public void setMeterNumber(String meterNumber);
 
-    public String getKey();
-    public void setKey(String key);
+    public String getApiKey();
+    public void setApiKey(String key);
 
     @PASSWORD
     public String getPassword();

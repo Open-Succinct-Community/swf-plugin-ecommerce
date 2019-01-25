@@ -10,7 +10,6 @@ import com.venky.swf.views.controls.page.Css;
 import com.venky.swf.views.controls.page.Head;
 import com.venky.swf.views.controls.page.Html;
 import com.venky.swf.views.controls.page.Image;
-import com.venky.swf.views.controls.page.LinkedImage;
 import com.venky.swf.views.controls.page.layout.Div;
 import com.venky.swf.views.controls.page.layout.Table;
 import com.venky.swf.views.controls.page.layout.Table.Column;
@@ -62,7 +61,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
         body.addControl(table);
         html.addControl(body);
 
-        List<OrderAddress> addressList = order.getAddresses().stream().filter(address -> address.getAddressType().equals(Address.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
+        List<OrderAddress> addressList = order.getAddresses().stream().filter(address -> address.getAddressType().equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
         OrderAddress shipTo = addressList.get(0);
         Facility shipFrom = null;
         for (OrderLine ol : order.getOrderLines()){

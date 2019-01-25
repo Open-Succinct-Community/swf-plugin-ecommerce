@@ -58,7 +58,6 @@ import com.fedex.ship.stub.WebAuthenticationCredential;
 import com.fedex.ship.stub.WebAuthenticationDetail;
 import com.fedex.ship.stub.Weight;
 import com.fedex.ship.stub.WeightUnits;
-import com.venky.cache.UnboundedCache;
 import com.venky.core.log.SWFLogger;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
@@ -77,13 +76,9 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
-import org.apache.axis.encoding.ser.BeanSerializer;
-import org.apache.axis.server.AxisServer;
 import org.apache.axis.types.NonNegativeInteger;
 import org.apache.axis.types.PositiveInteger;
-import sun.rmi.runtime.Log;
 
-import javax.xml.namespace.QName;
 import java.io.ByteArrayInputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -851,7 +846,7 @@ public class ShipWebServiceClient {
 
     private WebAuthenticationDetail createWebAuthenticationDetail() {
         WebAuthenticationCredential userCredential = new WebAuthenticationCredential();
-        userCredential.setKey(carrier.getKey());
+        userCredential.setKey(carrier.getApiKey());
         userCredential.setPassword(carrier.getPassword());
 
         WebAuthenticationCredential parentCredential = null;

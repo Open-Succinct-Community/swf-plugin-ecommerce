@@ -7,13 +7,14 @@ import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 
+@MENU("Catalog")
 public interface Service extends Model {
     @PARTICIPANT
     @UNIQUE_KEY
-    @PROTECTION(Kind.NON_EDITABLE)
     public Long getCompanyId();
     public void setCompanyId(Long id);
     public Company getCompany();
@@ -30,5 +31,7 @@ public interface Service extends Model {
     @COLUMN_DEF(StandardDefault.ZERO)
     public double getTaxRate();
     public void setTaxRate(double taxRate);
+
+
 
 }

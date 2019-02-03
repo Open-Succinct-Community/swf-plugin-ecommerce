@@ -1,14 +1,13 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntityImpl;
-import in.succinct.plugins.ecommerce.db.model.service.ServiceAttempt.AttemptStatus;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder.CancelReason;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrderAttribute,
-        ServiceOrderAddress,ServiceOrderPrint,ServiceOrder> {
+public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrder,ServiceOrderAttribute,
+        ServiceOrderAddress,ServiceOrderPrint> {
     public ServiceOrderImpl(){
 
     }
@@ -24,7 +23,7 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrderAttribute,
         cancel(CancelReason.CANNOT_SERVICE.toString(),getProxy().getCompany().getName());
     }
     public void cancel() {
-        cancel(CancelReason.USER_CANCELLATION.toString(),"USER");
+        cancel(CancelReason.USER_CANCELLATION.toString(),ServiceOrder.CANCELLATION_INITIATOR_USER);
     }
     public void cancel(String reason, String initiator){
         ServiceOrder order = getProxy();
@@ -36,7 +35,7 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrderAttribute,
 
     public void complete() {
         ServiceOrder order = getProxy();
-        List<ServiceAttempt> pendingAttempts = order.getServiceAttempts().stream().filter(a->a.isPending()).collect(Collectors.toList());
+        List<ServiceAppointment> pendingAttempts = order.getServiceAttempts().stream().filter(a->a.isPending()).collect(Collectors.toList());
         if (pendingAttempts.size() == 1){
             pendingAttempts.get(0).success();
         }else {

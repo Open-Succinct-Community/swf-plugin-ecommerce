@@ -8,9 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ecommerce" />
         <module name="swf" />
+        <module name="swf-db" />
         <module name="swf-db-io-xls" />
+        <module name="swf-plugin-bugs" />
         <module name="swf-plugin-calendar" />
         <module name="swf-plugin-collab" />
+        <module name="swf-plugin-mail" />
         <module name="swf-plugin-wiki" />
         <module name="wiggles" />
       </profile>

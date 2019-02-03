@@ -11,10 +11,10 @@ import java.util.Map;
 
 
 public class ExtendedEntityImpl<
+        M extends ExtendedEntity<T,A,P> & Model,
         T extends ExtendedAttribute & Model,
         A extends ExtendedAddress & Model,
-        P extends ExtendedPrint & Model,
-        M extends ExtendedEntity<T,A,P> & Model
+        P extends ExtendedPrint & Model
         > extends ModelImpl<M> {
     public ExtendedEntityImpl(M m){
         super(m);

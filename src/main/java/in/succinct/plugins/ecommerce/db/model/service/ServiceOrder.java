@@ -106,4 +106,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setCOD(Boolean valueOf);
 
 
+    public String getDescription();
+    public void setDescription(String description);
+
 }

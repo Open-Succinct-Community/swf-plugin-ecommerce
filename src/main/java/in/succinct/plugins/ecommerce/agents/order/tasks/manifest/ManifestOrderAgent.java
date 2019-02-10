@@ -34,7 +34,7 @@ public class ManifestOrderAgent extends  AgentSeederTask implements AgentSeederT
         }
         if (!tasks.isEmpty()){
             Task last = tasks.remove(tasks.size()-1);
-            AgentFinishUpTask finishUpTask = new AgentFinishUpTask(getAgentName());
+            AgentFinishUpTask finishUpTask = new AgentFinishUpTask(getAgentName(),canExecuteRemotely());
             finishUpTask.setPriority(getTaskPriority());
             tasks.add(new CompositeTask(true,last,finishUpTask));
         }

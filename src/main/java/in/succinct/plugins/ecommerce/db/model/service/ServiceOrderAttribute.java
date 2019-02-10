@@ -12,9 +12,4 @@ public interface ServiceOrderAttribute extends Model, ExtendedAttribute {
 	@COLUMN_NAME("SERVICE_ORDER_ID")
 	public long getEntityId();
 
-	public String getName(); 
-	public void setName(String name); 
-	
-	public String getValue(); 
-	public void setValue(String value);
 }

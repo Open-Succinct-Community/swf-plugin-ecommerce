@@ -196,7 +196,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
         table.createRow().createColumn().setText(address.getAddressLine3());
         table.createRow().createColumn().setText(address.getAddressLine4());
         table.createRow().createColumn().setText(address.getCity().getName());
-        table.createRow().createColumn().setText(address.getState().getName() + " - "  + address.getPincode());
+        table.createRow().createColumn().setText(address.getState().getName() + " - "  + address.getPinCode().getPinCode());
         table.createRow().createColumn().setText(address.getCountry().getName());
         table.createRow().createColumn().setText("Tel: " + address.getPhoneNumber());
     }

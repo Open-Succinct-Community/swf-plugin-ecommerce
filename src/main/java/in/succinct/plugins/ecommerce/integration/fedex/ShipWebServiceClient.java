@@ -461,7 +461,7 @@ public class ShipWebServiceClient {
         shipperAddress.setStreetLines(new String[]{addressLine1.toString(),addressLine2.toString()});
         shipperAddress.setCity(facility.getCity().getName());
         shipperAddress.setStateOrProvinceCode(facility.getState().getCode());
-        shipperAddress.setPostalCode(facility.getPincode());
+        shipperAddress.setPostalCode(facility.getPinCode().getPinCode());
         shipperAddress.setCountryCode(facility.getCountry().getIsoCode());
         shipperAddress.setCountryName(facility.getCountry().getName());
         shipperAddress.setResidential(false);
@@ -515,7 +515,7 @@ public class ShipWebServiceClient {
         addressRecip.setStreetLines(new String[]{addressLine1.toString(),addressLine2.toString()});
         addressRecip.setCity(shipTo.getCity().getName());
         addressRecip.setStateOrProvinceCode(shipTo.getState().getCode());
-        addressRecip.setPostalCode(shipTo.getPincode());
+        addressRecip.setPostalCode(shipTo.getPinCode().getPinCode());
         addressRecip.setCountryCode(shipTo.getCountry().getIsoCode());
         addressRecip.setCountryName(shipTo.getCountry().getName());
         addressRecip.setResidential(new Boolean(true));

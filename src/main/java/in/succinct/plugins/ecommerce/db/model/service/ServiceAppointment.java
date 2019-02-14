@@ -13,7 +13,7 @@ import java.sql.Time;
 import java.sql.Timestamp;
 
 public interface ServiceAppointment extends Model {
-    @HIDDEN
+    @PROTECTION(Kind.NON_EDITABLE)
     public long getServiceOrderId();
     public void setServiceOrderId(long id);
     public ServiceOrder getServiceOrder();

@@ -57,7 +57,7 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
         latest.setCityId(owner.getCityId());
         latest.setStateId(owner.getStateId());
         latest.setCountryId(owner.getCountryId());
-        latest.setPincode(owner.getPincode());
+        latest.setPinCodeId(owner.getPinCodeId());
         latest.setPhoneNumber(owner.getPhoneNumber());
         latest.setAlternatePhoneNumber(owner.getAlternatePhoneNumber());
         latest.setLat(owner.getLat());

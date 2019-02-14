@@ -19,16 +19,16 @@ public interface UnitOfMeasure extends Model {
 	public static final String CENTIMETERS = "Cms";
 	public static final String INCHES = "Inches";
 	@UNIQUE_KEY
-	@Enumeration(KILOGRAMS + "," + GRAMS +"," + CENTIMETERS + ","+ INCHES + ",EACH,DOZEN,Celcius,Fahrenheit")
-	public String getName(); 
+	public String getName();
 	public void setName(String name); 
 	
 	static final String MEASURES_WEIGHT = "Weight"; 
 	static final String MEASURES_LENGTH = "Length"; 
 	static final String MEASURES_PACKAGING = "Packaging";
 	static final String MEASURES_TEMPERATURE = "Temperature";
-	
-	@Enumeration(MEASURES_WEIGHT +"," + MEASURES_LENGTH + "," + MEASURES_PACKAGING + "," + MEASURES_TEMPERATURE)
+	static final String MEASURES_DOSAGE = "Dosage";
+
+	@Enumeration(MEASURES_WEIGHT +"," + MEASURES_LENGTH + "," + MEASURES_PACKAGING + "," + MEASURES_TEMPERATURE + "," + MEASURES_DOSAGE)
 	public String getMeasures();
 	public void setMeasures(String type); 
 	

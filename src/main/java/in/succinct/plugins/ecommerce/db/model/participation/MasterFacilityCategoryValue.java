@@ -5,10 +5,14 @@ import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
+import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.model.Model;
+import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
+
+import java.util.List;
 
 @HAS_DESCRIPTION_FIELD("ALLOWED_VALUE")
 public interface MasterFacilityCategoryValue extends Model{
@@ -35,7 +39,9 @@ public interface MasterFacilityCategoryValue extends Model{
 	@COLUMN_DEF(StandardDefault.BOOLEAN_TRUE)
 	public boolean isCanStockProducts();
 	public  void setCanStockProducts(boolean canStockProducts);
-	
+
+	@CONNECTED_VIA("MASTER_FACILITY_CATEGORY_VALUE_ID")
+	List<FacilityCategory> getFacilityCategories();
 	
 	
 }

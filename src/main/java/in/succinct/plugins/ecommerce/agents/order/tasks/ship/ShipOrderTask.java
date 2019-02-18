@@ -9,9 +9,9 @@ public class ShipOrderTask extends EntityTask<Order> {
 
 
 	public ShipOrderTask() {
-        this(-1);
+        this(-1L);
 	}
-    public ShipOrderTask(int orderId){
+    public ShipOrderTask(long orderId){
 	    super(orderId);
 	}
 

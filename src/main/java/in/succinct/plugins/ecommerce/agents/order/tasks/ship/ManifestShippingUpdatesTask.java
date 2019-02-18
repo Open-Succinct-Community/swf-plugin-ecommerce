@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.agents.order.tasks.ship;
 
 import in.succinct.plugins.ecommerce.agents.order.tasks.EntityTask;
 import in.succinct.plugins.ecommerce.db.model.order.Manifest;
+import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLineAttribute;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.TaskManager;
@@ -27,15 +28,15 @@ public class ManifestShippingUpdatesTask extends EntityTask<Manifest> {
 	@Override
 	public void execute(Manifest m) {
 
-		Select s = new Select().from(OrderLineAttribute.class);
+		Select s = new Select().from(OrderAttribute.class);
 		
 		Expression where = new Expression(s.getPool(),  Conjunction.AND); 
 		where.add(new Expression(s.getPool(), "NAME" , Operator.EQ, "manifest_number"));
 		where.add(new Expression(s.getPool(), "VALUE" , Operator.EQ, m.getManifestNumber()));
-		List<OrderLineAttribute> olas = s.where(where).execute();
+		List<OrderAttribute> oas = s.where(where).execute();
 		List<Task> tasks = new LinkedList<>();
-		olas.forEach(a->{
-			tasks.add(new ShipOrderLineTask(a.getOrderLineId()));
+		oas.forEach(a->{
+			tasks.add(new ShipOrderTask(a.getOrderId()));
 		});
 		TaskManager.instance().executeAsync(tasks,true);
 	}

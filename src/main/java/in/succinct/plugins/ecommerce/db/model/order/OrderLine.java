@@ -231,7 +231,25 @@ public interface OrderLine extends Model {
     public void cancel(String reason, String initiator, double quantity);
 
     public void acknowledge();
-    public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCount, Bucket rejectedLineCount );
+    public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCount, Bucket rejectedLineCount , boolean cancelOnShortage);
 
     public void manifest();
+
+    @COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	public boolean isShortage();
+	public void setShortage(boolean b);
+
+
+	public Double getIGst();
+	public void setIGst(Double gst);
+
+	public Double getCGst();
+	public void setCGst(Double gst);
+
+	public Double getSGst();
+	public void setSGst(Double gst);
+
+	public Double getPrice();
+	public void setPrice(Double price);
+
 }

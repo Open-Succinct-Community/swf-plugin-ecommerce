@@ -11,7 +11,7 @@ public class BeforeSaveManifest extends BeforeModelSaveExtension<Manifest> {
     }
     @Override
     public void beforeSave(Manifest manifest) {
-        if (manifest.isClosed() && manifest.getRawRecord().isFieldDirty("CLOSED")) {
+        if (manifest.isClosed()) {
             TaskManager.instance().executeAsync(new ManifestShippingUpdatesTask(manifest.getId()),false);
         }
 

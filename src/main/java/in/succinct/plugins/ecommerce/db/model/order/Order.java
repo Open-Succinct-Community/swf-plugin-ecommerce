@@ -111,4 +111,18 @@ public interface Order extends Model {
     public boolean isCOD();
     public void setCOD(Boolean valueOf);
 
+    @IS_VIRTUAL
+    public boolean isShort();
+
+    public Double getIGst();
+    public void setIGst(Double gst);
+
+    public Double getCGst();
+    public void setCGst(Double gst);
+
+    public Double getSGst();
+    public void setSGst(Double gst);
+
+    public Double getPrice();
+    public void setPrice(Double price);
 }

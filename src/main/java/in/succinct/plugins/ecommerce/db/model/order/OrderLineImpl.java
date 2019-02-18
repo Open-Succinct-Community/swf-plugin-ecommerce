@@ -212,9 +212,9 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         };
         Bucket acknowlededCounter = new Bucket();
         Bucket rejectCounter = new Bucket();
-        acknowledge(skuATP,acknowlededCounter,rejectCounter);
+        acknowledge(skuATP,acknowlededCounter,rejectCounter,false);
     }
-	public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter ){
+	public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage ){
         OrderLine ol = getProxy();
         Order order = ol.getOrder();
         if (ol.getToAcknowledgeQuantity() >  0 ) { //Not Ack, Shipped or cancelled,
@@ -243,6 +243,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
                 currentInventory = skuATP.get(ol.getSkuId()).get(ol.getShipFromId());
             }
             if (currentInventory.doubleValue() >= ol.getOrderedQuantity()) {
+                ol.setShortage(false);
                 ol.setAcknowledgedQuantity(ol.getOrderedQuantity());
                 currentInventory.decrement(ol.getOrderedQuantity());
                 acknowledgedLineCounter.increment();
@@ -282,10 +283,13 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
                     }
                 }
             } else {
-                ol.setCancelledQuantity(ol.getOrderedQuantity());
-                ol.setCancellationReason(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
-                ol.setCancellationInitiator(OrderLine.CANCELLATION_INITIATOR_COMPANY);
-                rejectLineCounter.increment();
+                ol.setShortage(true);
+                if (cancelOnShortage){
+                    ol.setCancelledQuantity(ol.getOrderedQuantity());
+                    ol.setCancellationReason(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
+                    ol.setCancellationInitiator(OrderLine.CANCELLATION_INITIATOR_COMPANY);
+                    rejectLineCounter.increment();
+                }
             }
             ol.save();
         }

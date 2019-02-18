@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks.pack;
 
+import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.Bucket;
 import com.venky.swf.db.Database;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
@@ -65,7 +66,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
         OrderAddress shipTo = addressList.get(0);
         Facility shipFrom = null;
         for (OrderLine ol : order.getOrderLines()){
-            if (ol.getToShipQuantity() > 0 ){
+            if (ol.getToShipQuantity() > 0  || ol.getShippedQuantity() > 0){
                 shipFrom = ol.getShipFrom();
                 break;
             }
@@ -103,8 +104,13 @@ public class PacklistPrintTask extends EntityTask<Order> {
         header.createColumn().setText("SKU");
         header.createColumn().setText("QTY");
         header.createColumn().setText("PRICE");
+        header.createColumn().setText("CGST");
+        header.createColumn().setText("SGST");
+        header.createColumn().setText("IGST");
 
-        Bucket btotal = new Bucket();
+        header.createColumn().setText("SELLING PRICE");
+
+
         order.getOrderLines().forEach(ol->{
             Row row = lines.createRow();
             Sku sku = ol.getSku();
@@ -116,19 +122,52 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
             Column price = row.createColumn();
             price.addClass("numeric");
-            price.setText(String.valueOf(ol.getSellingPrice()));
-            btotal.increment(ol.getSellingPrice());
+            price.setText(String.valueOf(new DoubleHolder(ol.getPrice(),2).getHeldDouble().doubleValue()));
+
+            Column cgst = row.createColumn();
+            cgst.addClass("numeric");
+            cgst.setText(String.valueOf(new DoubleHolder(ol.getCGst(),2).getHeldDouble().doubleValue()));
+
+            Column sgst = row.createColumn();
+            sgst.addClass("numeric");
+            sgst.setText(String.valueOf(new DoubleHolder(ol.getSGst(),2).getHeldDouble().doubleValue()));
+
+            Column igst = row.createColumn();
+            igst.addClass("numeric");
+            igst.setText(String.valueOf(new DoubleHolder(ol.getIGst(),2).getHeldDouble().doubleValue()));
+
+            Column sellingprice = row.createColumn();
+            sellingprice.addClass("numeric");
+            sellingprice.setText(String.valueOf(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble().doubleValue()));
+
+
         });
 
         Row total = lines.createRow();
         Column column = total.createColumn(2);
         column.setText("TOTAL");
         column.addClass("numeric");
-        Column value = total.createColumn();
-        value.setText(String.valueOf(btotal.value()));
-        value.addClass("numeric");
+
+        Column price = total.createColumn();
+        price.setText(String.valueOf(new DoubleHolder(order.getPrice(),2).getHeldDouble().doubleValue()));
+        price.addClass("numeric");
+
+        Column cgst = total.createColumn();
+        cgst.addClass("numeric");
+        cgst.setText(String.valueOf(new DoubleHolder(order.getCGst(),2).getHeldDouble().doubleValue()));
+
+        Column sgst = total.createColumn();
+        sgst.addClass("numeric");
+        sgst.setText(String.valueOf(new DoubleHolder(order.getSGst(),2).getHeldDouble().doubleValue()));
+
+        Column igst = total.createColumn();
+        igst.addClass("numeric");
+        igst.setText(String.valueOf(new DoubleHolder(order.getIGst(),2).getHeldDouble().doubleValue()));
 
 
+        Column sellingPrice = total.createColumn();
+        sellingPrice.setText(String.valueOf(order.getSellingPrice()));
+        sellingPrice.addClass("numeric");
 
 
         OrderPrint print = Database.getTable(OrderPrint.class).newRecord();

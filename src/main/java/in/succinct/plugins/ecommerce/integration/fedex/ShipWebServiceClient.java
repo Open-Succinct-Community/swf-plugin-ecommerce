@@ -193,11 +193,24 @@ public class ShipWebServiceClient {
         requestedShipment.setPackageCount(new NonNegativeInteger("1"));
         //
         List<RequestedPackageLineItem> packageLineItems = new ArrayList<>();
-        order.getOrderLines().forEach(ol->{
-            if (ol.getManifestedQuantity() > 0){
-                packageLineItems.add(addRequestedPackageLineItem(ol));
+        OrderLine box = null;
+        Bucket weight = new Bucket();
+        for (OrderLine ol :order.getOrderLines()){
+            if (ol.getManifestedQuantity() > 0 && ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue().endsWith("Shipping Box")){
+                box = ol;
+                //packageLineItems.add(addRequestedPackageLineItem(ol));
             }
-        });
+            Sku sku = ol.getSku();
+            double wt = ol.getManifestedQuantity() *
+                    UnitOfMeasureConversionTable.convert(sku.getWeight(), UnitOfMeasure.MEASURES_WEIGHT, sku.getWeightUOM(), UnitOfMeasure.getWeightMeasure(UnitOfMeasure.KILOGRAMS));
+
+            weight.increment(wt);
+        }
+        if (box != null){
+            packageLineItems.add(addRequestedPackageLineItem(box,weight));
+        }else {
+            packageLineItems.add(addRequestedPackageLineItem(null,weight));
+        }
 
 
         requestedShipment.setRequestedPackageLineItems(packageLineItems.toArray(new RequestedPackageLineItem[]{}));
@@ -590,23 +603,22 @@ public class ShipWebServiceClient {
         }
     }
 
-    private RequestedPackageLineItem addRequestedPackageLineItem(OrderLine ol) {
+    private RequestedPackageLineItem addRequestedPackageLineItem(OrderLine ol, Bucket weight) {
         RequestedPackageLineItem requestedPackageLineItem = new RequestedPackageLineItem();
         requestedPackageLineItem.setSequenceNumber(new PositiveInteger("1"));
         requestedPackageLineItem.setGroupPackageCount(new NonNegativeInteger("1"));
 
-        Sku sku = ol.getSku();
-        double l = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getLength(), UnitOfMeasure.MEASURES_LENGTH, sku.getLengthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
-        double w = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getWidth(), UnitOfMeasure.MEASURES_LENGTH, sku.getWidthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
-        double h = Math.ceil(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(sku.getHeight(), UnitOfMeasure.MEASURES_LENGTH, sku.getHeightUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+        if (ol != null){
+            Sku sku = ol.getSku();
+            double l = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getLength(), UnitOfMeasure.MEASURES_LENGTH, sku.getLengthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+            double w = Math.ceil(UnitOfMeasureConversionTable.convert(sku.getWidth(), UnitOfMeasure.MEASURES_LENGTH, sku.getWidthUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+            double h = Math.ceil(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(sku.getHeight(), UnitOfMeasure.MEASURES_LENGTH, sku.getHeightUOM(), UnitOfMeasure.getLengthMeasure(UnitOfMeasure.CENTIMETERS)));
+            requestedPackageLineItem.setDimensions(addPackageDimensions((int)l,(int)h,(int)w, LinearUnits.CM));
+        }
 
-        double wt = ol.getManifestedQuantity() *
-                UnitOfMeasureConversionTable.convert(sku.getWeight(), UnitOfMeasure.MEASURES_WEIGHT, sku.getWeightUOM(), UnitOfMeasure.getWeightMeasure(UnitOfMeasure.KILOGRAMS));
-
-
+        double wt = weight.doubleValue();
 
         requestedPackageLineItem.setWeight(addPackageWeight(wt, WeightUnits.KG));
-        requestedPackageLineItem.setDimensions(addPackageDimensions((int)l,(int)h,(int)w, LinearUnits.CM));
         requestedPackageLineItem.setCustomerReferences(new CustomerReference[]{
                 addCustomerReference(CustomerReferenceType.CUSTOMER_REFERENCE.getValue(), String.valueOf(order.getReference())),
                 addCustomerReference(CustomerReferenceType.INVOICE_NUMBER.getValue(), order.getOrderNumber()),
@@ -653,7 +665,7 @@ public class ShipWebServiceClient {
     private CustomsClearanceDetail addCustomsClearanceDetail() {
         CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
         customs.setDutiesPayment(addDutiesPayment());
-        customs.setCustomsValue(addMoney("INR", order.getSellingPrice() * 0.18));//GST!!
+        customs.setCustomsValue(addMoney("INR", order.getCGst() + order.getSGst() + order.getIGst()));//GST!!
         customs.setDocumentContent(InternationalDocumentContentType.NON_DOCUMENTS);
         customs.setCommercialInvoice(addCommercialInvoice());
         List<Commodity> commodities = new ArrayList<>();
@@ -686,19 +698,19 @@ public class ShipWebServiceClient {
         commodity.setCountryOfManufacture("IN"); //TODO May be imported! need to check tht.
         commodity.setWeight(new Weight());
         Bucket wt = new Bucket();
-        Bucket qty = new Bucket();
-        wt.increment(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(ol.getSku().getWeight() , UnitOfMeasure.MEASURES_WEIGHT,ol.getSku().getWeightUOM().getName(),UnitOfMeasure.KILOGRAMS));
-        wt.increment(0); // TODO ADD BOX Weight.??
+        wt.increment(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(
+                ol.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().valueOf(ol.getSku().getWeight())  ,
+                UnitOfMeasure.MEASURES_WEIGHT,ol.getSku().getWeightUOM().getName(),UnitOfMeasure.KILOGRAMS));
 
         commodity.getWeight().setValue(new BigDecimal(wt.doubleValue()));
         commodity.getWeight().setUnits(WeightUnits.KG);
         commodity.setQuantity(new BigDecimal(ol.getManifestedQuantity()));
         commodity.setQuantityUnits("EA");
         commodity.setUnitPrice(new Money());
-        commodity.getUnitPrice().setAmount(new java.math.BigDecimal(ol.getSellingPrice()/ol.getManifestedQuantity()));
+        commodity.getUnitPrice().setAmount(new java.math.BigDecimal(ol.getPrice()/ol.getManifestedQuantity()));
         commodity.getUnitPrice().setCurrency("INR");
         commodity.setCustomsValue(new Money());
-        commodity.getCustomsValue().setAmount(new java.math.BigDecimal(ol.getSellingPrice() * ol.getSku().getTaxRate() / 100.0));
+        commodity.getCustomsValue().setAmount(new java.math.BigDecimal(ol.getCGst() +ol.getSGst() + ol.getIGst()));
         commodity.getCustomsValue().setCurrency("INR");
         commodity.setCountryOfManufacture("IN");
         ItemCategory hsn = ol.getSku().getItem().getItemCategory("HSN");
@@ -706,7 +718,7 @@ public class ShipWebServiceClient {
             String  hsnCode = hsn.getMasterItemCategoryValue().getAllowedValue();
             commodity.setHarmonizedCode(hsnCode);
         }else {
-            throw new RuntimeException("HSN Code not configured for item " + ol.getSku().getItem().getName());
+            //throw new RuntimeException("HSN Code not configured for item " + ol.getSku().getItem().getName());
         }
 
         return commodity;

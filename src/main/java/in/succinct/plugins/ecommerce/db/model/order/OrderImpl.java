@@ -83,7 +83,7 @@ public class OrderImpl  extends ModelImpl<Order>{
         };
 
 		orderLines.forEach(ol->{
-		    ol.acknowledge(skuATP,orderLinesAcknowledged,orderLinesNotAcknowledged);
+		    ol.acknowledge(skuATP,orderLinesAcknowledged,orderLinesNotAcknowledged,false);
 		});
 
 		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
@@ -125,5 +125,14 @@ public class OrderImpl  extends ModelImpl<Order>{
 		});
 		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
 	}
-	
+
+	public boolean isShort() {
+		Bucket numShortLines = new Bucket();
+		getProxy().getOrderLines().forEach(ol->{
+			if (ol.isShortage() && ol.getToShipQuantity() > 0){
+				numShortLines.increment();
+			}
+		});
+		return numShortLines.intValue() > 0 ;
+	}
 }

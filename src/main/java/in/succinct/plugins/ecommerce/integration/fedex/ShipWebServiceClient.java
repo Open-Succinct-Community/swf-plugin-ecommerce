@@ -59,6 +59,7 @@ import com.fedex.ship.stub.WebAuthenticationDetail;
 import com.fedex.ship.stub.Weight;
 import com.fedex.ship.stub.WeightUnits;
 import com.venky.core.log.SWFLogger;
+import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
@@ -74,6 +75,7 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
+import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import org.apache.axis.types.NonNegativeInteger;
@@ -581,17 +583,12 @@ public class ShipWebServiceClient {
         }else {
             payment.setPaymentType(PaymentType.RECIPIENT);
         }
-        /*
+
         Payor payor = new Payor();
-        Party responsibleParty = new Party();
+        Party responsibleParty = addShipper();
         responsibleParty.setAccountNumber(getPayorAccountNumber());
-        Address responsiblePartyAddress = new Address();
-        responsiblePartyAddress.setCountryCode("IN");
-        responsibleParty.setAddress(responsiblePartyAddress);
-        responsibleParty.setContact(new Contact());
-        payor.setResponsibleParty(responsibleParty);
         payment.setPayor(payor);
-        */
+
         return payment;
     }
 
@@ -665,7 +662,7 @@ public class ShipWebServiceClient {
     private CustomsClearanceDetail addCustomsClearanceDetail() {
         CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
         customs.setDutiesPayment(addDutiesPayment());
-        customs.setCustomsValue(addMoney("INR", order.getCGst() + order.getSGst() + order.getIGst()));//GST!!
+        customs.setCustomsValue(addMoney("INR", new DoubleHolder(order.getSellingPrice(),2).getHeldDouble().doubleValue()));
         customs.setDocumentContent(InternationalDocumentContentType.NON_DOCUMENTS);
         customs.setCommercialInvoice(addCommercialInvoice());
         List<Commodity> commodities = new ArrayList<>();
@@ -694,8 +691,8 @@ public class ShipWebServiceClient {
     private  Commodity addCommodity(OrderLine ol) {
         Commodity commodity = new Commodity();
         commodity.setNumberOfPieces(new NonNegativeInteger("1"));
-        commodity.setDescription("Vetinary medicines");
-        commodity.setCountryOfManufacture("IN"); //TODO May be imported! need to check tht.
+        commodity.setDescription(ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue());
+        commodity.setCountryOfManufacture("IN");
         commodity.setWeight(new Weight());
         Bucket wt = new Bucket();
         wt.increment(ol.getManifestedQuantity() * UnitOfMeasureConversionTable.convert(
@@ -707,10 +704,10 @@ public class ShipWebServiceClient {
         commodity.setQuantity(new BigDecimal(ol.getManifestedQuantity()));
         commodity.setQuantityUnits("EA");
         commodity.setUnitPrice(new Money());
-        commodity.getUnitPrice().setAmount(new java.math.BigDecimal(ol.getPrice()/ol.getManifestedQuantity()));
+        commodity.getUnitPrice().setAmount(new DoubleHolder(ol.getSellingPrice()/ol.getManifestedQuantity(), 2).getHeldDouble());
         commodity.getUnitPrice().setCurrency("INR");
         commodity.setCustomsValue(new Money());
-        commodity.getCustomsValue().setAmount(new java.math.BigDecimal(ol.getCGst() +ol.getSGst() + ol.getIGst()));
+        commodity.getCustomsValue().setAmount(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble());
         commodity.getCustomsValue().setCurrency("INR");
         commodity.setCountryOfManufacture("IN");
         ItemCategory hsn = ol.getSku().getItem().getItemCategory("HSN");

@@ -30,7 +30,9 @@ import org.krysalis.barcode4j.output.svg.SVGCanvasProvider;
 
 import java.io.ByteArrayInputStream;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class PacklistPrintTask extends EntityTask<Order> {
@@ -43,142 +45,147 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
     @Override
     protected void execute(Order order) {
-        List<OrderPrint> prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
-        if (prints.isEmpty()) {
+        Map<String,OrderPrint> printMap = new HashMap<>();
+
+        List<OrderPrint> prints = order.getOrderPrints();
+        prints.forEach(p->printMap.put(p.getDocumentType(),p));
+
+        //.stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
+        if (printMap.get(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL) == null) {
             new ShipWebServiceClient(order).ship();
-            prints = order.getOrderPrints().stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
         }
+        if (printMap.get(OrderPrint.DOCUMENT_TYPE_PACK_SLIP) == null){
+            Html html = new Html();
+            Head head = new Head();
+            html.addControl(head);
+            createHead(head,order);
 
-        Html html = new Html();
-        Head head = new Head();
-        html.addControl(head);
-        createHead(head,order);
 
+            Body body = new Body();
+            Table table = new Table();
+            table.addClass("packlist");
 
-        Body body = new Body();
-        Table table = new Table();
-        table.addClass("packlist");
+            body.addControl(table);
+            html.addControl(body);
 
-        body.addControl(table);
-        html.addControl(body);
-
-        List<OrderAddress> addressList = order.getAddresses().stream().filter(address -> address.getAddressType().equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
-        OrderAddress shipTo = addressList.get(0);
-        Facility shipFrom = null;
-        for (OrderLine ol : order.getOrderLines()){
-            if (ol.getToShipQuantity() > 0  || ol.getShippedQuantity() > 0){
-                shipFrom = ol.getShipFrom();
-                break;
+            List<OrderAddress> addressList = order.getAddresses().stream().filter(address -> address.getAddressType().equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
+            OrderAddress shipTo = addressList.get(0);
+            Facility shipFrom = null;
+            for (OrderLine ol : order.getOrderLines()){
+                if (ol.getToShipQuantity() > 0  || ol.getShippedQuantity() > 0){
+                    shipFrom = ol.getShipFrom();
+                    break;
+                }
             }
-        }
-        table.createHeader().createColumn(3).setText("Packing Slip");
+            table.createHeader().createColumn(3).setText("Packing Slip");
 
 
-        Row address = table.createRow();
-        Div shipToAddress = createShipToAddress(shipTo);
-        address.createColumn().addControl(shipToAddress);
+            Row address = table.createRow();
+            Div shipToAddress = createShipToAddress(shipTo);
+            address.createColumn().addControl(shipToAddress);
 
-        Div shipFromAddress = createShipFromAddress(shipFrom);
-        address.createColumn().addControl(shipFromAddress);
+            Div shipFromAddress = createShipFromAddress(shipFrom);
+            address.createColumn().addControl(shipFromAddress);
 
-        Div orderBarcode = createOrderBarCode("Order# " + order.getOrderNumber(), order.getOrderNumber() );
-        Row barcodes = table.createRow();
-        barcodes.createColumn().addControl(orderBarcode);
-
-
-        String courier = order.getAttribute("courier").getValue();
-        String trackingNumber = order.getAttribute("tracking_number").getValue();
-        long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
+            Div orderBarcode = createOrderBarCode("Order# " + order.getOrderNumber(), order.getOrderNumber() );
+            Row barcodes = table.createRow();
+            barcodes.createColumn().addControl(orderBarcode);
 
 
-        Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);
-
-        barcodes.createColumn().addControl(courierBarCode);
-
-        Table lines = new Table();
-        lines.addClass("orderlines");
-        table.createRow().createColumn(2).addControl(lines);
+            String courier = order.getAttribute("courier").getValue();
+            String trackingNumber = order.getAttribute("tracking_number").getValue();
+            long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
 
 
-        Row header = lines.createHeader();
-        header.createColumn().setText("SKU");
-        header.createColumn().setText("QTY");
-        header.createColumn().setText("PRICE");
-        header.createColumn().setText("CGST");
-        header.createColumn().setText("SGST");
-        header.createColumn().setText("IGST");
+            Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);
 
-        header.createColumn().setText("SELLING PRICE");
+            barcodes.createColumn().addControl(courierBarCode);
+
+            Table lines = new Table();
+            lines.addClass("orderlines");
+            table.createRow().createColumn(2).addControl(lines);
 
 
-        order.getOrderLines().forEach(ol->{
-            Row row = lines.createRow();
-            Sku sku = ol.getSku();
-            row.createColumn().setText((sku.getName()));
+            Row header = lines.createHeader();
+            header.createColumn().setText("SKU");
+            header.createColumn().setText("QTY");
+            header.createColumn().setText("PRICE");
+            header.createColumn().setText("CGST");
+            header.createColumn().setText("SGST");
+            header.createColumn().setText("IGST");
 
-            Column qty = row.createColumn();
-            qty.addClass("numeric");
-            qty.setText((String.valueOf(ol.getPackedQuantity())));
+            header.createColumn().setText("SELLING PRICE");
 
-            Column price = row.createColumn();
+
+            order.getOrderLines().forEach(ol->{
+                Row row = lines.createRow();
+                Sku sku = ol.getSku();
+                row.createColumn().setText((sku.getName()));
+
+                Column qty = row.createColumn();
+                qty.addClass("numeric");
+                qty.setText((String.valueOf(ol.getPackedQuantity())));
+
+                Column price = row.createColumn();
+                price.addClass("numeric");
+                price.setText(String.valueOf(new DoubleHolder(ol.getPrice(),2).getHeldDouble().doubleValue()));
+
+                Column cgst = row.createColumn();
+                cgst.addClass("numeric");
+                cgst.setText(String.valueOf(new DoubleHolder(ol.getCGst(),2).getHeldDouble().doubleValue()));
+
+                Column sgst = row.createColumn();
+                sgst.addClass("numeric");
+                sgst.setText(String.valueOf(new DoubleHolder(ol.getSGst(),2).getHeldDouble().doubleValue()));
+
+                Column igst = row.createColumn();
+                igst.addClass("numeric");
+                igst.setText(String.valueOf(new DoubleHolder(ol.getIGst(),2).getHeldDouble().doubleValue()));
+
+                Column sellingprice = row.createColumn();
+                sellingprice.addClass("numeric");
+                sellingprice.setText(String.valueOf(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble().doubleValue()));
+
+
+            });
+
+            Row total = lines.createRow();
+            Column column = total.createColumn(2);
+            column.setText("TOTAL");
+            column.addClass("numeric");
+
+            Column price = total.createColumn();
+            price.setText(String.valueOf(new DoubleHolder(order.getPrice(),2).getHeldDouble().doubleValue()));
             price.addClass("numeric");
-            price.setText(String.valueOf(new DoubleHolder(ol.getPrice(),2).getHeldDouble().doubleValue()));
 
-            Column cgst = row.createColumn();
+            Column cgst = total.createColumn();
             cgst.addClass("numeric");
-            cgst.setText(String.valueOf(new DoubleHolder(ol.getCGst(),2).getHeldDouble().doubleValue()));
+            cgst.setText(String.valueOf(new DoubleHolder(order.getCGst(),2).getHeldDouble().doubleValue()));
 
-            Column sgst = row.createColumn();
+            Column sgst = total.createColumn();
             sgst.addClass("numeric");
-            sgst.setText(String.valueOf(new DoubleHolder(ol.getSGst(),2).getHeldDouble().doubleValue()));
+            sgst.setText(String.valueOf(new DoubleHolder(order.getSGst(),2).getHeldDouble().doubleValue()));
 
-            Column igst = row.createColumn();
+            Column igst = total.createColumn();
             igst.addClass("numeric");
-            igst.setText(String.valueOf(new DoubleHolder(ol.getIGst(),2).getHeldDouble().doubleValue()));
-
-            Column sellingprice = row.createColumn();
-            sellingprice.addClass("numeric");
-            sellingprice.setText(String.valueOf(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble().doubleValue()));
+            igst.setText(String.valueOf(new DoubleHolder(order.getIGst(),2).getHeldDouble().doubleValue()));
 
 
-        });
-
-        Row total = lines.createRow();
-        Column column = total.createColumn(2);
-        column.setText("TOTAL");
-        column.addClass("numeric");
-
-        Column price = total.createColumn();
-        price.setText(String.valueOf(new DoubleHolder(order.getPrice(),2).getHeldDouble().doubleValue()));
-        price.addClass("numeric");
-
-        Column cgst = total.createColumn();
-        cgst.addClass("numeric");
-        cgst.setText(String.valueOf(new DoubleHolder(order.getCGst(),2).getHeldDouble().doubleValue()));
-
-        Column sgst = total.createColumn();
-        sgst.addClass("numeric");
-        sgst.setText(String.valueOf(new DoubleHolder(order.getSGst(),2).getHeldDouble().doubleValue()));
-
-        Column igst = total.createColumn();
-        igst.addClass("numeric");
-        igst.setText(String.valueOf(new DoubleHolder(order.getIGst(),2).getHeldDouble().doubleValue()));
+            Column sellingPrice = total.createColumn();
+            sellingPrice.setText(String.valueOf(order.getSellingPrice()));
+            sellingPrice.addClass("numeric");
 
 
-        Column sellingPrice = total.createColumn();
-        sellingPrice.setText(String.valueOf(order.getSellingPrice()));
-        sellingPrice.addClass("numeric");
-
-
-        OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
-        print.setOrderId(order.getId());
-        print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
-        print.setImageContentType("text/html");
-        byte[] bytes = html.toString().getBytes();
-        print.setImage(new ByteArrayInputStream(bytes));
-        print.setImageContentSize(bytes.length);
-        print.setImageContentName("packlist"+order.getOrderNumber()+".html");
-        print.save();
+            OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
+            print.setOrderId(order.getId());
+            print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
+            print.setImageContentType("text/html");
+            byte[] bytes = html.toString().getBytes();
+            print.setImage(new ByteArrayInputStream(bytes));
+            print.setImageContentSize(bytes.length);
+            print.setImageContentName("packlist"+order.getOrderNumber()+".html");
+            print.save();
+        }
     }
 
     private Div createCarrierLabel(OrderPrint print) {

@@ -586,6 +586,7 @@ public class ShipWebServiceClient {
 
         Payor payor = new Payor();
         Party responsibleParty = addShipper();
+        payor.setResponsibleParty(responsibleParty);
         responsibleParty.setAccountNumber(getPayorAccountNumber());
         payment.setPayor(payor);
 

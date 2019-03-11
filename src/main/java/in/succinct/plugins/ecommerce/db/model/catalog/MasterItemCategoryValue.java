@@ -9,6 +9,7 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.model.Model;
 
+import java.io.Reader;
 import java.util.List;
 
 
@@ -25,6 +26,11 @@ public interface MasterItemCategoryValue extends Model{
 	@UNIQUE_KEY
 	public String getAllowedValue();
 	public void setAllowedValue(String value);
+
+
+	@IS_NULLABLE
+	public Reader getNotes();
+	public void setNotes(Reader reader);
 
 	@CONNECTED_VIA("MASTER_ITEM_CATEGORY_VALUE_ID")
 	List<ItemCategory> getItemCategories();

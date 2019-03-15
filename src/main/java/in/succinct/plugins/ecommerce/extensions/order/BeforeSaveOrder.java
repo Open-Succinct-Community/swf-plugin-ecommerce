@@ -1,5 +1,7 @@
 package in.succinct.plugins.ecommerce.extensions.order;
 
+import com.venky.cache.Cache;
+import com.venky.swf.db.Database;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
@@ -12,9 +14,11 @@ import com.venky.core.collections.SequenceSet;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
 import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
+import in.succinct.plugins.ecommerce.db.model.order.OrderStatus;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.sequence.SequentialNumber;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -41,6 +45,20 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 					TaskManager.instance().executeAsync(new CreateManifestTask(preferredCarrier.getId()),false);
 				});
 			});
+		}
+		if (!order.getRawRecord().isNewRecord() && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
+			Cache<String, OrderStatus> cache = new Cache<String, OrderStatus>() {
+				@Override
+				protected OrderStatus getValue(String status) {
+					OrderStatus orderStatus = Database.getTable(OrderStatus.class).newRecord();
+					orderStatus.setFulfillmentStatus(status);
+					orderStatus.setOrderId(order.getId());
+					orderStatus.setStatusDate(new Timestamp(System.currentTimeMillis()));
+					return orderStatus;
+				}
+			};
+			order.getOrderStatuses().forEach(orderStatus -> cache.put(orderStatus.getFulfillmentStatus(),orderStatus));
+			cache.get(order.getFulfillmentStatus()).save(); //Only fist time order reaches a status it is logged.
 		}
     }
 

@@ -39,6 +39,10 @@ public interface Order extends Model {
     public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
     public static final String FULFILLMENT_STATUS_DELIVERED = "DELIVERED";
     public static final String FULFILLMENT_STATUS_RETURNED = "RETURNED";
+
+    public List<in.succinct.plugins.ecommerce.db.model.order.OrderStatus> getOrderStatuses();
+
+    /*
     public static enum OrderStatus {
         DOWNLOADED,
         ACKNOWLEDGED,
@@ -50,7 +54,7 @@ public interface Order extends Model {
         DELIVERED,
         RETURNED,
     }
-
+    */
 
 
     @Enumeration( FULFILLMENT_STATUS_DOWNLOADED + "," + FULFILLMENT_STATUS_ACKNOWLEDGED + ","  +

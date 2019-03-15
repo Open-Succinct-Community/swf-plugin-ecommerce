@@ -29,6 +29,11 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setUserId(long  id);
     public User getUser();
 
+    @IS_NULLABLE
+    public Long getServicedById();
+    public void setServicedById(Long  id);
+    public User getServicedBy();
+
     @IS_VIRTUAL
     public String getOrderNumber();
 

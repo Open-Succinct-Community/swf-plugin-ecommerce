@@ -21,16 +21,16 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
     //Save Addresses
     @Override
     public void afterCreate(ServiceOrder model) {
+
         ServiceOrderAddress address = Database.getTable(ServiceOrderAddress.class).newRecord();
         address.setServiceOrderId(model.getId());
         address.setAddressType(ServiceOrderAddress.ADDRESS_TYPE_SERVICE_TO);
-
         setAddress(model.getUser().getRawRecord().getAsProxy(User.class), address);
         address.save();
+
         ServiceOrderAddress billTo = Database.getTable(ServiceOrderAddress.class).newRecord();
         billTo.setServiceOrderId(model.getId());
         billTo.setAddressType(ServiceOrderAddress.ADDRESS_TYPE_BILL_TO);
-
         setAddress(model.getUser().getRawRecord().getAsProxy(User.class), billTo);
         billTo.save();
     }

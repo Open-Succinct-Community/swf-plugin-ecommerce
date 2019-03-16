@@ -25,8 +25,8 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     @PARTICIPANT
     @HIDDEN
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
-    public long getUserId();
-    public void setUserId(long  id);
+    public Long getUserId();
+    public void setUserId(Long  id);
     public User getUser();
 
     @IS_NULLABLE

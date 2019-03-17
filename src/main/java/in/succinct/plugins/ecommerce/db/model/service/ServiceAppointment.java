@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
@@ -19,9 +20,11 @@ public interface ServiceAppointment extends Model {
     public ServiceOrder getServiceOrder();
 
 
+    @IS_NULLABLE(false)
     public Timestamp getEarliestBy();
     public void setEarliestBy(Timestamp start);
 
+    @IS_NULLABLE(false)
     public Timestamp getLatestBy();
     public void setLatestBy(Timestamp end);
 

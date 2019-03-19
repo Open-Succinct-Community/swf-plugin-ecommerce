@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks;
 
 import com.venky.core.date.DateUtils;
+import com.venky.extension.Registry;
 import com.venky.swf.plugins.background.core.AsyncTaskManager;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTask;
@@ -26,6 +27,7 @@ public class AcknowledgeOrderTask implements Task, AgentSeederTaskBuilder  {
     @Override
     public void execute() {
         if (this.order != null){
+            Registry.instance().callExtensions("order.before.acknowledge",order);
             order.acknowledge();
         }
     }

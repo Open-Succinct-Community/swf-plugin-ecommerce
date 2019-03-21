@@ -26,7 +26,7 @@ public interface Sku extends Model,Container{
 
 	@PARTICIPANT(redundant = true)
 	@UNIQUE_KEY("SKU2")
-	@PROTECTION(Kind.NON_EDITABLE)
+	//@PROTECTION(Kind.NON_EDITABLE)
 	public long getItemId();
 	public void setItemId(long id);
 	public Item getItem();

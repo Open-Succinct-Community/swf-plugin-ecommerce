@@ -82,6 +82,7 @@ public interface Sku extends Model,Container{
 
 	public List<Inventory> getInventory();
 
+	@COLUMN_DEF(StandardDefault.ZERO)
     public double getMaxRetailPrice();
     public void setMaxRetailPrice(double sellingPrice);
 

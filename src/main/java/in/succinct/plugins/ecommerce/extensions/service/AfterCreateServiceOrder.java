@@ -71,5 +71,12 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
                 latest.setEmail(email.getEmail());
             }
         }
+        if (owner.getReflector().isVoid(latest.getCountryId()) ||
+                owner.getReflector().isVoid(latest.getCityId()) ||
+                owner.getReflector().isVoid(latest.getStateId()) ||
+                owner.getReflector().isVoid(latest.getAddressLine1()) ||
+                owner.getReflector().isVoid(latest.getFirstName())){
+            throw new RuntimeException("Please update address on your profile first.");
+        }
     }
 }

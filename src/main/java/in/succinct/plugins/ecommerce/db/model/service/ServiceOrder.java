@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.service;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
+import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
@@ -10,6 +11,7 @@ import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.User;
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntity;
@@ -18,7 +20,10 @@ import java.util.List;
 
 
 @MENU("Fulfillment")
-public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,ServiceOrderAddress,ServiceOrderPrint> , Model {
+public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,ServiceOrderAddress,ServiceOrderPrint> , Model , CompanySpecific {
+    @UNIQUE_KEY
+    public long getId();
+
     public String getReference();
     public void setReference(String reference);
 
@@ -36,11 +41,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     @IS_VIRTUAL
     public String getOrderNumber();
-
-    @PARTICIPANT
-    public long getCompanyId();
-    public void setCompanyId(long id);
-    public Company getCompany();
 
 
     public static final String FULFILLMENT_STATUS_OPEN = "OPEN";

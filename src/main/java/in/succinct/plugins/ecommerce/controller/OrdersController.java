@@ -1,6 +1,5 @@
 package in.succinct.plugins.ecommerce.controller;
 
-import com.venky.core.util.ObjectUtil;
 import com.venky.swf.controller.ModelController;
 import com.venky.swf.controller.annotations.SingleRecordAction;
 import com.venky.swf.db.Database;
@@ -12,7 +11,6 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
-import in.succinct.plugins.ecommerce.agents.order.tasks.manifest.ManifestOrderAgent;
 import in.succinct.plugins.ecommerce.agents.order.tasks.pack.PacklistPrintTask;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
@@ -37,7 +35,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.acknowledge();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -48,7 +46,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.reject();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -65,7 +63,7 @@ public class OrdersController extends ModelController<Order> {
 
 	
 	@Override
-	protected Map<Class<? extends Model>, List<String>> getIncludedChildModelFields() {
+	protected Map<Class<? extends Model>, List<String>> getIncludedModelFields() {
 		Map<Class<? extends Model>,List<String>> map =  new HashMap<>();
 		map.put(OrderLine.class, null);
 		//map.put(OrderAttribute.class, null);
@@ -80,7 +78,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.pack();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -123,7 +121,7 @@ public class OrdersController extends ModelController<Order> {
 
         TaskManager.instance().executeAsync(tasks,false);
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(),  Database.getTable(Order.class).get(orderId),null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(),  Database.getTable(Order.class).get(orderId),null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }

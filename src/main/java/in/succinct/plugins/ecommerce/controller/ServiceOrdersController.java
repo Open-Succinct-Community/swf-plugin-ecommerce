@@ -7,7 +7,6 @@ import com.venky.swf.path.Path;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder;
-import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder.CancelReason;
 
 public class ServiceOrdersController extends ModelController<ServiceOrder> {
     public ServiceOrdersController(Path path) {
@@ -29,7 +28,7 @@ public class ServiceOrdersController extends ModelController<ServiceOrder> {
         ServiceOrder order = Database.getTable(ServiceOrder.class).get(id);
         order.cancel();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -40,7 +39,7 @@ public class ServiceOrdersController extends ModelController<ServiceOrder> {
         ServiceOrder order = Database.getTable(ServiceOrder.class).get(id);
         order.reject();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }

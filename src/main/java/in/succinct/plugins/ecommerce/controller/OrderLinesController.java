@@ -20,7 +20,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 		OrderLine ol = Database.getTable(OrderLine.class).get(orderLineId);
 		ol.acknowledge();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), ol,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), ol,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -31,7 +31,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
 		orderLine.reject(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), orderLine,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), orderLine,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -43,7 +43,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 		orderLine.pack(orderLine.getToPackQuantity());
         TaskManager.instance().executeAsync(new OrderStatusMonitor(orderLine.getOrderId()),false);
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), orderLine,null,getIgnoredParentModels(),getIncludedChildModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), orderLine,null,getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }

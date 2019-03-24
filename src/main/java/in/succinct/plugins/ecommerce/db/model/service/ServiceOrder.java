@@ -10,7 +10,7 @@ import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
-import com.venky.swf.db.model.User;
+import com.venky.swf.plugins.collab.db.model.user.User;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
@@ -27,7 +27,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public String getReference();
     public void setReference(String reference);
 
-    @PARTICIPANT
+    @PARTICIPANT("USER")
     @HIDDEN
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
     public Long getUserId();

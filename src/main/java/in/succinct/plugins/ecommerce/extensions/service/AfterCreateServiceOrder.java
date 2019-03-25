@@ -49,7 +49,8 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
             }
             latest.setLastName(lastName.toString());
         }
-
+        latest.setLat(owner.getLat());
+        latest.setLng(owner.getLng());
         latest.setAddressLine1(owner.getAddressLine1());
         latest.setAddressLine2(owner.getAddressLine2());
         latest.setAddressLine3(owner.getAddressLine3());
@@ -60,8 +61,6 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
         latest.setPinCodeId(owner.getPinCodeId());
         latest.setPhoneNumber(owner.getPhoneNumber());
         latest.setAlternatePhoneNumber(owner.getAlternatePhoneNumber());
-        latest.setLat(owner.getLat());
-        latest.setLng(owner.getLng());
         if (!ObjectUtil.isVoid(owner.getEmail())){
             latest.setEmail(owner.getEmail());
         }else {

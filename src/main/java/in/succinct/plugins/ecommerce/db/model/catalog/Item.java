@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.inventory.Container;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
@@ -19,14 +20,10 @@ import com.venky.swf.sql.Select;
 import java.util.List;
 
 @MENU("Catalog")
-public interface Item extends Container, Model{
-	@PARTICIPANT
-	@UNIQUE_KEY
+public interface Item extends Container, Model, CompanySpecific {
 	@PROTECTION(Kind.NON_EDITABLE)
 	public Long getCompanyId();
-	public void setCompanyId(Long id);
-	public Company getCompany();
-	
+
 	@UNIQUE_KEY
     @Index
 	public String getName(); 

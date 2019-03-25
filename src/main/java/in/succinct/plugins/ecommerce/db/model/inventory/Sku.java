@@ -10,6 +10,7 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
@@ -22,7 +23,7 @@ import java.util.List;
 
 
 
-public interface Sku extends Model,Container{
+public interface Sku extends Model,Container, CompanySpecific {
 
 	@PARTICIPANT(redundant = true)
 	@UNIQUE_KEY("SKU2")
@@ -33,10 +34,8 @@ public interface Sku extends Model,Container{
 
 	//*Denormalized from Item.
 	@UNIQUE_KEY("SKU")
-	@PARTICIPANT
 	@PROTECTION(Kind.NON_EDITABLE)
-	@IS_NULLABLE(false)
-	public long getCompanyId();
+	public Long getCompanyId();
 	public void setCompanyId(long  id);
 	public Company getCompany();
 

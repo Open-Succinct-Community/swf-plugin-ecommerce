@@ -1,5 +1,7 @@
 package in.succinct.plugins.ecommerce.extensions.participant;
 
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
+import com.venky.swf.plugins.collab.extensions.participation.CompanySpecificParticipantExtension;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -14,23 +16,14 @@ import com.venky.swf.sql.Operator;
 
 import java.util.List;
 
-public class SkuParticipantExtension extends ParticipantExtension<Sku>{
+public class SkuParticipantExtension extends CompanySpecificParticipantExtension<Sku> {
 	static  {
 		registerExtension(new SkuParticipantExtension());
 	}
 	@Override
 	protected List<Long> getAllowedFieldValues(User user, Sku partiallyFilledModel, String fieldName) {
 	    List<Long> ret = null;
-		if (fieldName.equals("COMPANY_ID")){
-		    ret = new SequenceSet<>();
-		    if (partiallyFilledModel.getCompanyId() > 0) {
-		        if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
-                    ret.add(partiallyFilledModel.getCompanyId());
-                }
-            }else {
-		        ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Company.class, user));
-            }
-		}else if (fieldName.equals("ITEM_ID")){
+		if (fieldName.equals("ITEM_ID")){
 		    ret = new SequenceSet<>();
 		    if (partiallyFilledModel.getItemId() > 0){
 		        if (partiallyFilledModel.getItem().isAccessibleBy(user)){
@@ -48,9 +41,11 @@ public class SkuParticipantExtension extends ParticipantExtension<Sku>{
 		}else if (fieldName.equals("WEIGHT_U_O_M_ID")) {
 			ModelReflector<UnitOfMeasure> ref = ModelReflector.instance(UnitOfMeasure.class);
 			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, "Weight")));
+		}else {
+			ret = super.getAllowedFieldValues(user,partiallyFilledModel,fieldName);
 		}
-				
-		return ret;
+
+		return  ret;
 	}
 
 }

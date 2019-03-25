@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
@@ -12,13 +13,9 @@ import com.venky.swf.db.model.Model;
 
 
 @MENU("Inventory")
-public interface Inventory extends Model{
-    @PARTICIPANT
+public interface Inventory extends Model, CompanySpecific {
     @HIDDEN
-    @IS_NULLABLE
-    public long getCompanyId();
-    public void setCompanyId(long id);
-    public Company getCompany();
+    public Long getCompanyId();
 
 	@PARTICIPANT(redundant =  true)
 	@UNIQUE_KEY

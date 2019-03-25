@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.extensions.participant;
 
+import com.venky.swf.plugins.collab.extensions.participation.CompanySpecificParticipantExtension;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
@@ -14,7 +15,7 @@ import com.venky.swf.sql.Operator;
 
 import java.util.List;
 
-public class InventoryParticipantExtension extends ParticipantExtension<Inventory>{
+public class InventoryParticipantExtension extends CompanySpecificParticipantExtension<Inventory> {
 	static  {
 		registerExtension(new InventoryParticipantExtension());
 	}
@@ -22,16 +23,7 @@ public class InventoryParticipantExtension extends ParticipantExtension<Inventor
 	protected List<Long> getAllowedFieldValues(User user, Inventory partiallyFilledModel, String fieldName) {
 	    List<Long> ret = null;
 
-		if (fieldName.equals("COMPANY_ID")){
-		    ret = new SequenceSet<>();
-		    if (partiallyFilledModel.getCompanyId()> 0){
-		        if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
-		            ret.add(partiallyFilledModel.getCompanyId());
-                }
-            }else {
-		        ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Company.class, user));
-            }
-		}else if (fieldName.equals("SKU_ID") ){
+		if (fieldName.equals("SKU_ID") ){
 		    ret = new SequenceSet<>();
 		    if (partiallyFilledModel.getSkuId() > 0) {
 		        if (partiallyFilledModel.getSku().isAccessibleBy(user)){
@@ -55,7 +47,9 @@ public class InventoryParticipantExtension extends ParticipantExtension<Inventor
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Facility.class, user, where));
                 }
             }
-		}
+		}else {
+		    ret = super.getAllowedFieldValues(user,partiallyFilledModel,fieldName);
+        }
 				
 		return ret;
 	}

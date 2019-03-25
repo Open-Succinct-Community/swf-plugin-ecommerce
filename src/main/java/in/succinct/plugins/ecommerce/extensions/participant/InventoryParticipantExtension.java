@@ -37,11 +37,11 @@ public class InventoryParticipantExtension extends CompanySpecificParticipantExt
             }
         }else if (fieldName.equals("FACILITY_ID") ) {
             ret = new SequenceSet<>();
-            if (partiallyFilledModel.getFacilityId() > 0) {
+            if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getFacilityId())) {
                 if (partiallyFilledModel.getFacility().isAccessibleBy(user)){
                     ret.add(partiallyFilledModel.getFacilityId());
                 }
-            }else if (partiallyFilledModel.getCompanyId()> 0){
+            }else if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getCompanyId())){
                 if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
                     Expression where = new Expression(ModelReflector.instance(Facility.class).getPool(),"COMPANY_ID",Operator.EQ,partiallyFilledModel.getCompanyId());
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Facility.class, user, where));

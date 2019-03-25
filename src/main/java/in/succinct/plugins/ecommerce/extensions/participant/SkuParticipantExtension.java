@@ -25,11 +25,11 @@ public class SkuParticipantExtension extends CompanySpecificParticipantExtension
 	    List<Long> ret = null;
 		if (fieldName.equals("ITEM_ID")){
 		    ret = new SequenceSet<>();
-		    if (partiallyFilledModel.getItemId() > 0){
+		    if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getItemId())){
 		        if (partiallyFilledModel.getItem().isAccessibleBy(user)){
 		            ret.add(partiallyFilledModel.getItemId());
                 }
-            }else if (partiallyFilledModel.getCompanyId()> 0){
+            }else if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getCompanyId())){
                 if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
                     Expression where = new Expression(ModelReflector.instance(Item.class).getPool(),"COMPANY_ID",Operator.EQ,partiallyFilledModel.getCompanyId());
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Item.class, user, where));

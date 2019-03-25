@@ -25,11 +25,11 @@ public class InventoryParticipantExtension extends CompanySpecificParticipantExt
 
 		if (fieldName.equals("SKU_ID") ){
 		    ret = new SequenceSet<>();
-		    if (partiallyFilledModel.getSkuId() > 0) {
+		    if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getSkuId() )) {
 		        if (partiallyFilledModel.getSku().isAccessibleBy(user)){
 		            ret.add(partiallyFilledModel.getSkuId());
                 }
-            }else if (partiallyFilledModel.getCompanyId()> 0){
+            }else if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getCompanyId())){
 		        if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
                     Expression where = new Expression(ModelReflector.instance(Sku.class).getPool(),"COMPANY_ID",Operator.EQ,partiallyFilledModel.getCompanyId());
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Sku.class, user, where));

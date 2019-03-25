@@ -1,16 +1,14 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
-import com.venky.swf.db.annotations.column.IS_VIRTUAL;
-import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
-import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
-
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -18,18 +16,16 @@ import java.util.Map;
 
 
 @MENU("Fulfillment")
-public interface Order extends Model {
+public interface Order extends Model, CompanySpecific {
     public String getReference();
     public void setReference(String reference);
 
     @IS_VIRTUAL
     public String getOrderNumber();
 
-    @PARTICIPANT
-    public long getCompanyId();
-    public void setCompanyId(long id);
-    public Company getCompany();
 
+    @UNIQUE_KEY
+    public long getId();
 
     public static final String FULFILLMENT_STATUS_DOWNLOADED = "DOWNLOADED";
     public static final String FULFILLMENT_STATUS_ACKNOWLEDGED = "ACKNOWLEDGED";

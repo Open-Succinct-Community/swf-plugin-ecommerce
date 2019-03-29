@@ -8,6 +8,8 @@ import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder;
 
+import java.util.List;
+
 public class ServiceOrdersController extends ModelController<ServiceOrder> {
     public ServiceOrdersController(Path path) {
         super(path);
@@ -45,5 +47,16 @@ public class ServiceOrdersController extends ModelController<ServiceOrder> {
         }
     }
 
+
+    public View cancel(){
+        if (getIntegrationAdaptor() != null){
+            List<ServiceOrder> orders = getIntegrationAdaptor().readRequest(getPath());
+            //We will get only Orders for cancellation. So No Status. Only ReasonCode and Remarks.
+            orders.forEach(o->{
+                o.cancel();
+            });
+        }
+        return getIntegrationAdaptor().createStatusResponse(getPath(),null, "Appointment has been cancelled.");
+    }
 
 }

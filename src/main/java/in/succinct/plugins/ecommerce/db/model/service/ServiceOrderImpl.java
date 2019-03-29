@@ -1,5 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
+import com.venky.core.util.ObjectUtil;
+import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntityImpl;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder.CancelReason;
 
@@ -20,17 +22,34 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrder,ServiceOrd
 
 
     public void reject() {
-        cancel(CancelReason.CANNOT_SERVICE.toString(),getProxy().getCompany().getName());
+        ServiceOrder order = getProxy();
+        if (ObjectUtil.isVoid(order.getCancellationReason())){
+            order.setCancellationReason(CancelReason.CANNOT_SERVICE.toString());
+        }
+        cancel(ServiceOrder.CANCELLATION_INITIATOR_COMPANY);
     }
     public void cancel() {
-        cancel(CancelReason.USER_CANCELLATION.toString(),ServiceOrder.CANCELLATION_INITIATOR_USER);
-    }
-    public void cancel(String reason, String initiator){
         ServiceOrder order = getProxy();
-        order.setFulfillmentStatus(ServiceOrder.FULFILLMENT_STATUS_CANCELLED);
-        order.setCancellationReason(reason);
-        order.setCancellationInitiatedBy(initiator);
-        order.save();
+        if (ObjectUtil.isVoid(order.getCancellationReason())){
+            order.setCancellationReason(CancelReason.USER_CANCELLATION.toString());
+        }
+        cancel(ServiceOrder.CANCELLATION_INITIATOR_USER);
+    }
+    public void cancel(String initiator){
+        ServiceOrder order = getProxy();
+        if (!ObjectUtil.equals(ServiceOrder.FULFILLMENT_STATUS_CANCELLED,order.getFulfillmentStatus())){
+            if (ObjectUtil.isVoid(order.getCancellationReason())){
+                throw new RuntimeException("Please provide us your reason for cancellation.");
+            }
+            if (ObjectUtil.equals(order.getCancellationReason(), CancelReason.OTHER.toString())){
+                if (ObjectUtil.isVoid(order.getRemarks())){
+                    throw new RuntimeException("It is mandatory to provide Remarks if your reason is not in the list.");
+                }
+            }
+            order.setFulfillmentStatus(ServiceOrder.FULFILLMENT_STATUS_CANCELLED);
+            order.setCancellationInitiatedBy(initiator);
+            order.save();
+        }
     }
 
     public void complete() {

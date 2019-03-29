@@ -16,6 +16,8 @@ import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntity;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 
@@ -60,7 +62,8 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     public static enum CancelReason{
         CANNOT_SERVICE,
-        USER_CANCELLATION
+        USER_CANCELLATION,
+        OTHER
     }
 
 
@@ -69,10 +72,13 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public String getFulfillmentStatus();
     public void setFulfillmentStatus(String status);
 
-    @Enumeration(" ,CANNOT_SERVICE,USER_CANCELLATION")
+    @Enumeration(" ,CANNOT_SERVICE,USER_CANCELLATION,OTHER")
     @COLUMN_DEF(value = StandardDefault.SOME_VALUE,args = " ")
     public String getCancellationReason();
     public void setCancellationReason(String reason);
+
+    public String getRemarks();
+    public void setRemarks(String  remarks);
 
     @PARTICIPANT(redundant = true)
     public long getServiceId();
@@ -113,5 +119,15 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     public String getDescription();
     public void setDescription(String description);
+
+
+    @IS_VIRTUAL
+    public Timestamp getAppointmentStart();
+    public void setAppointmentStart(Timestamp date);
+
+
+    @IS_VIRTUAL
+    public Timestamp getAppointmentEnd();
+    public void setAppointmentEnd(Timestamp date);
 
 }

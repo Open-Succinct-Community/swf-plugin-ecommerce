@@ -120,14 +120,4 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public String getDescription();
     public void setDescription(String description);
 
-
-    @IS_VIRTUAL
-    public Timestamp getAppointmentStart();
-    public void setAppointmentStart(Timestamp date);
-
-
-    @IS_VIRTUAL
-    public Timestamp getAppointmentEnd();
-    public void setAppointmentEnd(Timestamp date);
-
 }

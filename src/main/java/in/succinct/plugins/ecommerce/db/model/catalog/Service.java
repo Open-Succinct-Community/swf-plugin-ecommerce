@@ -12,6 +12,7 @@ import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.User;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
+import in.succinct.plugins.ecommerce.db.model.service.ServiceCancellationReason;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceResource;
 
 import java.util.List;
@@ -32,6 +33,7 @@ public interface Service extends Model, CompanySpecific {
     public double getTaxRate();
     public void setTaxRate(double taxRate);
 
+    public List<ServiceCancellationReason> getServiceCancellationReasons();
     public List<ServiceResource> getServiceResources();
 
 

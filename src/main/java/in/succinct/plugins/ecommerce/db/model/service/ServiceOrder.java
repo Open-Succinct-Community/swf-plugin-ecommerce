@@ -51,6 +51,9 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public static final String FULFILLMENT_STATUS_COMPLETE = "COMPLETED";
     public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
 
+    @IS_VIRTUAL
+    public boolean isOpen();
+
 
     public static enum ServiceStatus {
         OPEN,
@@ -60,22 +63,15 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
         CANCELLED,
     }
 
-    public static enum CancelReason{
-        CANNOT_SERVICE,
-        USER_CANCELLATION,
-        OTHER
-    }
-
 
     @Enumeration(FULFILLMENT_STATUS_OPEN + "," + FULFILLMENT_STATUS_APPOINTMENT_PLANNED + "," + FULFILLMENT_STATUS_SERVICE_ATTEMPTED + "," + FULFILLMENT_STATUS_COMPLETE +"," + FULFILLMENT_STATUS_CANCELLED)
     @COLUMN_DEF(value=StandardDefault.SOME_VALUE,args= FULFILLMENT_STATUS_OPEN)
     public String getFulfillmentStatus();
     public void setFulfillmentStatus(String status);
 
-    @Enumeration(" ,CANNOT_SERVICE,USER_CANCELLATION,OTHER")
-    @COLUMN_DEF(value = StandardDefault.SOME_VALUE,args = " ")
-    public String getCancellationReason();
-    public void setCancellationReason(String reason);
+    public Long getCancellationReasonId();
+    public void setCancellationReasonId(Long id);
+    public ServiceCancellationReason getCancellationReason();
 
     public String getRemarks();
     public void setRemarks(String  remarks);

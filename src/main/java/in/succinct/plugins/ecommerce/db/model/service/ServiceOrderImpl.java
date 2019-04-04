@@ -1,12 +1,8 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
 import com.venky.core.util.ObjectUtil;
-import com.venky.swf.db.annotations.column.IS_VIRTUAL;
-import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntityImpl;
-import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder.CancelReason;
 
-import java.sql.Timestamp;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,26 +22,36 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrder,ServiceOrd
     public void reject() {
         ServiceOrder order = getProxy();
         if (ObjectUtil.isVoid(order.getCancellationReason())){
-            order.setCancellationReason(CancelReason.CANNOT_SERVICE.toString());
+            for (ServiceCancellationReason reason : order.getService().getServiceCancellationReasons()){
+                if (ObjectUtil.equals(reason.getInitiator(),ServiceOrder.CANCELLATION_INITIATOR_COMPANY) && reason.isDefaultReason()){
+                    order.setCancellationReasonId(reason.getId());
+                    break;
+                }
+            }
         }
         cancel(ServiceOrder.CANCELLATION_INITIATOR_COMPANY);
     }
     public void cancel() {
         ServiceOrder order = getProxy();
         if (ObjectUtil.isVoid(order.getCancellationReason())){
-            order.setCancellationReason(CancelReason.USER_CANCELLATION.toString());
+            for (ServiceCancellationReason reason : order.getService().getServiceCancellationReasons()){
+                if (ObjectUtil.equals(reason.getInitiator(),ServiceOrder.CANCELLATION_INITIATOR_USER) && reason.isDefaultReason()){
+                    order.setCancellationReasonId(reason.getId());
+                    break;
+                }
+            }
         }
         cancel(ServiceOrder.CANCELLATION_INITIATOR_USER);
     }
     public void cancel(String initiator){
         ServiceOrder order = getProxy();
         if (!ObjectUtil.equals(ServiceOrder.FULFILLMENT_STATUS_CANCELLED,order.getFulfillmentStatus())){
-            if (ObjectUtil.isVoid(order.getCancellationReason())){
+            if (ObjectUtil.isVoid(order.getCancellationReasonId())){
                 throw new RuntimeException("Please provide us your reason for cancellation.");
             }
-            if (ObjectUtil.equals(order.getCancellationReason(), CancelReason.OTHER.toString())){
+            if (order.getCancellationReason().isRemarksRequired()){
                 if (ObjectUtil.isVoid(order.getRemarks())){
-                    throw new RuntimeException("It is mandatory to provide Remarks if your reason is not in the list.");
+                    throw new RuntimeException("Please provide with additional remarks.");
                 }
             }
             order.setFulfillmentStatus(ServiceOrder.FULFILLMENT_STATUS_CANCELLED);
@@ -61,6 +67,16 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrder,ServiceOrd
             pendingAttempts.get(0).success();
         }else {
             throw new RuntimeException("No Appointment to close out");
+        }
+    }
+
+    public boolean isOpen(){
+        switch (getProxy().getFulfillmentStatus()){
+            case ServiceOrder.FULFILLMENT_STATUS_CANCELLED:
+            case ServiceOrder.FULFILLMENT_STATUS_COMPLETE:
+                return true;
+            default:
+                return false;
         }
     }
 }

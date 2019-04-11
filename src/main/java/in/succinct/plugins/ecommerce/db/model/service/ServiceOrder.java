@@ -7,6 +7,8 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
+import com.venky.swf.db.annotations.column.ui.PROTECTION;
+import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
@@ -30,7 +32,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setReference(String reference);
 
     @PARTICIPANT("USER")
-    @HIDDEN
+    @PROTECTION(Kind.NON_EDITABLE)
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
     public Long getUserId();
     public void setUserId(Long  id);
@@ -90,8 +92,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     public List<ServiceOrderAttribute> getAttributes();
 
-    public List<ServiceAppointment> getServiceAttempts();
-
     public void reject();
     public void cancel();
     public void cancel(String reason, String initiator);
@@ -115,5 +115,14 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     public String getDescription();
     public void setDescription(String description);
+
+
+    @IS_NULLABLE(true)
+    public Timestamp getEarliestBy();
+    public void setEarliestBy(Timestamp start);
+
+    @IS_NULLABLE(true)
+    public Timestamp getLatestBy();
+    public void setLatestBy(Timestamp end);
 
 }

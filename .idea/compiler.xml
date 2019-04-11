@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="ecommerce" />
+        <module name="reflection" />
         <module name="swf" />
         <module name="swf-db" />
         <module name="swf-db-io-xls" />

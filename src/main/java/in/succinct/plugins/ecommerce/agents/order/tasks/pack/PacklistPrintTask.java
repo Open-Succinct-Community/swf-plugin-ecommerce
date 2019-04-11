@@ -51,9 +51,11 @@ public class PacklistPrintTask extends EntityTask<Order> {
         prints.forEach(p->printMap.put(p.getDocumentType(),p));
 
         //.stream().filter(op->op.getDocumentType().equals(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL)).collect(Collectors.toList());
+        /*
         if (printMap.get(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL) == null) {
             new ShipWebServiceClient(order).ship();
         }
+        */
         if (printMap.get(OrderPrint.DOCUMENT_TYPE_PACK_SLIP) == null){
             Html html = new Html();
             Head head = new Head();

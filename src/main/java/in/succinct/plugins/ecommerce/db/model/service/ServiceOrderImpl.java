@@ -1,8 +1,10 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
+import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.ObjectUtil;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedEntityImpl;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,26 +59,23 @@ public class ServiceOrderImpl extends ExtendedEntityImpl<ServiceOrder,ServiceOrd
             order.setFulfillmentStatus(ServiceOrder.FULFILLMENT_STATUS_CANCELLED);
             order.setCancellationInitiatedBy(initiator);
             order.save();
+
         }
     }
 
     public void complete() {
         ServiceOrder order = getProxy();
-        List<ServiceAppointment> pendingAttempts = order.getServiceAttempts().stream().filter(a->a.isPending()).collect(Collectors.toList());
-        if (pendingAttempts.size() == 1){
-            pendingAttempts.get(0).success();
-        }else {
-            throw new RuntimeException("No Appointment to close out");
-        }
+        order.setFulfillmentStatus(ServiceOrder.FULFILLMENT_STATUS_COMPLETE);
+        order.save();
     }
 
     public boolean isOpen(){
         switch (getProxy().getFulfillmentStatus()){
             case ServiceOrder.FULFILLMENT_STATUS_CANCELLED:
             case ServiceOrder.FULFILLMENT_STATUS_COMPLETE:
-                return true;
-            default:
                 return false;
+            default:
+                return true;
         }
     }
 }

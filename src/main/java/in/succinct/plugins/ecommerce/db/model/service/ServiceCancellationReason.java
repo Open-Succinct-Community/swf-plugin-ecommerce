@@ -1,10 +1,21 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
+import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
+import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 
+@HAS_DESCRIPTION_FIELD("REASON")
+@ORDER_BY("SEQUENCE,ID")
 public interface ServiceCancellationReason extends Model {
+
+    @COLUMN_DEF(StandardDefault.ZERO)
+    public int getSequence();
+    public void setSequence(int sequence);
+
     public Long getServiceId();
     public void setServiceId(Long id);
     public Service getService();

@@ -59,14 +59,12 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     public static enum ServiceStatus {
         OPEN,
-        APPOINTMENT_PLANNED,
-        SERVICE_ATTEMPTED,
         COMPLETED,
         CANCELLED,
     }
 
 
-    @Enumeration(FULFILLMENT_STATUS_OPEN + "," + FULFILLMENT_STATUS_APPOINTMENT_PLANNED + "," + FULFILLMENT_STATUS_SERVICE_ATTEMPTED + "," + FULFILLMENT_STATUS_COMPLETE +"," + FULFILLMENT_STATUS_CANCELLED)
+    @Enumeration(FULFILLMENT_STATUS_OPEN + "," + FULFILLMENT_STATUS_COMPLETE +"," + FULFILLMENT_STATUS_CANCELLED)
     @COLUMN_DEF(value=StandardDefault.SOME_VALUE,args= FULFILLMENT_STATUS_OPEN)
     public String getFulfillmentStatus();
     public void setFulfillmentStatus(String status);
@@ -82,10 +80,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public long getServiceId();
     public void setServiceId(long id);
     public Service getService();
-
-    @IS_NULLABLE
-    public Double getSellingPrice();
-    public void setSellingPrice(Double price);
 
 
     public List<ServiceOrderAddress> getAddresses();

@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
@@ -16,6 +17,7 @@ public interface ServiceCancellationReason extends Model {
     public int getSequence();
     public void setSequence(int sequence);
 
+    @UNIQUE_KEY
     public Long getServiceId();
     public void setServiceId(Long id);
     public Service getService();
@@ -28,6 +30,7 @@ public interface ServiceCancellationReason extends Model {
     public boolean isDefaultReason();
     public void setDefaultReason(boolean defaultReason);
 
+    @UNIQUE_KEY
     public String getReason();
     public void setReason(String reason);
 

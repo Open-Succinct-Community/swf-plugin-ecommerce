@@ -34,6 +34,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     @PARTICIPANT("USER")
     @PROTECTION(Kind.NON_EDITABLE)
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
+    @IS_NULLABLE(false)
     public Long getUserId();
     public void setUserId(Long  id);
     public User getUser();

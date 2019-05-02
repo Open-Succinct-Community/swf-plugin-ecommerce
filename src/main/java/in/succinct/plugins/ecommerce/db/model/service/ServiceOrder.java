@@ -49,8 +49,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
 
     public static final String FULFILLMENT_STATUS_OPEN = "OPEN";
-    public static final String FULFILLMENT_STATUS_APPOINTMENT_PLANNED = "APPOINTMENT_PLANNED";
-    public static final String FULFILLMENT_STATUS_SERVICE_ATTEMPTED = "SERVICE_ATTEMPTED";
     public static final String FULFILLMENT_STATUS_COMPLETE = "COMPLETED";
     public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
 

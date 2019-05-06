@@ -15,6 +15,7 @@
         <module name="swf-plugin-calendar" />
         <module name="swf-plugin-collab" />
         <module name="swf-plugin-mail" />
+        <module name="swf-plugin-survey" />
         <module name="swf-plugin-wiki" />
         <module name="wiggles" />
       </profile>

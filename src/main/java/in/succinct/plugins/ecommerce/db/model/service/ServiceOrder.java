@@ -5,6 +5,7 @@ import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
+import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
@@ -35,6 +36,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     @PROTECTION(Kind.NON_EDITABLE)
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
     @IS_NULLABLE(false)
+    @Index
     public Long getUserId();
     public void setUserId(Long  id);
     public User getUser();
@@ -65,6 +67,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
     @Enumeration(FULFILLMENT_STATUS_OPEN + "," + FULFILLMENT_STATUS_COMPLETE +"," + FULFILLMENT_STATUS_CANCELLED)
     @COLUMN_DEF(value=StandardDefault.SOME_VALUE,args= FULFILLMENT_STATUS_OPEN)
+    @Index
     public String getFulfillmentStatus();
     public void setFulfillmentStatus(String status);
 

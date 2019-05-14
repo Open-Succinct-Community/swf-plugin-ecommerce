@@ -1,20 +1,16 @@
 package in.succinct.plugins.ecommerce.extensions.inventory;
 
-import com.venky.core.util.ObjectUtil;
-import com.venky.swf.db.extensions.BeforeModelCreateExtension;
+import com.venky.swf.db.extensions.AfterModelCreateExtension;
 import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import org.json.simple.JSONObject;
 
-public class BeforeCreateAdjustmentRequest extends BeforeModelCreateExtension<AdjustmentRequest> {
+public class AfterCreateAdjustmentRequest extends AfterModelCreateExtension<AdjustmentRequest> {
 
     static {
-        registerExtension(new BeforeCreateAdjustmentRequest());
+        registerExtension(new AfterCreateAdjustmentRequest());
     }
     @Override
-    public void beforeCreate(AdjustmentRequest model) {
-        if (ObjectUtil.isVoid(model.getComment())){
-            throw new RuntimeException("Comment cannot be blank!");
-        }
+    public void afterCreate(AdjustmentRequest model) {
         JSONObject comments = new JSONObject();
         comments.put("Comment",model.getComment());
         comments.put("AdjustmentRequestId",model.getId());

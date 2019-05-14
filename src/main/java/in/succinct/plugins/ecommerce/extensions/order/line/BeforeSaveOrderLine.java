@@ -11,6 +11,7 @@ import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
+import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
 
@@ -85,8 +86,11 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             double newShippedQty = orderLine.getShippedQuantity();
             double qtyShippedNow = newShippedQty - oldShippedQty;
 			Inventory inventory = orderLine.getInventory(true);
-			if (inventory != null ) { 
-				inventory.setQuantity(inventory.getQuantity() - qtyShippedNow);
+			if (inventory != null ) {
+				JSONObject object = new JSONObject();
+				object.put("OrderLineId",orderLine.getId());
+				object.put("OrderId",orderLine.getOrderId());
+				inventory.adjust(-1.0D * qtyShippedNow,object.toString());
 				inventory.save();
 			}
             tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow));

@@ -21,39 +21,14 @@ public class AdjustInventoryTask implements Task{
     private String skuName;
     private String facilityName;
     private double quantity;
+    private String comment;
 
-    @Override
-    public String toString() {
-        return getClass().getSimpleName() +"{" +
-                "companyName='" + companyName + '\'' +
-                ", skuName='" + skuName + '\'' +
-                ", facilityName='" + facilityName + '\'' +
-                ", quantity=" + quantity +
-                '}';
-    }
-    @Override
-    public int hashCode(){
-        return toString().hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        AdjustInventoryTask that = (AdjustInventoryTask) o;
-
-        if (Double.compare(that.quantity, quantity) != 0) return false;
-        if (companyName != null ? !companyName.equals(that.companyName) : that.companyName != null) return false;
-        if (skuName != null ? !skuName.equals(that.skuName) : that.skuName != null) return false;
-        return facilityName != null ? facilityName.equals(that.facilityName) : that.facilityName == null;
-    }
-
-    public AdjustInventoryTask(String companyName, String skuName, String facilityName, double quantity){
+    public AdjustInventoryTask(String companyName, String skuName, String facilityName, double quantity, String comment){
         this.companyName = companyName;
         this.skuName = skuName;
         this.facilityName = facilityName;
         this.quantity = quantity;
+        this.comment = comment;
     }
     @Override
     public void execute() {
@@ -108,7 +83,6 @@ public class AdjustInventoryTask implements Task{
         }else {
             throw new RuntimeException("Cannot find inventory record uniquely:" + toString());
         }
-        inventory.setQuantity(quantity);
-        inventory.save();
+        inventory.adjust(quantity,comment);
     }
 }

@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks.pack;
 
 import com.venky.core.math.DoubleHolder;
+import com.venky.core.string.StringUtil;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
@@ -240,14 +241,14 @@ public class PacklistPrintTask extends EntityTask<Order> {
     }
 
     private void fillAddress(Table table, Address address) {
-        table.createRow().createColumn().setText(address.getAddressLine1());
-        table.createRow().createColumn().setText(address.getAddressLine2());
-        table.createRow().createColumn().setText(address.getAddressLine3());
-        table.createRow().createColumn().setText(address.getAddressLine4());
+        table.createRow().createColumn().setText(StringUtil.valueOf(address.getAddressLine1()));
+        table.createRow().createColumn().setText(StringUtil.valueOf(address.getAddressLine2()));
+        table.createRow().createColumn().setText(StringUtil.valueOf(address.getAddressLine3()));
+        table.createRow().createColumn().setText(StringUtil.valueOf(address.getAddressLine4()));
         table.createRow().createColumn().setText(address.getCity().getName());
         table.createRow().createColumn().setText(address.getState().getName() + " - "  + address.getPinCode().getPinCode());
         table.createRow().createColumn().setText(address.getCountry().getName());
-        table.createRow().createColumn().setText("Tel: " + address.getPhoneNumber());
+        table.createRow().createColumn().setText("Tel: " + StringUtil.valueOf(address.getPhoneNumber()));
     }
     private Div createCourierBarCode(String courier, String trackingNumberLiteral, String trackingNumber) {
         Div barcode = new Div();

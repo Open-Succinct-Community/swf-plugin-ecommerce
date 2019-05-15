@@ -121,6 +121,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
             header.createColumn().setText("SELLING PRICE");
 
 
+            Bucket quantity = new Bucket();
             order.getOrderLines().forEach(ol->{
                 Row row = lines.createRow();
                 Sku sku = ol.getSku();
@@ -130,6 +131,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
                 qty.addClass("numeric");
                 qty.setText((String.valueOf(ol.getPackedQuantity())));
 
+                quantity.increment(ol.getPackedQuantity());
                 Column price = row.createColumn();
                 price.addClass("numeric");
                 price.setText(String.valueOf(new DoubleHolder(ol.getPrice(),2).getHeldDouble().doubleValue()));
@@ -154,9 +156,12 @@ public class PacklistPrintTask extends EntityTask<Order> {
             });
 
             Row total = lines.createRow();
-            Column column = total.createColumn(2);
+            Column column = total.createColumn(1);
             column.setText("TOTAL");
-            column.addClass("numeric");
+
+            Column colQty = total.createColumn(1);
+            colQty.setText(String.valueOf(quantity.doubleValue()));
+            colQty.addClass("numeric");
 
             Column price = total.createColumn();
             price.setText(String.valueOf(new DoubleHolder(order.getPrice(),2).getHeldDouble().doubleValue()));

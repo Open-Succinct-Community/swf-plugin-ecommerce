@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.agents.order.tasks.pack;
 
 import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.Bucket;
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.routing.Config;
@@ -98,10 +99,10 @@ public class PacklistPrintTask extends EntityTask<Order> {
             String trackingNumber = order.getAttribute("tracking_number").getValue();
             long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
 
-
-            Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);
-
-            barcodes.createColumn().addControl(courierBarCode);
+            if (!ObjectUtil.isVoid(trackingNumber)){
+                Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);
+                barcodes.createColumn().addControl(courierBarCode);
+            }
 
             Table lines = new Table();
             lines.addClass("orderlines");

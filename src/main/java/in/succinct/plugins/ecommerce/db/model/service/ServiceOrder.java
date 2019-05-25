@@ -55,6 +55,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
 
     @IS_VIRTUAL
+    @HIDDEN
     public boolean isOpen();
 
 

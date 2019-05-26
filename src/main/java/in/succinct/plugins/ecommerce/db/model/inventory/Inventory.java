@@ -7,6 +7,7 @@ import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
+import in.succinct.plugins.ecommerce.db.model.demand.Demand;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.List;
@@ -35,6 +36,7 @@ public interface Inventory extends Model, CompanySpecific {
 
 	List<AdjustmentRequest> getAdjustmentRequests();
 	List<InventoryAudit> getAudits();
+	List<Demand> getDemands();
 
 	public void adjust(double delta,String comment);
 

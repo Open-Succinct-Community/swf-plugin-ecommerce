@@ -6,8 +6,10 @@ import com.venky.swf.db.annotations.column.COLUMN_NAME;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedAddress;
+@EXPORTABLE(false)
 
 public interface ServiceOrderAddress extends Model, ExtendedAddress {
 	@UNIQUE_KEY

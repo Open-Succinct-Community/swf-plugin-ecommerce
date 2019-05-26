@@ -4,11 +4,13 @@ import com.venky.swf.db.annotations.column.COLUMN_NAME;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedPrint;
 
 import java.io.InputStream;
+@EXPORTABLE(false)
 
 public interface ServiceOrderPrint extends ExtendedPrint , Model{
 	@UNIQUE_KEY

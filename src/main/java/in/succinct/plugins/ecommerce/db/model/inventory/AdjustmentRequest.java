@@ -3,8 +3,10 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.validations.MinLength;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
 
+@EXPORTABLE(false)
 public interface AdjustmentRequest extends Model {
     @HIDDEN
     public long getInventoryId();

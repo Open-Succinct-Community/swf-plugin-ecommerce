@@ -2,7 +2,9 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
+@EXPORTABLE(false)
 
 public interface OrderLineUnitNumber extends Model{
 	@UNIQUE_KEY

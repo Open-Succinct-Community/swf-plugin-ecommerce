@@ -2,9 +2,11 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
 
 import java.sql.Timestamp;
+@EXPORTABLE(false)
 
 public interface OrderStatus extends Model {
     @UNIQUE_KEY

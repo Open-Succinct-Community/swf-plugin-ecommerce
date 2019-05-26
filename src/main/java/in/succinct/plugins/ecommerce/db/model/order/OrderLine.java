@@ -12,6 +12,7 @@ import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
@@ -23,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 
 @ORDER_BY("ID")
+@EXPORTABLE(false)
+
 public interface OrderLine extends Model {
 	@UNIQUE_KEY("K1")
 	@PARTICIPANT

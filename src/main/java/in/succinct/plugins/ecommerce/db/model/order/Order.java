@@ -7,6 +7,7 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 
 @MENU("Fulfillment")
+@EXPORTABLE(false)
+
 public interface Order extends Model, CompanySpecific {
     public String getReference();
     public void setReference(String reference);

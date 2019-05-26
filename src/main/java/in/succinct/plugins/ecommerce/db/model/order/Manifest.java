@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.EXPORTABLE;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
@@ -15,6 +16,8 @@ import java.io.InputStream;
 import java.sql.Timestamp;
 
 @MENU("Fulfillment")
+@EXPORTABLE(false)
+
 public interface Manifest extends Model {
 	public String getManifestNumber();
 	public void setManifestNumber(String number);

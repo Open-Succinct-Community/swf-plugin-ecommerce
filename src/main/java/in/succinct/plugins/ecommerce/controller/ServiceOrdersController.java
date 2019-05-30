@@ -27,6 +27,17 @@ public class ServiceOrdersController extends ModelController<ServiceOrder> {
         }
     }
 
+    @SingleRecordAction(icon = "glyphicon-thumbs-up" , tooltip = "Complete")
+    public View complete(long id) {
+        ServiceOrder order = Database.getTable(ServiceOrder.class).get(id);
+        order.complete();
+        if (getIntegrationAdaptor() != null) {
+            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+        }else {
+            return back();
+        }
+    }
+
     @SingleRecordAction(icon = "glyphicon-thumbs-down" , tooltip = "Reject")
     public View reject(long id) {
         ServiceOrder order = Database.getTable(ServiceOrder.class).get(id);

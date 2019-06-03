@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.demand;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
+import com.venky.swf.db.annotations.model.MENU;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import com.venky.core.util.Bucket;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
@@ -11,6 +12,7 @@ import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 @EXPORTABLE(false)
+@MENU("Inventory")
 public interface Demand extends Model{
     @UNIQUE_KEY
     @HIDDEN

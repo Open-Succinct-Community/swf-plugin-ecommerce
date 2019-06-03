@@ -5,12 +5,14 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
+import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 
 @HAS_DESCRIPTION_FIELD("REASON")
 @ORDER_BY("SEQUENCE,ID")
+@MENU("Catalog")
 public interface ServiceCancellationReason extends Model {
 
     @COLUMN_DEF(StandardDefault.ZERO)

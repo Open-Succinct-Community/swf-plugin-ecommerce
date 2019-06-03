@@ -27,7 +27,6 @@ import java.util.List;
 
 @MENU("Fulfillment")
 @EXPORTABLE(false)
-
 public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,ServiceOrderAddress,ServiceOrderPrint> , Model , CompanySpecific {
     @UNIQUE_KEY
     public long getId();
@@ -124,5 +123,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     @IS_NULLABLE(true)
     public Timestamp getLatestBy();
     public void setLatestBy(Timestamp end);
+
 
 }

@@ -8,6 +8,7 @@ import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
@@ -22,7 +23,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 
-
+@MENU("Inventory")
 public interface Sku extends Model,Container, CompanySpecific {
 
 	@PARTICIPANT(redundant = true)

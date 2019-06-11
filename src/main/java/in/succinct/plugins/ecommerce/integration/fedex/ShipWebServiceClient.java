@@ -307,6 +307,8 @@ public class ShipWebServiceClient {
         Weight weight = new Weight();
         weight.setUnits(weightUnits);
         weight.setValue(new BigDecimal(packageWeight));
+        cat.info("Package Weight  = " + packageWeight) ;
+
         return weight;
     }
 
@@ -718,6 +720,7 @@ public class ShipWebServiceClient {
         }else {
             //throw new RuntimeException("HSN Code not configured for item " + ol.getSku().getItem().getName());
         }
+        cat.info("Commodity Weight " + ol.getId() + " = " +commodity.getWeight()) ;
 
         return commodity;
     }

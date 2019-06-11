@@ -306,7 +306,7 @@ public class ShipWebServiceClient {
     private Weight addPackageWeight(Double packageWeight, WeightUnits weightUnits) {
         Weight weight = new Weight();
         weight.setUnits(weightUnits);
-        weight.setValue(new BigDecimal(packageWeight));
+        weight.setValue(new DoubleHolder(packageWeight,3).getHeldDouble());
         cat.info("Package Weight  = " + packageWeight) ;
 
         return weight;

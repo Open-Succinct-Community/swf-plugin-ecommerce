@@ -720,7 +720,7 @@ public class ShipWebServiceClient {
         }else {
             //throw new RuntimeException("HSN Code not configured for item " + ol.getSku().getItem().getName());
         }
-        cat.info("Commodity Weight " + ol.getId() + " = " +commodity.getWeight()) ;
+        cat.info("Commodity Weight " + ol.getId() + " = " +wt.doubleValue()) ;
 
         return commodity;
     }

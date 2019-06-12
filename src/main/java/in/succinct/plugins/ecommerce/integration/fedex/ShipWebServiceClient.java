@@ -174,7 +174,7 @@ public class ShipWebServiceClient {
         RequestedShipment requestedShipment = new RequestedShipment();
         requestedShipment.setShipTimestamp(Calendar.getInstance()); // Ship date and time
         requestedShipment.setDropoffType(DropoffType.REGULAR_PICKUP);
-        requestedShipment.setServiceType(ServiceType.STANDARD_OVERNIGHT); // Service types are STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND ...
+        requestedShipment.setServiceType(ServiceType.FEDEX_FREIGHT_ECONOMY); // Service types are STANDARD_OVERNIGHT, PRIORITY_OVERNIGHT, FEDEX_GROUND ...
         requestedShipment.setPackagingType(PackagingType.YOUR_PACKAGING); // Packaging type FEDEX_BOX, FEDEX_PAK, FEDEX_TUBE, YOUR_PACKAGING, ...
 
         //
@@ -886,7 +886,7 @@ public class ShipWebServiceClient {
     }
 
     private void updateEndPoint(ShipServiceLocator serviceLocator) {
-        String endPoint = carrier.getIntegrationEndPoint();
+        String endPoint = carrier.getIntegrationEndPoint() + "/ship";
         if (endPoint != null) {
             serviceLocator.setShipServicePortEndpointAddress(endPoint);
         }

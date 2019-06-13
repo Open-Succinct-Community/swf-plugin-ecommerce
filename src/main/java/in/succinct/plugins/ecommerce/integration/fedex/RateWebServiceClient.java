@@ -3,6 +3,8 @@ package in.succinct.plugins.ecommerce.integration.fedex;
 
 import com.fedex.rate.stub.Address;
 import com.fedex.rate.stub.ClientDetail;
+import com.fedex.rate.stub.CommercialInvoice;
+import com.fedex.rate.stub.CustomsClearanceDetail;
 import com.fedex.rate.stub.Dimensions;
 import com.fedex.rate.stub.DropoffType;
 import com.fedex.rate.stub.LinearUnits;
@@ -15,6 +17,7 @@ import com.fedex.rate.stub.PackagingType;
 import com.fedex.rate.stub.Party;
 import com.fedex.rate.stub.Payment;
 import com.fedex.rate.stub.PaymentType;
+import com.fedex.rate.stub.PurposeOfShipmentType;
 import com.fedex.rate.stub.RatePortType;
 import com.fedex.rate.stub.RateReply;
 import com.fedex.rate.stub.RateReplyDetail;
@@ -33,8 +36,9 @@ import com.fedex.rate.stub.WebAuthenticationCredential;
 import com.fedex.rate.stub.WebAuthenticationDetail;
 import com.fedex.rate.stub.Weight;
 import com.fedex.rate.stub.WeightUnits;
-import com.fedex.ship.stub.ShipServiceLocator;
+import com.venky.core.date.DateUtils;
 import com.venky.core.log.SWFLogger;
+import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.routing.Config;
@@ -43,7 +47,14 @@ import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import org.apache.axis.types.NonNegativeInteger;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 
@@ -66,16 +77,23 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 		this.rateable = rateable;
 		carrier = from.getPreferredCarriers().stream().filter(pc-> pc.getName().equalsIgnoreCase("FedEx")).collect(Collectors.toList()).get(0);
 	}
+
+
 	public int getTransitDays(){
+
 	    if (rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
-            rate();
+            TreeMap<Long, List<RateReplyDetail>> deliveryTimestampMap = new TreeMap<>();
+            rate(deliveryTimestampMap);
+            if (!deliveryTimestampMap.isEmpty()){
+                return DateUtils.compareToMinutes(deliveryTimestampMap.lastKey(),DateUtils.getStartOfDay(System.currentTimeMillis()))/(60*24);
+            }
         }
 		return 3;
 	}
 	//
-	public void rate() {
+	public void rate(SortedMap<Long,List<RateReplyDetail>> deliveryTimestampMap) {
 		// Build a RateRequest request object
-		boolean getAllRatesFlag = false; // set to true to get the rates for different service types
+		boolean getAllRatesFlag = true; // set to true to get the rates for different service types
 	    RateRequest request = new RateRequest();
 	    request.setClientDetail(createClientDetail());
         request.setWebAuthenticationDetail(createWebAuthenticationDetail());
@@ -96,9 +114,10 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
         requestedShipment.setShipTimestamp(Calendar.getInstance());
         requestedShipment.setDropoffType(DropoffType.REGULAR_PICKUP);
         if (! getAllRatesFlag) {
-        	requestedShipment.setServiceType(ServiceType.FEDEX_FREIGHT_ECONOMY);
+        	requestedShipment.setServiceType(ServiceType.PRIORITY_OVERNIGHT);
         	requestedShipment.setPackagingType(PackagingType.YOUR_PACKAGING);
         }
+
 		StringBuilder addressLine1 = new StringBuilder();
 		StringBuilder addressLine2 = new StringBuilder();
 
@@ -147,7 +166,9 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 
 	    
 	    requestedShipment.setPackageCount(new NonNegativeInteger("1"));
-	    request.setRequestedShipment(requestedShipment);
+        requestedShipment.setCustomsClearanceDetail(addCustomsClearanceDetail());
+
+        request.setRequestedShipment(requestedShipment);
 	    
 	    //
 		try {
@@ -159,9 +180,11 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 			updateEndPoint(service);
 			port = service.getRateServicePort();
 			// This is the call to the web service passing in a RateRequest and returning a RateReply
+
+            cat.info("Request:\n" +  AxisObjectUtil.serializeAxisObject(request));
 			RateReply reply = port.getRates(request); // Service call
 			if (isResponseOk(reply.getHighestSeverity())) {
-				writeServiceOutput(reply);
+				writeServiceOutput(reply,deliveryTimestampMap);
 			} 
 			printNotifications(reply.getNotifications());
 
@@ -248,18 +271,25 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 		recipient.setAddress(addressRecip);
 		return recipient;
 	}
-	public  void writeServiceOutput(RateReply reply) {
+	public  void writeServiceOutput(RateReply reply, SortedMap<Long, List<RateReplyDetail>> deliveryTimestampMap) {
 		RateReplyDetail[] rrds = reply.getRateReplyDetails();
 		for (int i = 0; i < rrds.length; i++) {
 			RateReplyDetail rrd = rrds[i];
-			//print("\nService type", rrd.getServiceType());
-			print("Packaging type", rrd.getPackagingType());
+			print("\nService type", rrd.getServiceType());
+            print("Packaging type", rrd.getPackagingType());
 			//print("Delivery DOW", rrd.getDeliveryDayOfWeek());
 			if(rrd.getDeliveryDayOfWeek() != null){
 				int month = rrd.getDeliveryTimestamp().get(Calendar.MONTH)+1;
 				int date = rrd.getDeliveryTimestamp().get(Calendar.DAY_OF_MONTH);
 				int year = rrd.getDeliveryTimestamp().get(Calendar.YEAR);
 				String delDate = new String(month + "/" + date + "/" + year);
+				List<RateReplyDetail> list = deliveryTimestampMap.get(rrd.getDeliveryTimestamp().getTimeInMillis());
+				if (list == null){
+				    list = new ArrayList<>();
+				    deliveryTimestampMap.put(rrd.getDeliveryTimestamp().getTimeInMillis(),list);
+                }
+                list.add(rrd);
+
 				print("Delivery date", delDate);
 				print("Calendar DOW", rrd.getDeliveryTimestamp().get(Calendar.DAY_OF_WEEK));
 			}
@@ -401,4 +431,30 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	}
 
 	SWFLogger cat = Config.instance().getLogger(getClass().getName());
+
+    private CommercialInvoice addCommercialInvoice() {
+        CommercialInvoice commercialInvoice = new CommercialInvoice();
+        commercialInvoice.setPurpose(PurposeOfShipmentType.SOLD);
+        /*
+        commercialInvoice.setCustomerReferences(new CustomerReference[]{
+                addCustomerReference(CustomerReferenceType.CUSTOMER_REFERENCE.getValue(), order.getReference()),
+        });
+        */
+        return commercialInvoice;
+    }
+
+    private CustomsClearanceDetail addCustomsClearanceDetail() {
+        CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
+        customs.setCommercialInvoice(addCommercialInvoice());
+        customs.setCustomsValue(addMoney("INR", new DoubleHolder(1.0,2).getHeldDouble().doubleValue()));
+        return customs;
+    }
+
+    private Money addMoney(String currency, Double value) {
+        Money money = new Money();
+        money.setCurrency(currency);
+        money.setAmount(new BigDecimal(value));
+        return money;
+    }
+
 }

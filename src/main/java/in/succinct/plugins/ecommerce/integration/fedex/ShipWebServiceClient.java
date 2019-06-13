@@ -75,7 +75,6 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
-import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import org.apache.axis.types.NonNegativeInteger;
@@ -218,7 +217,7 @@ public class ShipWebServiceClient {
         requestedShipment.setRequestedPackageLineItems(packageLineItems.toArray(new RequestedPackageLineItem[]{}));
         request.setRequestedShipment(requestedShipment);
 
-        cat.warning("Input:\n" + AxisObjectUtil.serializeAxisObject(request,false,true));
+        cat.warning("Input:\n" + AxisObjectUtil.serializeAxisObject(request));
 
         //
         return request;
@@ -227,7 +226,7 @@ public class ShipWebServiceClient {
     //
     private void writeServiceOutput(ProcessShipmentReply reply) throws Exception {
         try {
-            cat.info("Output:\n" + AxisObjectUtil.serializeAxisObject(reply,false,true));
+            cat.info("Output:\n" + AxisObjectUtil.serializeAxisObject(reply));
             cat.info(reply.getTransactionDetail().getCustomerTransactionId());
             CompletedShipmentDetail csd = reply.getCompletedShipmentDetail();
             String masterTrackingNumber = printMasterTrackingNumber(csd);

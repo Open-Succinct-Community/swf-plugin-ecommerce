@@ -67,7 +67,9 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 		carrier = from.getPreferredCarriers().stream().filter(pc-> pc.getName().equalsIgnoreCase("FedEx")).collect(Collectors.toList()).get(0);
 	}
 	public int getTransitDays(){
-		rate();
+	    if (rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
+            rate();
+        }
 		return 3;
 	}
 	//

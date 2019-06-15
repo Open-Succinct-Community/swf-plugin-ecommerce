@@ -34,6 +34,7 @@ public interface OrderLine extends Model {
 	public Order getOrder();
 
     @UNIQUE_KEY("K1")
+	@PARTICIPANT(redundant = true)
 	public long getSkuId(); 
 	public void setSkuId(long id); 
 	public Sku getSku();
@@ -58,8 +59,8 @@ public interface OrderLine extends Model {
     public Timestamp getDeliveryExpectedNoLaterThan();
     public void setDeliveryExpectedNoLaterThan(Timestamp ts);
 
-		
-	@PROTECTION(Kind.NON_EDITABLE)
+
+    @PROTECTION(Kind.NON_EDITABLE)
 	public double getOrderedQuantity();
 	public void setOrderedQuantity(double quantity);
 
@@ -69,6 +70,7 @@ public interface OrderLine extends Model {
 	
 	
 	@COLUMN_DEF(StandardDefault.ZERO)
+	@PROTECTION(Kind.NON_EDITABLE)
 	public double getAcknowledgedQuantity();
 	public void setAcknowledgedQuantity(double qty);
 
@@ -79,6 +81,7 @@ public interface OrderLine extends Model {
 
 
 	@COLUMN_DEF(StandardDefault.ZERO)
+	@PROTECTION(Kind.NON_EDITABLE)
 	public double getPackedQuantity();
 	public  void setPackedQuantity(double quantity);
 
@@ -88,6 +91,7 @@ public interface OrderLine extends Model {
 
 
 	@COLUMN_DEF(StandardDefault.ZERO)
+	@PROTECTION(Kind.NON_EDITABLE)
 	public double getManifestedQuantity();
 	public void setManifestedQuantity(double quantity);
 
@@ -96,7 +100,8 @@ public interface OrderLine extends Model {
 	public void setManifestedTs(Timestamp orderedTs);
 
 	@COLUMN_DEF(StandardDefault.ZERO)
-	public double getShippedQuantity(); 
+	@PROTECTION(Kind.NON_EDITABLE)
+	public double getShippedQuantity();
 	public void setShippedQuantity(double quantity);
 
 	@IS_NULLABLE
@@ -105,7 +110,8 @@ public interface OrderLine extends Model {
 
 
 	@COLUMN_DEF(StandardDefault.ZERO)
-	public double getDeliveredQuantity(); 
+	@PROTECTION(Kind.NON_EDITABLE)
+	public double getDeliveredQuantity();
 	public void setDeliveredQuantity(double quantity);
 
 	@IS_NULLABLE
@@ -114,7 +120,8 @@ public interface OrderLine extends Model {
 
 
 	@COLUMN_DEF(StandardDefault.ZERO)
-	public double getCancelledQuantity(); 
+	@PROTECTION(Kind.NON_EDITABLE)
+	public double getCancelledQuantity();
 	public void setCancelledQuantity(double quantity);
 
 	@IS_NULLABLE
@@ -122,6 +129,7 @@ public interface OrderLine extends Model {
 	public void setCancelledTs(Timestamp orderedTs);
 
 	@COLUMN_DEF(StandardDefault.ZERO)
+	@PROTECTION(Kind.NON_EDITABLE)
 	public double getReturnedQuantity();
 	public void setReturnedQuantity(double returnedQuantity);
 
@@ -203,6 +211,8 @@ public interface OrderLine extends Model {
 	@IS_VIRTUAL
 	public Inventory getInventory(boolean lock) ;
 
+	@IS_VIRTUAL
+	public Inventory getInventory(boolean lock,long skuId);
 
 	public void ship();
 	public void deliver();

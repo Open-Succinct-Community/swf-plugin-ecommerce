@@ -187,11 +187,15 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 
 
 	public Inventory getInventory(boolean lock) {
+        OrderLine line = getProxy();
+	    return getInventory(lock,line.getSkuId());
+    }
+    public Inventory getInventory(boolean lock,long skuId) {
 		OrderLine line = getProxy();
 		Select s = new Select(lock).from(Inventory.class);
 		Expression w = new Expression(s.getPool(),Conjunction.AND);
 		w.add(new Expression(s.getPool(), "FACILITY_ID",Operator.EQ, line.getShipFromId()));
-		w.add(new Expression(s.getPool(), "SKU_ID", Operator.EQ, line.getSkuId()));
+		w.add(new Expression(s.getPool(), "SKU_ID", Operator.EQ, skuId));
 		List<Inventory> inventories = s.where(w).execute();
 		if (inventories.size()== 1) {
 			return inventories.get(0);

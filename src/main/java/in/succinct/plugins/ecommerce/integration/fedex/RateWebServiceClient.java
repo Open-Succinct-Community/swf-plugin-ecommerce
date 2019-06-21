@@ -114,7 +114,7 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
         requestedShipment.setShipTimestamp(Calendar.getInstance());
         requestedShipment.setDropoffType(DropoffType.REGULAR_PICKUP);
         if (! getAllRatesFlag) {
-        	requestedShipment.setServiceType(ServiceType.PRIORITY_OVERNIGHT);
+        	requestedShipment.setServiceType(ServiceType.FEDEX_EXPRESS_SAVER);
         	requestedShipment.setPackagingType(PackagingType.YOUR_PACKAGING);
         }
 

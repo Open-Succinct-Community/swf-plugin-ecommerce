@@ -37,7 +37,10 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
         }else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_PACKED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
 			Set<Long> facilityIds = new HashSet<>();
 			for (OrderLine orderLine : order.getOrderLines()) {
-				facilityIds.add(orderLine.getShipFromId());
+				Long facilityId = orderLine.getShipFromId();
+				if (facilityId != null) {
+					facilityIds.add(facilityId);
+				}
 			}
 			List<Facility> facilities = new Select().from(Facility.class).where(new Expression(ModelReflector.instance(Facility.class).getPool(),"ID", Operator.IN,facilityIds.toArray())).execute();
 			facilities.forEach(f->{

@@ -39,6 +39,7 @@ import com.fedex.rate.stub.WeightUnits;
 import com.venky.core.date.DateUtils;
 import com.venky.core.log.SWFLogger;
 import com.venky.core.math.DoubleHolder;
+import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.model.Model;
@@ -86,11 +87,10 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	}
 
 
-	public int getTransitDays(){
-
+	public FedexTransitTime getTransitTime(){
+		FedexTransitTime transitTime = null;
 	    if (rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
 
-			FedexTransitTime transitTime = null;
 			ModelReflector<FedexTransitTime> ref = ModelReflector.instance(FedexTransitTime.class);
 
 			List<FedexTransitTime> times = new Select().from(FedexTransitTime.class).where(new Expression(ref.getPool(), Conjunction.AND).
@@ -105,13 +105,23 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 					transitTime.setOriginCityId(from.getCityId());
 					transitTime.setDestinationCityId(rateable.getCityId());
 					transitTime.setTransitDays(transitDays);
+					List<RateReplyDetail> replies = deliveryTimestampMap.get(deliveryTimestampMap.lastKey());
+					double minRate = Double.POSITIVE_INFINITY;
+					for (RateReplyDetail rrd :replies){
+						RatedShipmentDetail[] rsds = rrd.getRatedShipmentDetails();
+						RatedShipmentDetail rsd = rsds[0];
+						ShipmentRateDetail srd = rsd.getShipmentRateDetail();
+						minRate = Math.min(srd.getTotalNetCharge().getAmount().doubleValue(),minRate);
+					}
+
+					transitTime.setRateFor1KgPackage(minRate);
 					transitTime.save();
 				}
 			}else {
 				transitTime = times.get(0);
 			}
         }
-		return 10; //Worst Case Transit Time
+		return transitTime;
 	}
 	//
 	public void rate(SortedMap<Long,List<RateReplyDetail>> deliveryTimestampMap) {

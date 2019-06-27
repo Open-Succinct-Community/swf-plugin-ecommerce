@@ -24,22 +24,33 @@ import com.fedex.track.stub.TrackServiceLocator;
 import com.fedex.track.stub.TrackStatusAncillaryDetail;
 import com.fedex.track.stub.TrackStatusDetail;
 import com.fedex.track.stub.TrackingDateOrTimestamp;
+import com.fedex.track.stub.TrackingDateOrTimestampType;
 import com.fedex.track.stub.TransactionDetail;
 import com.fedex.track.stub.VersionId;
 import com.fedex.track.stub.WebAuthenticationCredential;
 import com.fedex.track.stub.WebAuthenticationDetail;
 import com.fedex.track.stub.Weight;
 import com.venky.core.collections.SequenceSet;
+import com.venky.core.date.DateUtils;
 import com.venky.core.log.SWFLogger;
+import com.venky.core.util.Bucket;
+import com.venky.core.util.ObjectUtil;
+import com.venky.swf.db.Database;
 import com.venky.swf.routing.Config;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.order.Manifest;
+import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
+import in.succinct.plugins.ecommerce.db.model.order.OrderIntransitEvent;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 
+import javax.xml.crypto.Data;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -74,13 +85,13 @@ public class TrackWebServiceClient {
 			Expression where = new Expression(s.getPool(), Conjunction.AND);
 			where.add(new Expression(s.getPool(), "NAME", Operator.EQ, "manifest_number"));
 			where.add(new Expression(s.getPool(), "VALUE", Operator.EQ, manifest.getManifestNumber()));
-			List<OrderAttribute> oas = s.where(where).execute();
+			s.where(where).add(" and exists ( select 1 from orders where id = order_attributes.order_id and fulfillment_status == 'SHIPPED' ) ");
+			List<OrderAttribute> oas = s.execute();
 			oas.forEach(oa -> {
 				orderIds.add(oa.getOrderId());
 			});
 		}
 		{
-
 			Select s = new Select().from(OrderAttribute.class);
 			Expression where = new Expression(s.getPool(), Conjunction.AND);
 			where.add(new Expression(s.getPool(), "NAME", Operator.EQ, "tracking_number"));
@@ -91,6 +102,9 @@ public class TrackWebServiceClient {
 			orderAttributes.forEach(oa->{
 				trackingNumbers.put(oa.getValue(),oa.getOrderId());
 			});
+
+
+
 		}
 		Stack<Set<String>> batches = new Stack<>();
 		int batchSize = 30;
@@ -143,7 +157,7 @@ public class TrackWebServiceClient {
 				TrackReply reply = port.track(request); // This is the call to the web service passing in a request object and returning a reply object
 				//
 				if(printNotifications(reply.getNotifications())){
-					printCompletedTrackDetail(reply.getCompletedTrackDetails());
+					printCompletedTrackDetail(reply.getCompletedTrackDetails(),trackingNumbers);
 				}
 				if (isResponseOk(reply.getHighestSeverity())) // check if the call was successful
 				{
@@ -159,7 +173,7 @@ public class TrackWebServiceClient {
 
 	}
 	
-	private  void printCompletedTrackDetail(CompletedTrackDetail[] ctd){
+	private  void printCompletedTrackDetail(CompletedTrackDetail[] ctd,Map<String,Long> trackingNumberOrderMap) {
 		for (int i=0; i< ctd.length; i++) { // package detail information
 			boolean cont=true;
 			System.out.println("--Completed Tracking Detail--");
@@ -177,17 +191,18 @@ public class TrackWebServiceClient {
 						print("  Paging Token", ctd[i].getPagingToken());
 					}
 				}
-				printTrackDetail(ctd[i].getTrackDetails());				
+				printTrackDetail(ctd[i].getTrackDetails(),trackingNumberOrderMap);
 			}
 			System.out.println("--Completed Tracking Detail--");
 			System.out.println();
 		}
 	}
 
-	private  void printTrackDetail(TrackDetail[] td){
+	private  void printTrackDetail(TrackDetail[] td, Map<String,Long> trackingOrderIdMap){
 		for (int i=0; i< td.length; i++) {
 			boolean cont=true;
 			System.out.println("--Track Details--");
+			Order order = null ;
 			if(td[i].getNotification()!=null){
 				System.out.println("  Track Detail Notification--");
 				cont=printNotifications(td[i].getNotification());
@@ -195,6 +210,8 @@ public class TrackWebServiceClient {
 			}
 			if(cont){
 				print("Tracking Number", td[i].getTrackingNumber());
+				Long orderId = trackingOrderIdMap.get(td[i].getTrackingNumber());
+				order = Database.getTable(Order.class).get(orderId);
 				print("Carrier code", td[i].getCarrierCode());
 				if(td[i].getService()!=null){
 					if(td[i].getService().getType()!=null && 
@@ -228,9 +245,28 @@ public class TrackWebServiceClient {
 					print(td[i].getActualDeliveryAddress());
 					System.out.println("--Delivery Address--");
 				}
+				Timestamp deliveryTimestamp = null;
+				Timestamp pickUpTimestamp = null;
+
+				DateFormat ISO_8601_24H_FULL_FORMAT = DateUtils.getFormat( "yyyy-MM-dd'T'HH:mm:ssXXX");
 				if(td[i].getDatesOrTimes()!=null){
 					TrackingDateOrTimestamp[] dates = td[i].getDatesOrTimes();
 					for(int j=0; j<dates.length; j++){
+						if (dates[j].getType() == TrackingDateOrTimestampType.ACTUAL_DELIVERY){
+							order.deliver();
+							try {
+								deliveryTimestamp = new Timestamp(ISO_8601_24H_FULL_FORMAT.parse(dates[j].getDateOrTimestamp()).getTime());
+							}catch (Exception ex){
+
+							}
+						}
+						if (dates[j].getType() == TrackingDateOrTimestampType.ACTUAL_PICKUP) {
+							try{
+								pickUpTimestamp = new Timestamp(ISO_8601_24H_FULL_FORMAT.parse(dates[j].getDateOrTimestamp()).getTime());
+							}catch (Exception ex){
+
+							}
+						}
 						print(dates[j].getType().getValue(), dates[j].getDateOrTimestamp());
 					}
 				}
@@ -251,7 +287,7 @@ public class TrackWebServiceClient {
 				}
 				if(td[i].getEvents()!=null){
 					System.out.println("--Tracking Events--");
-					printTrackEvents(td[i].getEvents());
+					printTrackEvents(td[i].getEvents(),order,pickUpTimestamp,deliveryTimestamp);
 					System.out.println("--Tracking Events--");
 				}
 				System.out.println("--Track Details--");
@@ -275,10 +311,31 @@ public class TrackWebServiceClient {
 			}
 		}
 	}
-	private  void printTrackEvents(TrackEvent[] events){
+	private  void printTrackEvents(TrackEvent[] events,Order order, Timestamp pickTS, Timestamp deliveryTS ){
+		DateFormat ISO_8601_24H_FULL_FORMAT = DateUtils.getFormat( "yyyy-MM-dd'T'HH:mm:ssXXX");
 		if(events!=null){
-			for(int i=0; i<events.length;i++){
-				TrackEvent event=events[i];
+			int eventSeqNo = 0;
+			for(int i= events.length -1; i > 0 ; i--) {
+				TrackEvent event = events[i];
+				OrderIntransitEvent oie = Database.getTable(OrderIntransitEvent.class).newRecord();
+				oie.setEventSeqNo(eventSeqNo);
+				oie.setOrderId(order.getId());
+				if (ObjectUtil.equals(event.getEventType(), "AR") || ObjectUtil.equals(event.getEventType(), "DL")){
+					oie.setEventType(OrderIntransitEvent.EVENT_TYPE_ARRIVED);
+				}else if (ObjectUtil.equals(event.getEventType(),"DP") || ObjectUtil.equals(event.getEventType(),"PU"))  {
+					oie.setEventType(OrderIntransitEvent.EVENT_TYPE_LEFT);
+				}else {
+					continue;
+				}
+				if (ObjectUtil.equals(event.getEventType(),"DL")){
+					oie.setEventTimestamp(deliveryTS);
+				}else if (ObjectUtil.equals(event.getEventType(),"PU")){
+					oie.setEventTimestamp(pickTS);
+				}else {
+					oie.setEventTimestamp(new Timestamp(event.getTimestamp().getTimeInMillis()));
+				}
+				oie.setEventDescription(event.getEventDescription());
+
 				print("Event no. ", i);
 				print(event.getTimestamp());
 				if(event.getEventType()!=null){
@@ -290,10 +347,12 @@ public class TrackWebServiceClient {
 				print("Description", event.getEventDescription());
 				if(event.getAddress()!=null){
 					System.out.println("  Event Address--");
-					print(event.getAddress());
+					printAddress(oie,event.getAddress());
 					System.out.println("  Event Address--");
 				}
 				System.out.println();
+				oie.save();
+				eventSeqNo ++;
 			}
 		}
 	}
@@ -372,7 +431,8 @@ public class TrackWebServiceClient {
 			printDOW(calendar);
 		}
 	}
-	private  void printAddress(Address address){
+	private  void printAddress(OrderIntransitEvent oie, Address address){
+		StringBuilder location = new StringBuilder();
 		print("__________________________________");
 		if(address.getStreetLines()!=null){
 			String[] streetLines=address.getStreetLines();
@@ -382,7 +442,11 @@ public class TrackWebServiceClient {
 							
 				}
 			}
-		}		
+		}
+		location.append(address.getCity()).append( "," ).append(address.getStateOrProvinceCode()).append(",").append(address.getPostalCode());
+		if (oie != null) {
+			oie.setLocation(location.toString());
+		}
 		print("City", address.getCity());
 		print("State or Province Code", address.getStateOrProvinceCode());
 		print("Postal Code", address.getPostalCode());
@@ -569,7 +633,7 @@ public class TrackWebServiceClient {
 			if(o instanceof String){
 				System.out.println((String)o);
 			}else if(o instanceof Address){
-				printAddress((Address)o);
+				printAddress(null,(Address)o);
 			}else if(o instanceof Calendar){
 				printTime((Calendar)o);
 			}else{

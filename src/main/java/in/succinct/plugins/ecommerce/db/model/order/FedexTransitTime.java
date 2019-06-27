@@ -15,4 +15,8 @@ public interface FedexTransitTime extends Model {
 
     public int getTransitDays();
     public void setTransitDays(int days);
+
+
+    public Double getRateFor1KgPackage();
+    public void setRateFor1KgPackage(Double rate);
 }

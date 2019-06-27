@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
+import com.venky.swf.db.annotations.model.CONFIGURATION;
 import com.venky.swf.db.annotations.model.MENU;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
@@ -18,6 +19,7 @@ import com.venky.swf.sql.Select;
 
 import java.util.List;
 @MENU("Catalog")
+@CONFIGURATION
 public interface MasterItemCategory extends Model{
 	@PARTICIPANT
 	@PROTECTION(Kind.NON_EDITABLE)

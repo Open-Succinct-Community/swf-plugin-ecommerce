@@ -7,6 +7,7 @@ import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.model.CONFIGURATION;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.User;
@@ -18,6 +19,7 @@ import in.succinct.plugins.ecommerce.db.model.service.ServiceResource;
 import java.util.List;
 
 @MENU("Catalog")
+@CONFIGURATION
 public interface Service extends Model, CompanySpecific {
 
     @UNIQUE_KEY

@@ -4,8 +4,10 @@ import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.OnLookupSelect;
+import com.venky.swf.db.annotations.model.CONFIGURATION;
 import com.venky.swf.db.model.Model;
 
+@CONFIGURATION
 public interface UnitOfMeasureConversionTable extends Model{
 	@IS_NULLABLE(false)
 	@UNIQUE_KEY

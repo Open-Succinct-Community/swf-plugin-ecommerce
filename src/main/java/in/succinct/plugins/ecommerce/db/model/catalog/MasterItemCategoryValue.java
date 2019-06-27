@@ -6,6 +6,7 @@ import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.model.CONFIGURATION;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.model.Model;
 
@@ -14,6 +15,7 @@ import java.util.List;
 
 
 @HAS_DESCRIPTION_FIELD("ALLOWED_VALUE")
+@CONFIGURATION
 public interface MasterItemCategoryValue extends Model{
 	@UNIQUE_KEY
 	@PROTECTION(Kind.NON_EDITABLE)

@@ -5,6 +5,7 @@ import java.util.List;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.CONFIGURATION;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.sql.Conjunction;
@@ -13,6 +14,7 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 
 @MENU("Catalog")
+@CONFIGURATION
 public interface UnitOfMeasure extends Model {
 	public static final String KILOGRAMS = "Kgs";
 	public static final String GRAMS = "Gms";

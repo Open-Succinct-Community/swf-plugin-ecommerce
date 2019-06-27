@@ -40,8 +40,15 @@ import com.venky.core.date.DateUtils;
 import com.venky.core.log.SWFLogger;
 import com.venky.core.math.DoubleHolder;
 import com.venky.core.util.ObjectUtil;
+import com.venky.swf.db.Database;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.routing.Config;
+import com.venky.swf.sql.Conjunction;
+import com.venky.swf.sql.Expression;
+import com.venky.swf.sql.Operator;
+import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.order.FedexTransitTime;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import org.apache.axis.types.NonNegativeInteger;
@@ -82,13 +89,29 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	public int getTransitDays(){
 
 	    if (rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
-            TreeMap<Long, List<RateReplyDetail>> deliveryTimestampMap = new TreeMap<>();
-            rate(deliveryTimestampMap);
-            if (!deliveryTimestampMap.isEmpty()){
-                return DateUtils.compareToMinutes(deliveryTimestampMap.lastKey(),DateUtils.getStartOfDay(System.currentTimeMillis()))/(60*24);
-            }
+
+			FedexTransitTime transitTime = null;
+			ModelReflector<FedexTransitTime> ref = ModelReflector.instance(FedexTransitTime.class);
+
+			List<FedexTransitTime> times = new Select().from(FedexTransitTime.class).where(new Expression(ref.getPool(), Conjunction.AND).
+					add(new Expression(ref.getPool(),"ORIGIN_CITY_ID", Operator.EQ,from.getCityId())).
+					add(new Expression(ref.getPool(),"DESTINATION_CITY_ID",Operator.EQ, rateable.getCityId()))).execute(1);
+			if (times.isEmpty()){
+				TreeMap<Long, List<RateReplyDetail>> deliveryTimestampMap = new TreeMap<>();
+				rate(deliveryTimestampMap);
+				if (!deliveryTimestampMap.isEmpty()){
+					int transitDays = DateUtils.compareToMinutes(deliveryTimestampMap.lastKey(),DateUtils.getStartOfDay(System.currentTimeMillis()))/(60*24);
+					transitTime = Database.getTable(FedexTransitTime.class).newRecord();
+					transitTime.setOriginCityId(from.getCityId());
+					transitTime.setDestinationCityId(rateable.getCityId());
+					transitTime.setTransitDays(transitDays);
+					transitTime.save();
+				}
+			}else {
+				transitTime = times.get(0);
+			}
         }
-		return 3;
+		return 10; //Worst Case Transit Time
 	}
 	//
 	public void rate(SortedMap<Long,List<RateReplyDetail>> deliveryTimestampMap) {

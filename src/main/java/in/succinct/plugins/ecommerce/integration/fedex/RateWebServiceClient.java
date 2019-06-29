@@ -121,6 +121,13 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 				transitTime = times.get(0);
 			}
         }
+        if (transitTime == null){
+        	transitTime = Database.getTable(FedexTransitTime.class).newRecord();
+        	transitTime.setOriginCityId(from.getCityId());
+        	transitTime.setDestinationCityId(rateable.getCityId());
+        	transitTime.setTransitDays(5);
+        	transitTime.setRateFor1KgPackage(500.0);
+		}
 		return transitTime;
 	}
 	//

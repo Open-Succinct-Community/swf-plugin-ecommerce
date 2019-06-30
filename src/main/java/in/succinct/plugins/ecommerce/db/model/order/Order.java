@@ -130,4 +130,10 @@ public interface Order extends Model, CompanySpecific {
 
     public Double getPrice();
     public void setPrice(Double price);
+
+
+    @IS_VIRTUAL
+    public Long getManifestId();
+    public void setManifestId(Long id);
+    public Manifest getManifest();
 }

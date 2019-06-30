@@ -1,5 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
+import com.venky.core.util.Bucket;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
@@ -14,6 +16,8 @@ import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 
 import java.io.InputStream;
 import java.sql.Timestamp;
+import java.util.List;
+import java.util.Set;
 
 @MENU("Fulfillment")
 @EXPORTABLE(false)
@@ -59,5 +63,17 @@ public interface Manifest extends Model {
 	public boolean isClosed(); 
 	public void  setClosed(boolean closed);
 
+	@IS_VIRTUAL
+	public List<Order> getOrders();
+
 	public void close();
+
+	public void track();
+
+
+	@IS_VIRTUAL
+	public int getNumOrdersPendingDelivery();
+
+	@IS_VIRTUAL
+	Set<Long> getOrderIdsPendingDelivery();
 }

@@ -135,4 +135,17 @@ public class OrderImpl  extends ModelImpl<Order>{
 		});
 		return numShortLines.intValue() > 0 ;
 	}
+
+	public Long getManifestId() {
+		String value = getAttribute("manifest_id").getValue();
+		long manifestId = getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter().valueOf(value) ;
+		if (manifestId != 0){
+			return manifestId;
+		}
+		return null;
+	}
+	public void setManifestId(Long id) {
+		//
+	}
+
 }

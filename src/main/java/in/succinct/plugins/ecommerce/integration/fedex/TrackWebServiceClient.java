@@ -59,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
+import java.util.logging.Level;
 
 /** 
  * Demo of using the Track service with Axis 
@@ -75,22 +76,13 @@ public class TrackWebServiceClient {
 	//\
 	Manifest manifest = null;
 	PreferredCarrier carrier = null;
-	public TrackWebServiceClient(Manifest manifest){
-		this.manifest = manifest;this.carrier = manifest.getPreferredCarrier();
-
-		List<Long> orderIds = new SequenceSet<>();
+	public TrackWebServiceClient(Manifest manifest) {
+		this.manifest = manifest;
+		this.carrier = manifest.getPreferredCarrier();
+	}
+	public void track(){
+		Set<Long> orderIds = manifest.getOrderIdsPendingDelivery();
 		Map<String,Long> trackingNumbers = new HashMap<>();
-		{
-			Select s = new Select().from(OrderAttribute.class);
-			Expression where = new Expression(s.getPool(), Conjunction.AND);
-			where.add(new Expression(s.getPool(), "NAME", Operator.EQ, "manifest_number"));
-			where.add(new Expression(s.getPool(), "VALUE", Operator.EQ, manifest.getManifestNumber()));
-			s.where(where).add(" and exists ( select 1 from orders where id = order_attributes.order_id and fulfillment_status == 'SHIPPED' ) ");
-			List<OrderAttribute> oas = s.execute();
-			oas.forEach(oa -> {
-				orderIds.add(oa.getOrderId());
-			});
-		}
 		{
 			Select s = new Select().from(OrderAttribute.class);
 			Expression where = new Expression(s.getPool(), Conjunction.AND);
@@ -138,6 +130,7 @@ public class TrackWebServiceClient {
 				packageIdentifier.setType(TrackIdentifierType.TRACKING_NUMBER_OR_DOORTAG);
 				packageIdentifier.setValue(trackingNumber); // tracking number
 				selectionDetail.setPackageIdentifier(packageIdentifier);
+				list.add(selectionDetail);
 			}
 
 			request.setSelectionDetails(list.toArray(new TrackSelectionDetail[]{}));
@@ -161,11 +154,11 @@ public class TrackWebServiceClient {
 				}
 				if (isResponseOk(reply.getHighestSeverity())) // check if the call was successful
 				{
-					System.out.println("--Track Reply--");
+					cat.info("--Track Reply--");
 				}
 
 			} catch (Exception e) {
-				e.printStackTrace();
+				cat.log(Level.WARNING,"",e);
 			}
 		}
 
@@ -176,37 +169,36 @@ public class TrackWebServiceClient {
 	private  void printCompletedTrackDetail(CompletedTrackDetail[] ctd,Map<String,Long> trackingNumberOrderMap) {
 		for (int i=0; i< ctd.length; i++) { // package detail information
 			boolean cont=true;
-			System.out.println("--Completed Tracking Detail--");
+			cat.info("--Completed Tracking Detail--");
 			if(ctd[i].getNotifications()!=null){
-				System.out.println("  Completed Track Detail Notifications--");
+				cat.info("  Completed Track Detail Notifications--");
 				cont=printNotifications(ctd[i].getNotifications());
-				System.out.println("  Completed Track Detail Notifications--");
+				cat.info("  Completed Track Detail Notifications--");
 			}
 			if(cont){
 				print("DuplicateWayBill", ctd[i].getDuplicateWaybill());
 				print("Track Details Count", ctd[i].getTrackDetailsCount());
 				if(ctd[i].getMoreData()){
-					System.out.println("  Additional package data not yet retrieved");
+					cat.info("  Additional package data not yet retrieved");
 					if(ctd[i].getPagingToken()!=null){
 						print("  Paging Token", ctd[i].getPagingToken());
 					}
 				}
 				printTrackDetail(ctd[i].getTrackDetails(),trackingNumberOrderMap);
 			}
-			System.out.println("--Completed Tracking Detail--");
-			System.out.println();
+			cat.info("--Completed Tracking Detail--");
 		}
 	}
 
 	private  void printTrackDetail(TrackDetail[] td, Map<String,Long> trackingOrderIdMap){
 		for (int i=0; i< td.length; i++) {
 			boolean cont=true;
-			System.out.println("--Track Details--");
+			cat.info("--Track Details--");
 			Order order = null ;
 			if(td[i].getNotification()!=null){
-				System.out.println("  Track Detail Notification--");
+				cat.info("  Track Detail Notification--");
 				cont=printNotifications(td[i].getNotification());
-				System.out.println("  Track Detail Notification--");
+				cat.info("  Track Detail Notification--");
 			}
 			if(cont){
 				print("Tracking Number", td[i].getTrackingNumber());
@@ -221,29 +213,29 @@ public class TrackWebServiceClient {
 					}
 				}
 				if(td[i].getOtherIdentifiers()!=null){
-					System.out.println("--Track Package Identifer--");
+					cat.info("--Track Package Identifer--");
 					printTrackOtherIdentifierDetail(td[i].getOtherIdentifiers());
-					System.out.println("--Track Package Identifer--");
+					cat.info("--Track Package Identifer--");
 				}
 				if(td[i].getStatusDetail()!=null){
-					System.out.println("--Status Details--");
+					cat.info("--Status Details--");
 					printStatusDetail(td[i].getStatusDetail());
-					System.out.println("--Status Details--");
+					cat.info("--Status Details--");
 				}
 				if(td[i].getOriginLocationAddress()!=null){
-					System.out.println("--Origin Location--");
+					cat.info("--Origin Location--");
 					print(td[i].getOriginLocationAddress());
-					System.out.println("--Origin Location--");
+					cat.info("--Origin Location--");
 				}
 				if(td[i].getDestinationAddress()!=null){
-					System.out.println("--Destination Location--");
+					cat.info("--Destination Location--");
 					printDestinationInformation(td[i]);
-					System.out.println("--Destination Location--");
+					cat.info("--Destination Location--");
 				}
 				if(td[i].getActualDeliveryAddress()!=null){
-					System.out.println("--Delivery Address--");
+					cat.info("--Delivery Address--");
 					print(td[i].getActualDeliveryAddress());
-					System.out.println("--Delivery Address--");
+					cat.info("--Delivery Address--");
 				}
 				Timestamp deliveryTimestamp = null;
 				Timestamp pickUpTimestamp = null;
@@ -271,27 +263,27 @@ public class TrackWebServiceClient {
 					}
 				}
 				if(td[i].getDeliveryAttempts().shortValue()>0){
-					System.out.println("--Delivery Information--");
+					cat.info("--Delivery Information--");
 					printDeliveryInformation(td[i]);
-					System.out.println("--Delivery Information--");
+					cat.info("--Delivery Information--");
 				}
 				if(td[i].getCustomerExceptionRequests()!=null){
-					System.out.println("--Customer Exception Information--");
+					cat.info("--Customer Exception Information--");
 					printCustomerExceptionRequests(td[i].getCustomerExceptionRequests());
-					System.out.println("--Customer Exception Information--");
+					cat.info("--Customer Exception Information--");
 				}
 				if(td[i].getCharges()!=null){
-					System.out.println("--Charges--");
+					cat.info("--Charges--");
 					printCharges(td[i].getCharges());
-					System.out.println("--Charges--");
+					cat.info("--Charges--");
 				}
 				if(td[i].getEvents()!=null){
-					System.out.println("--Tracking Events--");
+					cat.info("--Tracking Events--");
 					printTrackEvents(td[i].getEvents(),order,pickUpTimestamp,deliveryTimestamp);
-					System.out.println("--Tracking Events--");
+					cat.info("--Tracking Events--");
 				}
-				System.out.println("--Track Details--");
-				System.out.println();
+				cat.info("--Track Details--");
+				
 			}
 		}
 	}
@@ -304,9 +296,9 @@ public class TrackWebServiceClient {
 				print("Excpetion Status Code", exception.getStatusCode());
 				print("Excpetion Status Description", exception.getStatusDescription());
 				if(exception.getCreateTime()!=null){
-					System.out.println("  Customer Exception Date--");
+					cat.info("  Customer Exception Date--");
 					print(exception.getCreateTime());
-					System.out.println("  Customer Exception Date--");
+					cat.info("  Customer Exception Date--");
 				}
 			}
 		}
@@ -346,11 +338,11 @@ public class TrackWebServiceClient {
 				print("", event.getStatusExceptionDescription());
 				print("Description", event.getEventDescription());
 				if(event.getAddress()!=null){
-					System.out.println("  Event Address--");
+					cat.info("  Event Address--");
 					printAddress(oie,event.getAddress());
-					System.out.println("  Event Address--");
+					cat.info("  Event Address--");
 				}
-				System.out.println();
+				
 				oie.save();
 				eventSeqNo ++;
 			}
@@ -361,14 +353,14 @@ public class TrackWebServiceClient {
 			print(tsd.getCreationTime());
 			print("Code", tsd.getCode());
 			if(tsd.getLocation()!=null){
-				System.out.println("--Location Address Detail--");
+				cat.info("--Location Address Detail--");
 				print(tsd.getLocation());
-				System.out.println("--Location Address Detail--");
+				cat.info("--Location Address Detail--");
 			}
 			if(tsd.getAncillaryDetails()!=null){
-				System.out.println("--Ancillary Details--");
+				cat.info("--Ancillary Details--");
 				printAncillaryDetails(tsd.getAncillaryDetails());
-				System.out.println("--Ancillary Details--");
+				cat.info("--Ancillary Details--");
 			}
 		}
 	}
@@ -402,11 +394,11 @@ public class TrackWebServiceClient {
 		}
 	}
 	private  void printDeliveryInformation(TrackDetail td){
-		System.out.println("Delivery attempts: " + td.getDeliveryAttempts());
+		cat.info("Delivery attempts: " + td.getDeliveryAttempts());
 		print("Delivery Location", td.getDeliveryLocationDescription());
 		print("Delivery Signature", td.getDeliverySignatureName());
 		if(td.getDeliveryOptionEligibilityDetails()!=null){
-			System.out.println("Delivery Options");
+			cat.info("Delivery Options");
 			printDeliveryOptionEligibility(td.getDeliveryOptionEligibilityDetails());
 		}
 	}
@@ -539,7 +531,7 @@ public class TrackWebServiceClient {
 	}
 
 	private void updateEndPoint(TrackServiceLocator serviceLocator) {
-		String endPoint = carrier.getIntegrationEndPoint() + "/ship";
+		String endPoint = carrier.getIntegrationEndPoint() ;
 		if (endPoint != null) {
 			serviceLocator.setTrackServicePortEndpointAddress(endPoint);
 		}
@@ -569,7 +561,7 @@ public class TrackWebServiceClient {
 			if(n instanceof Notification[]){
 				notifications=(Notification[])n;
 				if (notifications == null || notifications.length == 0) {
-					System.out.println("  No notifications returned");
+					cat.info("  No notifications returned");
 				}
 				for (int i=0; i < notifications.length; i++){
 					printNotification(notifications[i]);
@@ -586,7 +578,7 @@ public class TrackWebServiceClient {
 	}
 	private  void printNotification(Notification notification){
 		if (notification == null) {
-			System.out.println("null");
+			cat.info("null");
 		}
 		NotificationSeverityType nst = notification.getSeverity();
 
@@ -625,19 +617,19 @@ public class TrackWebServiceClient {
 		}else{
 			value=v.toString();
 		}
-		System.out.println("  " + key + ": " + value);
+		cat.info("  " + key + ": " + value);
 	}
 	
 	private  void print(Object o){
 		if(o!=null){
 			if(o instanceof String){
-				System.out.println((String)o);
+				cat.info((String)o);
 			}else if(o instanceof Address){
 				printAddress(null,(Address)o);
 			}else if(o instanceof Calendar){
 				printTime((Calendar)o);
 			}else{
-				System.out.println(o.toString());
+				cat.info(o.toString());
 			}
 			
 		}
@@ -647,7 +639,7 @@ public class TrackWebServiceClient {
 		if (msg == null || weight == null) {
 			return;
 		}
-		System.out.println(msg + ": " + weight.getValue() + " " + weight.getUnits());
+		cat.info(msg + ": " + weight.getValue() + " " + weight.getUnits());
 	}
 
 	private  String getSystemProperty(String property){

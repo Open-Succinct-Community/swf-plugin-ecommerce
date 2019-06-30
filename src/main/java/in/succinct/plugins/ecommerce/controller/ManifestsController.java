@@ -39,4 +39,11 @@ public class ManifestsController extends ModelController<Manifest> {
 		manifest.close();
 		return back();
 	}
+
+	@SingleRecordAction(icon="glyphicon-gift",tooltip="Track Orders")
+	public View track(int manifestId){
+		Manifest manifest = Database.getTable(Manifest.class).get(manifestId);
+		manifest.track();
+		return back();
+	}
 }

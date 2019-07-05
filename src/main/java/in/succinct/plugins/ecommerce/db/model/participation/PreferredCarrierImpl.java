@@ -18,7 +18,7 @@ public class PreferredCarrierImpl extends ModelImpl<PreferredCarrier> {
 
     }
 
-    public Double  getEstimatedShippingCharges(Order order) {
+    public Double getEstimatedShippingCharges(Order order){
         PreferredCarrier carrier = getProxy();
         if (!carrier.getName().equalsIgnoreCase("FedEx")){
             return null;

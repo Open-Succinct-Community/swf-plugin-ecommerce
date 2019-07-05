@@ -11,6 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class PreferredCarrierImpl extends ModelImpl<PreferredCarrier> {
+    public PreferredCarrierImpl(PreferredCarrier preferredCarrier){
+        super(preferredCarrier);
+    }
+    public PreferredCarrierImpl(){
+
+    }
 
     public Double  getEstimatedShippingCharges(Order order) {
         PreferredCarrier carrier = getProxy();

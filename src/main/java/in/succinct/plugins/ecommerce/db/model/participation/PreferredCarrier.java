@@ -55,6 +55,6 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     public void setMaxShippingCharges(Double maxShippingCharges);
 
     @IS_VIRTUAL
-    public double getEstimatedCharges(Order order);
+    public double getEstimatedShippingCharges(Order order);
 
 }

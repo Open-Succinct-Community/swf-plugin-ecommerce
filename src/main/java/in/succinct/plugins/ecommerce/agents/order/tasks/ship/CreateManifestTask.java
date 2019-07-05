@@ -75,7 +75,7 @@ public class CreateManifestTask implements Task{
 
 		List<Order> packedOrders = orderSelect.orderBy("ID").execute();
 		packedOrders.forEach(o-> {
-			Double estimatedCharges = preferredCarrier.getEstimatedCharges(o);
+			Double estimatedCharges = preferredCarrier.getEstimatedShippingCharges(o);
 			Double maxShippingCharges = preferredCarrier.getMaxShippingCharges();
 			if (estimatedCharges == null || maxShippingCharges == null || estimatedCharges < maxShippingCharges ) {
 				TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);

@@ -150,27 +150,5 @@ public class OrderImpl  extends ModelImpl<Order>{
 	public void setManifestId(Long id) {
 		//
 	}
-	public Double  getEstimatedShippingCharges() {
-		Order order = getProxy();
-		List<OrderLine> lines = getProxy().getOrderLines();
-		if (!lines.isEmpty()){
-			Facility facility = null;
-			for (OrderLine line : lines){
-				if (line.getShipFromId() != null){
-					facility = line.getShipFrom();
-					break;
-				}
-			}
-			if (facility != null) {
-				List<OrderAddress> addresses = order.getAddresses().stream().filter(oa -> oa.getAddressType().equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
-				if (!addresses.isEmpty()){
-					FedexTransitTime transitTime = new RateWebServiceClient<OrderAddress>(facility,addresses.get(0)).getTransitTime();
-					return transitTime.getRateFor1KgPackage();
-				}
-			}
-		}
-		return null;
-
-	}
 
 }

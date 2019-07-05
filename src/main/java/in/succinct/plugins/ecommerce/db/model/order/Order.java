@@ -131,13 +131,12 @@ public interface Order extends Model, CompanySpecific {
     public Double getPrice();
     public void setPrice(Double price);
 
-
     @IS_VIRTUAL
     public Long getManifestId();
     public void setManifestId(Long id);
     public Manifest getManifest();
 
-
-    @IS_VIRTUAL
-    public Double  getEstimatedShippingCharges();
+    @IS_NULLABLE
+    public String getHoldReason();
+    public void setHoldReason(String reason);
 }

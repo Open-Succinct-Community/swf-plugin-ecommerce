@@ -63,10 +63,10 @@ public class CreateManifestTask implements Task{
 		}else {
 			manifest = manifests.get(0);
 		}
-		addOrdersToManifest(manifest);
+		addOrdersToManifest(manifest,preferredCarrier);
 	}
 
-	private void addOrdersToManifest(Manifest manifest) {
+	private void addOrdersToManifest(Manifest manifest,PreferredCarrier preferredCarrier) {
 		Select orderSelect = new Select().from(Order.class);
 		Expression where = new Expression(orderSelect.getPool(), Conjunction.AND);
 		where.add(new Expression(orderSelect.getPool(),"FULFILLMENT_STATUS" , Operator.EQ, Order.FULFILLMENT_STATUS_PACKED));
@@ -75,7 +75,17 @@ public class CreateManifestTask implements Task{
 
 		List<Order> packedOrders = orderSelect.orderBy("ID").execute();
 		packedOrders.forEach(o-> {
-			TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);
+			Double estimatedCharges = preferredCarrier.getEstimatedCharges(o);
+			Double maxShippingCharges = preferredCarrier.getMaxShippingCharges();
+			if (estimatedCharges == null || maxShippingCharges == null || estimatedCharges < maxShippingCharges ) {
+				TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);
+			}else {
+				StringBuilder holdReason = new StringBuilder();
+				holdReason.append(StringUtil.valueOf(o.getHoldReason()));
+				holdReason.append("Shipping Charges > " + maxShippingCharges + " for " + preferredCarrier.getName()).append("<br/>") ;
+				o.setHoldReason(holdReason.toString());
+				o.save();
+			}
 		});
 	}
 

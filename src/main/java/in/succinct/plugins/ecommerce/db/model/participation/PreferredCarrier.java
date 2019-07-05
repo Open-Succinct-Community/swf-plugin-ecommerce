@@ -24,7 +24,7 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     public Facility getFacility();
 
 
-    @Enumeration("FedEx")
+    @Enumeration("FedEx,IndiaPost")
     @UNIQUE_KEY("K1,K2")
     public String getName();
     public void setName(String name);

@@ -136,4 +136,8 @@ public interface Order extends Model, CompanySpecific {
     public Long getManifestId();
     public void setManifestId(Long id);
     public Manifest getManifest();
+
+
+    @IS_VIRTUAL
+    public Double  getEstimatedShippingCharges();
 }

@@ -51,7 +51,7 @@ public class ManifestImpl extends ModelImpl<Manifest>{
             Expression where = new Expression(s.getPool(), Conjunction.AND);
             where.add(new Expression(s.getPool(), "NAME", Operator.EQ, "manifest_number"));
             where.add(new Expression(s.getPool(), "VALUE", Operator.EQ, manifest.getManifestNumber()));
-            s.where(where).add(" and exists ( select 1 from orders where id = order_attributes.order_id and fulfillment_status = 'SHIPPED' ) ");
+            s.where(where).add(" and exists ( select 1 from order_statuses where order_id = order_attributes.order_id and fulfillment_status = 'MANIFESTED' ) ");
             List<OrderAttribute> oas = s.execute();
             oas.forEach(oa -> {
                 orderIds.add(oa.getOrderId());

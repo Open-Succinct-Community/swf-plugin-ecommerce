@@ -82,7 +82,10 @@ public class CreateManifestTask implements Task{
 			}else {
 				StringBuilder holdReason = new StringBuilder();
 				holdReason.append(StringUtil.valueOf(o.getHoldReason()));
-				holdReason.append("Shipping Charges > " + maxShippingCharges + " for " + preferredCarrier.getName()).append("<br/>") ;
+				String currentHoldReason = "Shipping Charges > " + maxShippingCharges + " for " + preferredCarrier.getName();
+				if (holdReason.indexOf(currentHoldReason) < 0){
+					holdReason.append(currentHoldReason).append("<br/>") ;
+				}
 				o.setHoldReason(holdReason.toString());
 				o.save();
 			}

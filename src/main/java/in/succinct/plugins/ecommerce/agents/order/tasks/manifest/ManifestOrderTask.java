@@ -22,6 +22,8 @@ public class ManifestOrderTask extends EntityTask<Order> {
     }
     @Override
     protected void execute(Order order) {
+        order.setHoldReason(null);
+        order.save();
         Manifest manifest = Database.getTable(Manifest.class).get(manifestId);
         for (OrderLine orderLine : order.getOrderLines()) {
             orderLine.manifest();
@@ -32,7 +34,6 @@ public class ManifestOrderTask extends EntityTask<Order> {
         map.get("manifest_number").setValue(manifest.getManifestNumber());
         map.get("courier").setValue(manifest.getPreferredCarrier().getName());
         map.get("preferred_carrier_id").setValue(String.valueOf(manifest.getPreferredCarrierId()));
-
 
         order.saveAttributeMap(map);
 

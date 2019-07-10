@@ -102,7 +102,7 @@ public class OrdersController extends ModelController<Order> {
 				}
 			}
 			if (orderPacked){
-				TaskManager.instance().executeAsync(new PacklistPrintTask(orderId),false);
+				TaskManager.instance().executeAsync(getTasksToPrint(orderId),false);
 				getPath().addInfoMessage("Labels being generated.. check after some time.");
 			}else {
 				getPath().addErrorMessage("Order is not yet packed.");
@@ -111,6 +111,11 @@ public class OrdersController extends ModelController<Order> {
 		}else {
 			return new RedirectorView(getPath(), getPath().controllerPath() + "/show/"+orderId +"/order_prints", "view/"+print.getId());
 		}
+	}
+	protected List getTasksToPrint(long orderId){
+		List<Task> printTasks = new ArrayList<>();
+		printTasks.add(new PacklistPrintTask(orderId));
+		return printTasks;
 	}
 	
 	@SingleRecordAction(icon="glyphicon-refresh",tooltip="Refresh")

@@ -60,7 +60,7 @@ public interface OrderLine extends Model {
     public void setDeliveryExpectedNoLaterThan(Timestamp ts);
 
 
-    @PROTECTION(Kind.NON_EDITABLE)
+    //@PROTECTION(Kind.NON_EDITABLE)
 	public double getOrderedQuantity();
 	public void setOrderedQuantity(double quantity);
 

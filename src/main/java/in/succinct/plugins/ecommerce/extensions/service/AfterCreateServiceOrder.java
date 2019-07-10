@@ -5,6 +5,7 @@ import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.extensions.AfterModelCreateExtension;
 import com.venky.swf.db.model.UserEmail;
+import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.plugins.collab.db.model.user.User;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedAddress;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder;
@@ -27,7 +28,7 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
         setAddress(model.getUser().getRawRecord().getAsProxy(User.class), billTo);
         billTo.save();
     }
-    private void setAddress(User owner, ExtendedAddress latest) {
+    private void setAddress(User owner, ServiceOrderAddress latest) {
         StringTokenizer tok = new StringTokenizer(owner.getLongName());
         if (tok.hasMoreTokens()){
             latest.setFirstName(tok.nextToken());
@@ -42,21 +43,8 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
             }
             latest.setLastName(lastName.toString());
         }
-        latest.setLat(owner.getLat());
-        latest.setLng(owner.getLng());
-        latest.setAddressLine1(owner.getAddressLine1());
-        latest.setAddressLine2(owner.getAddressLine2());
-        latest.setAddressLine3(owner.getAddressLine3());
-        latest.setAddressLine4(owner.getAddressLine4());
-        latest.setCityId(owner.getCityId());
-        latest.setStateId(owner.getStateId());
-        latest.setCountryId(owner.getCountryId());
-        latest.setPinCodeId(owner.getPinCodeId());
-        latest.setPhoneNumber(owner.getPhoneNumber());
-        latest.setAlternatePhoneNumber(owner.getAlternatePhoneNumber());
-        if (!ObjectUtil.isVoid(owner.getEmail())){
-            latest.setEmail(owner.getEmail());
-        }else {
+        Address.copy(owner,latest);
+        if (ObjectUtil.isVoid(latest.getEmail())){
             List<UserEmail> emails = owner.getUserEmails();
             if (!emails.isEmpty()){
                 UserEmail email = emails.get(0);

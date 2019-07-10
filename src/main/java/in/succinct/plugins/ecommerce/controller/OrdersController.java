@@ -112,7 +112,7 @@ public class OrdersController extends ModelController<Order> {
 			return new RedirectorView(getPath(), getPath().controllerPath() + "/show/"+orderId +"/order_prints", "view/"+print.getId());
 		}
 	}
-	protected List getTasksToPrint(long orderId){
+	protected List<Task> getTasksToPrint(long orderId){
 		List<Task> printTasks = new ArrayList<>();
 		printTasks.add(new PacklistPrintTask(orderId));
 		return printTasks;

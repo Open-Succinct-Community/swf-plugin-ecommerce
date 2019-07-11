@@ -139,4 +139,6 @@ public interface Order extends Model, CompanySpecific {
     @IS_NULLABLE
     public String getHoldReason();
     public void setHoldReason(String reason);
+
+    public List<OrderIntransitEvent> getIntransitUpdates();
 }

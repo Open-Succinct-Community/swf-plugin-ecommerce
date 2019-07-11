@@ -23,7 +23,7 @@ public interface OrderIntransitEvent extends Model {
     public String getEventType();
     public void setEventType(String eventType);
 
-    public Timestamp getEventTimeStamp();
+    public Timestamp getEventTimestamp();
     public void setEventTimestamp(Timestamp eventTimestamp);
 
     public String getEventDescription();

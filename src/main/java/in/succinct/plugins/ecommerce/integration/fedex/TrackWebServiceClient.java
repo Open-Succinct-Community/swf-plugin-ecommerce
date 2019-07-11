@@ -307,6 +307,9 @@ public class TrackWebServiceClient {
 		DateFormat ISO_8601_24H_FULL_FORMAT = DateUtils.getFormat( "yyyy-MM-dd'T'HH:mm:ssXXX");
 		if(events!=null){
 			int eventSeqNo = 0;
+			if (events.length > 0){
+				order.getIntransitUpdates().forEach(e->e.destroy());
+			}
 			for(int i= events.length -1; i > 0 ; i--) {
 				TrackEvent event = events[i];
 				OrderIntransitEvent oie = Database.getTable(OrderIntransitEvent.class).newRecord();
@@ -631,10 +634,10 @@ public class TrackWebServiceClient {
 			}else{
 				cat.info(o.toString());
 			}
-			
+
 		}
 	}
-	
+
 	private  void printWeight(String msg, Weight weight) {
 		if (msg == null || weight == null) {
 			return;

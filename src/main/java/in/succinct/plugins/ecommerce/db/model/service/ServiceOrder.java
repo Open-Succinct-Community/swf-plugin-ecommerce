@@ -35,7 +35,6 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setReference(String reference);
 
     @PARTICIPANT("USER")
-    @PROTECTION(Kind.NON_EDITABLE)
     @COLUMN_DEF(StandardDefault.CURRENT_USER)
     @IS_NULLABLE(false)
     @Index

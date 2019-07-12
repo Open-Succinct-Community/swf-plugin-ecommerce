@@ -11,6 +11,7 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.integration.fedex.RateWebServiceClient;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -115,7 +116,17 @@ public class OrderImpl  extends ModelImpl<Order>{
 	}
 	public void ship() {
 		Order order = getProxy(); 
-		order.getOrderLines().forEach(ol->{
+		order.getOrderLines().stream().sorted(new Comparator<OrderLine>() {
+			// Prevent Dead Lock
+			@Override
+			public int compare(OrderLine o1, OrderLine o2) {
+				long ret = o1.getSkuId() - o2.getSkuId();
+				if (ret == 0L){
+					ret = o1.getShipFromId() - o2.getShipFromId();
+				}
+				return (int)(ret);
+			}
+		}).forEach(ol->{
 			ol.ship();
 		});
 		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);

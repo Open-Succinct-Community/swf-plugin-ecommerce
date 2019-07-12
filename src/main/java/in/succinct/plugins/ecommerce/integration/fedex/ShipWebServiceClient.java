@@ -65,7 +65,9 @@ import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.routing.Config;
+import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
+import in.succinct.plugins.ecommerce.db.model.catalog.MasterItemCategoryValue;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasureConversionTable;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -694,7 +696,18 @@ public class ShipWebServiceClient {
     private  Commodity addCommodity(OrderLine ol) {
         Commodity commodity = new Commodity();
         commodity.setNumberOfPieces(new NonNegativeInteger("1"));
-        commodity.setDescription(ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue());
+        Item item =  ol.getSku().getItem();
+        ItemCategory itemCategory = item.getItemCategory("BUNDLE_CATEGORY");
+        if (itemCategory != null){
+            MasterItemCategoryValue value = itemCategory.getMasterItemCategoryValue();
+            if (value != null){
+                commodity.setDescription(value.getAllowedValue());
+            }
+        }
+        if (ObjectUtil.isVoid(commodity.getDescription())) {
+            commodity.setDescription(item.getName());
+        }
+
         commodity.setCountryOfManufacture("IN");
         commodity.setWeight(new Weight());
         Bucket wt = new Bucket();

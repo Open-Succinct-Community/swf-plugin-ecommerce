@@ -199,7 +199,8 @@ public class ShipWebServiceClient {
         OrderLine box = null;
         Bucket weight = new Bucket();
         for (OrderLine ol :order.getOrderLines()){
-            if (ol.getManifestedQuantity() > 0 && ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue().endsWith("Shipping Box")){
+            ItemCategory bundleCategory = ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY");
+            if (ol.getManifestedQuantity() > 0 && bundleCategory != null && bundleCategory.getMasterItemCategoryValue().getAllowedValue().endsWith("Shipping Box")){
                 box = ol;
                 //packageLineItems.add(addRequestedPackageLineItem(ol));
             }

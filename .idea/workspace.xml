@@ -7,7 +7,6 @@
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/misc.xml" afterDir="false" />
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/vcs.xml" afterDir="false" />
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/ShipWebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/ShipWebServiceClient.java" afterDir="false" />
       <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-calendar/pom.xml" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/pom.xml" afterDir="false" />
       <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" afterDir="false" />
@@ -139,7 +138,7 @@
           <entry key="CLASS" value="13" />
           <entry key="CSS" value="173" />
           <entry key="HTML" value="842" />
-          <entry key="JAVA" value="307132" />
+          <entry key="JAVA" value="307169" />
           <entry key="PLAIN_TEXT" value="33" />
           <entry key="Properties" value="8" />
           <entry key="XML" value="144" />
@@ -194,8 +193,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/ShipWebServiceClient.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="708" column="9" lean-forward="true" selection-start-line="708" selection-start-column="9" selection-end-line="708" selection-end-column="9" />
+            <state relative-caret-position="192">
+              <caret line="202" column="76" selection-start-line="202" selection-start-column="76" selection-end-line="202" selection-end-column="76" />
             </state>
           </provider>
         </entry>
@@ -1093,7 +1092,7 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/BundleImpl.java" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562957488568" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562957913325" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
@@ -1902,8 +1901,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/ShipWebServiceClient.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="708" column="9" lean-forward="true" selection-start-line="708" selection-start-column="9" selection-end-line="708" selection-end-column="9" />
+        <state relative-caret-position="192">
+          <caret line="202" column="76" selection-start-line="202" selection-start-column="76" selection-end-line="202" selection-end-column="76" />
         </state>
       </provider>
     </entry>

@@ -5,6 +5,7 @@ import com.venky.cache.Cache;
 import com.venky.geo.GeoCoordinate;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack.PackValidationException;
+import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
 import com.venky.cache.UnboundedCache;
@@ -306,4 +307,20 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
             line.save();
 	    }
     }
+
+    private String hsn = null;
+    public String getHsn(){
+        if (hsn == null){
+            OrderLine line  = getProxy();
+            ItemCategory category = line.getSku().getItem().getItemCategory("HSN");
+            if (category != null){
+                hsn = category.getMasterItemCategoryValue().getAllowedValue();
+            }else {
+                hsn = "";
+            }
+        }
+        return hsn;
+    }
+
+
 }

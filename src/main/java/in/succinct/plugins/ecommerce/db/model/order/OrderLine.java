@@ -265,4 +265,6 @@ public interface OrderLine extends Model {
 	public Double getPrice();
 	public void setPrice(Double price);
 
+	@IS_VIRTUAL
+	public String getHsn();
 }

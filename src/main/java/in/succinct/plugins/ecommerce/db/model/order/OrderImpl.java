@@ -27,9 +27,17 @@ public class OrderImpl  extends ModelImpl<Order>{
 	
 	private Map<String,OrderAttribute> map = null;
 
+	String orderNumber = null;
 	public String getOrderNumber(){
-		return String.valueOf(getProxy().getId());
+		if (orderNumber == null){
+			orderNumber = getProxy().getId() == 0 ? "" : String.valueOf(getProxy().getId());
+		}
+		return orderNumber;
 	}
+	public void setOrderNumber(String orderNumber){
+		this.orderNumber = orderNumber;
+	}
+
 
 	public synchronized Map<String,OrderAttribute> getAttributeMap() {
 		if (map == null) {

@@ -26,6 +26,7 @@ public interface Order extends Model, CompanySpecific {
 
     @IS_VIRTUAL
     public String getOrderNumber();
+    public void setOrderNumber(String orderNumber);
 
 
     @UNIQUE_KEY

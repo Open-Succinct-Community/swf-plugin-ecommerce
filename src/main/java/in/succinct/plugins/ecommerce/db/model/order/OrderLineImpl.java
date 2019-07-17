@@ -312,11 +312,14 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
     public String getHsn(){
         if (hsn == null){
             OrderLine line  = getProxy();
-            ItemCategory category = line.getSku().getItem().getItemCategory("HSN");
-            if (category != null){
-                hsn = category.getMasterItemCategoryValue().getAllowedValue();
-            }else {
-                hsn = "";
+            if (!line.getReflector().isVoid(line.getSkuId())){
+                ItemCategory category = line.getSku().getItem().getItemCategory("HSN");
+                if (category != null){
+                    hsn = category.getMasterItemCategoryValue().getAllowedValue();
+                }else {
+                    hsn = "";
+                }
+
             }
         }
         return hsn;

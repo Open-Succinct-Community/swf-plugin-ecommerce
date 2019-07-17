@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.extensions.order.line;
 
 import com.venky.core.collections.SequenceSet;
 import com.venky.core.math.DoubleUtils;
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
 import com.venky.swf.plugins.background.core.Task;
@@ -9,11 +10,15 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
+import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
+import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
+import java.util.Optional;
 
 public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 	static { 
@@ -101,11 +106,18 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 			Double oldDeliveredQuantity = dConvertor.valueOf(orderLine.getRawRecord().getOldValue("DELIVERED_QUANTITY"));
 			if (DoubleUtils.equals(oldDeliveredQuantity,0)) {
 				orderLine.setDeliveredTs(now);
-                tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+				tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+			}
+			double newDeliveredQty = orderLine.getDeliveredQuantity();
+			double qtyDeliveredNow = newDeliveredQty - oldDeliveredQuantity;
+
+			Optional<OrderAddress> possibleShipToFacility = orderLine.getOrder().getAddresses().stream().filter(a->a.getFacilityId() != null && ObjectUtil.equals(a.getAddressType(), OrderAddress.ADDRESS_TYPE_SHIP_TO)).findFirst();
+			if (possibleShipToFacility.isPresent()){
+				OrderAddress shipToFacility = possibleShipToFacility.get();
+				Inventory.adjust(shipToFacility.getFacility(),orderLine.getSku(),qtyDeliveredNow,"Receipt into facility " + shipToFacility.getFacility().getName() + " via Order " + orderLine.getOrderId());
 			}
 		}
 		if (orderLine.getReturnedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("RETURNED_QUANTITY")) {
-
             TypeConverter<Double> dConvertor = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
             Double oldReturnedQuantity = dConvertor.valueOf(orderLine.getRawRecord().getOldValue("RETURNED_QUANTITY"));
             if (DoubleUtils.equals(oldReturnedQuantity,0)) {

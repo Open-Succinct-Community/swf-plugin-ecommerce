@@ -8,6 +8,8 @@ import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
+import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+
 @EXPORTABLE(false)
 
 public interface OrderAddress extends Model, Address {
@@ -21,6 +23,11 @@ public interface OrderAddress extends Model, Address {
 	@Enumeration(ADDRESS_TYPE_SHIP_TO +","+ADDRESS_TYPE_BILL_TO)
 	public  String getAddressType();
 	public void setAddressType(String addressType);
+
+
+	public Long getFacilityId();
+	public void setFacilityId(Long id);
+	public Facility getFacility();
 
 	public String getFirstName();
 	public void setFirstName(String name);

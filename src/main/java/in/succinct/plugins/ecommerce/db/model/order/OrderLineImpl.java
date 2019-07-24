@@ -258,7 +258,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
                         ol.setShipFromId(shipNodeIds.get(0));
                     }else {
                         Select select = new Select().from(Facility.class);
-                        List<Facility> facilities = select.where(new Expression(select.getPool(),"FACILITY_ID" , Operator.IN, shipNodeIds)).execute();
+                        List<Facility> facilities = select.where(new Expression(select.getPool(),"FACILITY_ID" , Operator.IN, shipNodeIds.toArray())).execute();
                         Map<Long,Facility> facilityMap = new HashMap<>();
                         facilities.forEach(f->{
                             facilityMap.put(f.getId(),f);

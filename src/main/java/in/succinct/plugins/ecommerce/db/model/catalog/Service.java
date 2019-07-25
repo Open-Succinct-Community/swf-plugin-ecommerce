@@ -27,6 +27,8 @@ public interface Service extends Model, CompanySpecific {
     public String getName();
     public void setName(String name);
 
+    public String getTaxCode();
+    public void setTaxCode(String taxCode);
 
     public double getMaxRetailPrice();
     public void setMaxRetailPrice(double sellingPrice);

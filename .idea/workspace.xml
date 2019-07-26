@@ -7,7 +7,8 @@
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/misc.xml" afterDir="false" />
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/vcs.xml" afterDir="false" />
       <change afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/RateWebServiceClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/RateWebServiceClient.java" afterDir="false" />
       <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-calendar/pom.xml" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-calendar/pom.xml" afterDir="false" />
       <change beforePath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" beforeDir="false" afterPath="/mnt/Media/Projects/java/github/swf-plugin-wiki/src/main/java/com/venky/swf/plugins/wiki/controller/PagesController.java" afterDir="false" />
     </list>
@@ -45,7 +46,7 @@
     <session id="84167019">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="163" />
+          <entry key="project.closed" value="164" />
           <entry key="project.open.time.0" value="1" />
           <entry key="project.open.time.1" value="13" />
           <entry key="project.open.time.108" value="1" />
@@ -54,7 +55,7 @@
           <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.14" value="2" />
           <entry key="project.open.time.15" value="4" />
-          <entry key="project.open.time.16" value="3" />
+          <entry key="project.open.time.16" value="4" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.2" value="10" />
           <entry key="project.open.time.20" value="1" />
@@ -85,7 +86,7 @@
           <entry key="project.open.time.48" value="6" />
           <entry key="project.open.time.49" value="2" />
           <entry key="project.open.time.5" value="3" />
-          <entry key="project.open.time.50" value="4" />
+          <entry key="project.open.time.50" value="5" />
           <entry key="project.open.time.51" value="1" />
           <entry key="project.open.time.52" value="1" />
           <entry key="project.open.time.53" value="5" />
@@ -103,7 +104,7 @@
           <entry key="project.open.time.71" value="1" />
           <entry key="project.open.time.76" value="1" />
           <entry key="project.open.time.8" value="2" />
-          <entry key="project.opened" value="170" />
+          <entry key="project.opened" value="172" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -120,7 +121,7 @@
           <entry key="CLASS" value="202" />
           <entry key="CSS" value="2" />
           <entry key="HTML" value="7" />
-          <entry key="JAVA" value="7095" />
+          <entry key="JAVA" value="7126" />
           <entry key="PLAIN_TEXT" value="3" />
           <entry key="Properties" value="14" />
           <entry key="XML" value="29" />
@@ -139,7 +140,7 @@
           <entry key="CLASS" value="13" />
           <entry key="CSS" value="173" />
           <entry key="HTML" value="842" />
-          <entry key="JAVA" value="320023" />
+          <entry key="JAVA" value="323700" />
           <entry key="PLAIN_TEXT" value="33" />
           <entry key="Properties" value="8" />
           <entry key="XML" value="144" />
@@ -150,100 +151,91 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceFacility.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="635">
+              <caret line="124" lean-forward="true" selection-start-line="124" selection-end-line="124" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/SickPetDetail.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/subscription/BeforeSaveSubscription.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
+            <state relative-caret-position="180">
+              <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetail.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
-              <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
+            <state relative-caret-position="335">
+              <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/OrderLine.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/SubscriptionImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="28" column="17" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServicedRegion.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="33" lean-forward="true" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderLine.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
+            <state relative-caret-position="173">
+              <caret line="263" column="17" lean-forward="true" selection-start-line="263" selection-start-column="17" selection-end-line="263" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/pet/PetImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+            <state relative-caret-position="130">
+              <caret line="561" column="18" lean-forward="true" selection-start-line="561" selection-start-column="18" selection-end-line="561" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/service/ServiceResource.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="14" lean-forward="true" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="495">
+              <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/Service.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/PetParticipationExtension.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="11" column="85" lean-forward="true" selection-start-line="11" selection-start-column="85" selection-end-line="11" selection-end-column="85" />
+              <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/model/User.java">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/OrderParticipationExtension.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
-              <caret line="38" column="17" selection-start-line="38" selection-start-column="17" selection-end-line="38" selection-end-column="17" />
+            <state relative-caret-position="60">
+              <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/OrderLineParticipantExtension.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/InvoiceDetailParticipantExtension.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="60">
+              <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -264,8 +256,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>rewriteQuery</find>
-      <find>modelClass</find>
       <find>numberOfActiveRecommendations</find>
       <find>getRecommendationRules()</find>
       <find>autoInvalidate</find>
@@ -294,6 +284,8 @@
       <find>isControllerActionAccessibleAtAll</find>
       <find>model.set</find>
       <find>Pricing.roundOff</find>
+      <find>getChargesPerPet</find>
+      <find>stop</find>
     </findStrings>
     <replaceStrings>
       <replace>com.venky.swf.plugins.ecommerce</replace>
@@ -334,13 +326,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/controller/ModelController.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/ServicePriceCalculator.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderImpl.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/RecommendationRuleImpl.java" />
-        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/OrderAddress.java" />
-        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/BeforeSaveOrderAddress.java" />
-        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/extensions/order/line/BeforeSaveOrderLine.java" />
         <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/controller/Controller.java" />
         <option value="/mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/path/Path.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/inventory/InventoryAudit.java" />
@@ -358,15 +343,12 @@
         <option value="/mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/table/Record.java" />
         <option value="/mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/table/ModelInvocationHandler.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/Subscription.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/SubscriptionImpl.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/Pricing.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/order/OrderImpl.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/BeforeSaveInvoiceDetail.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/order/AfterSaveOrder.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/subscription/BeforeSaveSubscription.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/OrderLineImpl.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/MicroService.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ContainedService.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/BeforeSaveInvoice.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/AfterSaveInvoice.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceRateSlab.java" />
@@ -375,16 +357,26 @@
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceVisitRate.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServicedCity.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceFacility.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/Service.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceVisitCharge.java" />
         <option value="$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/extensions/beforesave/BeforeSaveAddress.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/pet/PetImpl.java" />
-        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderLine.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetail.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetailImpl.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/service/ServiceResource.java" />
         <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServicedRegion.java" />
         <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/RecommendationRuleImpl.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/BeforeSaveInvoiceDetail.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrder.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/Service.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ContainedService.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderLine.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ChosenService.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/ChosenServiceParticipantExtension.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/service/BeforeSaveChosenService.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/RateWebServiceClient.java" />
+        <option value="/mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/SubscriptionImpl.java" />
       </list>
     </option>
   </component>
@@ -426,7 +418,164 @@
       <foldersAlwaysOnTop value="false" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="service" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="extensions" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="extensions" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="extensions" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="service" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+            <path>
+              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
+              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="extensions" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+              <item name="participant" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -586,245 +735,13 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope">
-        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
-          <expand>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ecommerce" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ecommerce" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ecommerce" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ecommerce" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="catalog" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="ecommerce" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="in" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="succinct" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="plugins" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="ecommerce" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="order" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="bill" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-            <path>
-              <item name="Wiggles" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
-              <item name="wiggles" type="2674bda8:ScopeViewTreeModel$GroupNode" />
-              <item name="src" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="main" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="java" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="com" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="retail" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="sixthsense" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="wiggles" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="db" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="model" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-              <item name="service" type="9f88c78c:ScopeViewTreeModel$FileNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/BundleImpl.java" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564054194102" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1564136378838" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java" />
@@ -1024,14 +941,14 @@
       <window_info id="Favorites" order="2" sideWeight="0.52235293" side_tool="true" weight="0.47881997" />
       <window_info id="Capture Tool" order="3" />
       <window_info id="Image Layers" order="4" />
-      <window_info active="true" x="5" y="134" width="611" height="563" id="Project" order="5" sideWeight="0.47764707" visible="true" weight="0.39258698" />
+      <window_info x="5" y="134" width="611" height="563" id="Project" order="5" sideWeight="0.47764707" weight="0.39863843" />
       <window_info id="Structure" order="6" sideWeight="0.5183374" side_tool="true" weight="0.3464448" />
       <window_info anchor="bottom" id="Version Control" order="0" weight="0.32764506" />
       <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49621212" weight="0.20648465" />
       <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50378215" side_tool="true" weight="0.45901638" />
       <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49924242" weight="0.58032787" />
       <window_info anchor="bottom" id="Message" order="4" />
-      <window_info anchor="bottom" id="Find" order="5" sideWeight="0.4977307" weight="0.30983606" />
+      <window_info active="true" anchor="bottom" id="Find" order="5" sideWeight="0.4977307" visible="true" weight="0.30983606" />
       <window_info anchor="bottom" id="Run" order="6" weight="0.32935154" />
       <window_info anchor="bottom" id="Debug" order="7" sideWeight="0.49621785" weight="0.4" />
       <window_info anchor="bottom" id="Problems" order="8" sideWeight="0.4969743" weight="0.27377048" />
@@ -1049,6 +966,37 @@
       <window_info anchor="right" id="Maven Projects" order="8" side_tool="true" weight="0.3290469" />
       <window_info anchor="right" id="Ant Build" order="9" side_tool="true" weight="0.24962178" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Designer" order="0" />
+      <window_info id="UI Designer" order="1" />
+      <window_info id="Favorites" order="2" sideWeight="0.52235293" side_tool="true" weight="0.47881997" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="Image Layers" order="4" />
+      <window_info x="5" y="134" width="611" height="563" id="Project" order="5" sideWeight="0.47764707" weight="0.39863843" />
+      <window_info id="Structure" order="6" sideWeight="0.5183374" side_tool="true" weight="0.3464448" />
+      <window_info anchor="bottom" id="Version Control" order="0" weight="0.32764506" />
+      <window_info anchor="bottom" id="Terminal" order="1" sideWeight="0.49621212" weight="0.20648465" />
+      <window_info anchor="bottom" id="Event Log" order="2" sideWeight="0.50378215" side_tool="true" weight="0.45901638" />
+      <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49924242" weight="0.58032787" />
+      <window_info anchor="bottom" id="Message" order="4" />
+      <window_info active="true" anchor="bottom" id="Find" order="5" sideWeight="0.4977307" visible="true" weight="0.30983606" />
+      <window_info anchor="bottom" id="Run" order="6" weight="0.32935154" />
+      <window_info anchor="bottom" id="Debug" order="7" sideWeight="0.49621785" weight="0.4" />
+      <window_info anchor="bottom" id="Problems" order="8" sideWeight="0.4969743" weight="0.27377048" />
+      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="11" weight="0.32935154" />
+      <window_info anchor="right" id="Capture Analysis" order="0" />
+      <window_info anchor="right" id="Theme Preview" order="1" />
+      <window_info anchor="right" x="0" y="0" width="291" height="546" id="Documentation" order="2" side_tool="true" weight="0.32954547" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="5" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Coverage" order="6" weight="0.32980332" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="7" side_tool="true" weight="0.24962178" />
+      <window_info anchor="right" id="Maven Projects" order="8" side_tool="true" weight="0.3290469" />
+      <window_info anchor="right" id="Ant Build" order="9" side_tool="true" weight="0.24962178" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -1236,143 +1184,10 @@
     </expressions>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/Order.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="185">
-          <caret line="84" column="24" selection-start-line="84" selection-start-column="24" selection-end-line="84" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/Invoice.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/Recommendation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="122">
-          <caret line="94" column="20" selection-start-line="94" selection-start-column="20" selection-end-line="94" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/subscription/BeforeValidateRecommendation.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="15" column="16" selection-start-line="15" selection-start-column="16" selection-end-line="15" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/Pricing.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="227">
-          <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/BeforeSaveInvoiceDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="19" column="16" selection-start-line="19" selection-start-column="16" selection-end-line="19" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf/src/main/java/com/venky/swf/controller/ModelController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="138" selection-start-line="138" selection-end-line="138" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="104">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/SubscriptionImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1920">
-          <caret line="169" selection-start-line="169" selection-end-line="169" />
-          <folding>
-            <element signature="e#1838#1839#0" expanded="true" />
-            <element signature="e#1899#1900#0" expanded="true" />
-            <element signature="e#3520#3521#0" expanded="true" />
-            <element signature="e#3557#3558#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/subscription/BeforeSaveSubscription.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="540">
-          <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/table/ModelInvocationHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="95" selection-start-line="95" selection-end-line="95" />
-          <folding>
-            <element signature="e#11373#11374#0" expanded="true" />
-            <element signature="e#11442#11443#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/table/BindVariable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="36" column="15" selection-start-line="36" selection-start-column="15" selection-end-line="36" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///usr/lib/jvm/oracle-jdk-bin-1.8/src.zip!/java/lang/ref/Reference.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/sql/Expression.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="66" column="25" lean-forward="true" selection-start-line="66" selection-start-column="25" selection-end-line="66" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/MicroService.java" />
-    <entry file="file:///mnt/Media/Projects/java/github/swf-all/swf-db/src/main/java/com/venky/swf/db/annotations/column/relationship/CONNECTED_VIA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="10" column="18" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/service/BeforeCreateServiceOrderLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="94">
-          <caret line="36" column="59" lean-forward="true" selection-start-line="36" selection-start-column="59" selection-end-line="36" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/order/OrderImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="143" column="16" selection-start-line="143" selection-start-column="16" selection-end-line="143" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/order/Order.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="25" column="23" selection-start-line="25" selection-start-column="23" selection-end-line="25" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/service/ServiceOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1003">
-          <caret line="29" column="17" selection-start-line="29" selection-start-column="17" selection-end-line="29" selection-end-column="17" />
         </state>
       </provider>
     </entry>
@@ -1408,16 +1223,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
           <caret line="14" column="33" selection-start-line="14" selection-start-column="33" selection-end-line="14" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="53">
-          <caret line="12" column="92" selection-start-line="12" selection-start-column="92" selection-end-line="12" selection-end-column="92" />
         </state>
       </provider>
     </entry>
@@ -1436,13 +1241,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ContainedService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="17" selection-start-line="4" selection-start-column="17" selection-end-line="4" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/inventory/Inventory.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="134">
@@ -1454,17 +1252,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="189">
           <caret line="144" selection-start-line="144" selection-end-line="144" />
-          <folding>
-            <element signature="e#1906#1907#0" expanded="true" />
-            <element signature="e#1953#1954#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/participants/admin/Address.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="36" lean-forward="true" selection-start-line="36" selection-end-line="36" />
         </state>
       </provider>
     </entry>
@@ -1482,20 +1269,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/pet/PetImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="130">
-          <caret line="561" column="18" lean-forward="true" selection-start-line="561" selection-start-column="18" selection-end-line="561" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/order/AfterSaveOrder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1710">
           <caret line="328" column="44" lean-forward="true" selection-start-line="328" selection-start-column="44" selection-end-line="328" selection-end-column="44" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1513,25 +1290,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetailImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="25" selection-start-line="16" selection-start-column="25" selection-end-line="16" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#258#259#0" expanded="true" />
-            <element signature="e#278#279#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetail.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
-          <caret line="70" lean-forward="true" selection-start-line="70" selection-end-line="70" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetailImpl.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/order/OrderLine.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -1550,46 +1309,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
           <caret line="13" column="14" lean-forward="true" selection-start-line="13" selection-start-column="14" selection-end-line="13" selection-end-column="14" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceVisitCharge.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="17" selection-start-line="7" selection-start-column="17" selection-end-line="7" selection-end-column="17" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceVisitCharge.java" />
     <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceFacility.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="23" column="24" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServicedRegion.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="33" lean-forward="true" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderLine.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="23" column="24" lean-forward="true" selection-start-line="23" selection-start-column="24" selection-end-line="23" selection-end-column="24" />
         </state>
       </provider>
     </entry>
@@ -1600,17 +1327,198 @@
         </state>
       </provider>
     </entry>
-    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/Service.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="11" column="85" lean-forward="true" selection-start-line="11" selection-start-column="85" selection-end-line="11" selection-end-column="85" />
+        <state relative-caret-position="390">
+          <caret line="42" lean-forward="true" selection-start-line="42" selection-end-line="42" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/catalog/Service.java">
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/agent/ServicePriceCalculator.java" />
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/Service.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="30" column="43" selection-start-line="30" selection-start-column="43" selection-end-line="30" selection-end-column="43" />
+        <state>
+          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/participants/admin/Address.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="27" column="17" selection-start-line="27" selection-start-column="17" selection-end-line="27" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/db/model/service/ServiceOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="85" column="19" selection-start-line="85" selection-start-column="19" selection-end-line="85" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/RecommendationRuleImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="166" column="27" selection-start-line="166" selection-start-column="27" selection-end-line="166" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceDetail.java">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/bill/InvoiceServiceItemSelector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="167">
+          <caret line="19" column="73" lean-forward="true" selection-start-line="19" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/bill/BeforeSaveInvoiceDetail.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="30" column="44" lean-forward="true" selection-start-line="30" selection-start-column="44" selection-end-line="30" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ContainedService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="17" selection-start-line="5" selection-start-column="17" selection-end-line="5" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServicedRegion.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="296">
+          <caret line="23" column="13" selection-start-line="23" selection-start-column="13" selection-end-line="23" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/../swf-all/swf-plugin-collab/src/main/java/com/venky/swf/plugins/collab/db/model/config/PinCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="105">
+          <caret line="12" column="17" selection-start-line="12" selection-start-column="17" selection-end-line="12" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/ActiveSkuParticipationExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderLine.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="315">
+          <caret line="28" column="18" selection-start-line="28" selection-start-column="18" selection-end-line="28" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/service/BeforeSaveChosenService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="24" column="13" selection-start-line="24" selection-start-column="13" selection-end-line="24" selection-end-column="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ChosenService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="40" column="18" selection-start-line="40" selection-start-column="18" selection-end-line="40" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/PetParticipationExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="14" column="13" selection-start-line="14" selection-start-column="13" selection-end-line="14" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/OrderParticipationExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="9" column="13" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/OrderLineParticipantExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/InvoiceDetailParticipantExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="13" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/participant/ChosenServiceParticipantExtension.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="28" column="19" selection-start-line="28" selection-start-column="19" selection-end-line="28" selection-end-column="19" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/service/ServiceOrderImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="635">
+          <caret line="124" lean-forward="true" selection-start-line="124" selection-end-line="124" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/controller/SubscriptionsController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="335">
+          <caret line="75" column="23" selection-start-line="75" selection-start-column="23" selection-end-line="75" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/in/succinct/plugins/ecommerce/integration/fedex/RateWebServiceClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="98">
+          <caret line="103" column="87" lean-forward="true" selection-start-line="103" selection-start-column="87" selection-end-line="103" selection-end-column="87" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/extensions/model/subscription/BeforeSaveSubscription.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="24" column="9" lean-forward="true" selection-start-line="24" selection-start-column="9" selection-end-line="24" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/subscription/SubscriptionImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="173">
+          <caret line="263" column="17" lean-forward="true" selection-start-line="263" selection-start-column="17" selection-end-line="263" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file:///mnt/Media/Projects/java/wiggles/src/main/java/com/retail/sixthsense/wiggles/db/model/pet/PetImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="561" column="18" lean-forward="true" selection-start-line="561" selection-start-column="18" selection-end-line="561" selection-end-column="18" />
         </state>
       </provider>
     </entry>

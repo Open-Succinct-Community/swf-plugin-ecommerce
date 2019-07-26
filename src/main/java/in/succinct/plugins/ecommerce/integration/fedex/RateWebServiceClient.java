@@ -61,6 +61,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
@@ -83,13 +84,16 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	public RateWebServiceClient(Facility from , M rateable){
 		this.from = from;
 		this.rateable = rateable;
-		carrier = from.getPreferredCarriers().stream().filter(pc-> pc.getName().equalsIgnoreCase("FedEx")).collect(Collectors.toList()).get(0);
+		Optional<PreferredCarrier> optionalCarrier = from.getPreferredCarriers().stream().filter(pc-> pc.getName().equalsIgnoreCase("FedEx")).findFirst();
+		if  (optionalCarrier.isPresent()){
+			carrier = optionalCarrier.get();
+		}
 	}
 
 
 	public FedexTransitTime getTransitTime(){
 		FedexTransitTime transitTime = null;
-	    if (rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
+	    if (carrier != null && rateable.getCityId() != null && rateable.getPinCodeId() != null && rateable.getStateId() != null){
 
 			ModelReflector<FedexTransitTime> ref = ModelReflector.instance(FedexTransitTime.class);
 

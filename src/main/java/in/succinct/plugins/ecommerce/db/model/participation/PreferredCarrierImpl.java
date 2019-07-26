@@ -35,7 +35,7 @@ public class PreferredCarrierImpl extends ModelImpl<PreferredCarrier> {
             if (facility != null) {
                 List<OrderAddress> addresses = order.getAddresses().stream().filter(oa -> oa.getAddressType().equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)).collect(Collectors.toList());
                 if (!addresses.isEmpty()){
-                    FedexTransitTime transitTime = new RateWebServiceClient<OrderAddress>(facility,addresses.get(0)).getTransitTime();
+                    FedexTransitTime transitTime = new RateWebServiceClient<OrderAddress>(carrier,facility,addresses.get(0)).getTransitTime();
                     return transitTime.getRateFor1KgPackage();
                 }
             }

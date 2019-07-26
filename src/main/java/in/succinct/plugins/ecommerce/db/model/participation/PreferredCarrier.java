@@ -8,6 +8,7 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
+import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import in.succinct.plugins.ecommerce.db.model.order.Manifest;

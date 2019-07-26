@@ -77,17 +77,19 @@ public class CreateManifestTask implements Task{
 		packedOrders.forEach(o-> {
 			Double estimatedCharges = preferredCarrier.getEstimatedShippingCharges(o);
 			Double maxShippingCharges = preferredCarrier.getMaxShippingCharges();
-			if (estimatedCharges == null || maxShippingCharges == null || estimatedCharges < maxShippingCharges ) {
-				TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);
-			}else {
-				StringBuilder holdReason = new StringBuilder();
-				holdReason.append(StringUtil.valueOf(o.getHoldReason()));
-				String currentHoldReason = "Shipping Charges > " + maxShippingCharges + " for " + preferredCarrier.getName();
-				if (holdReason.indexOf(currentHoldReason) < 0){
-					holdReason.append(currentHoldReason).append("<br/>") ;
+			if (ObjectUtil.isVoid(o.getPreferredCarrierName()) || ObjectUtil.equals(o.getPreferredCarrierName(),preferredCarrier.getName())){
+				if (estimatedCharges == null || maxShippingCharges == null || estimatedCharges < maxShippingCharges ) {
+					TaskManager.instance().executeAsync(new ManifestOrderTask(o.getId(),manifest.getId()),false);
+				}else {
+					StringBuilder holdReason = new StringBuilder();
+					holdReason.append(StringUtil.valueOf(o.getHoldReason()));
+					String currentHoldReason = "Shipping Charges > " + maxShippingCharges + " for " + preferredCarrier.getName();
+					if (holdReason.indexOf(currentHoldReason) < 0){
+						holdReason.append(currentHoldReason).append("<br/>") ;
+					}
+					o.setHoldReason(holdReason.toString());
+					o.save();
 				}
-				o.setHoldReason(holdReason.toString());
-				o.save();
 			}
 		});
 	}

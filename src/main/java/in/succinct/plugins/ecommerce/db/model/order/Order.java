@@ -11,6 +11,7 @@ import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
+import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -27,6 +28,11 @@ public interface Order extends Model, CompanySpecific {
     @IS_VIRTUAL
     public String getOrderNumber();
     public void setOrderNumber(String orderNumber);
+
+    @Enumeration(",FedEx,IndiaPost")
+    @IS_NULLABLE
+    public String getPreferredCarrierName();
+    public void setPreferredCarrierName(String name);
 
 
     @UNIQUE_KEY

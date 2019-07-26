@@ -81,7 +81,16 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	Facility from ;
 	M rateable ;
 	PreferredCarrier carrier;
-	public RateWebServiceClient(Facility from , M rateable){
+	public RateWebServiceClient(PreferredCarrier carrier , Facility from , M rateable){
+		this.from = from;
+		this.rateable = rateable;
+		this.carrier = null;
+		if (carrier.getName().equalsIgnoreCase("FedEx")){
+			this.carrier = carrier;
+		}
+	}
+
+	public RateWebServiceClient(Facility from, M rateable){
 		this.from = from;
 		this.rateable = rateable;
 		Optional<PreferredCarrier> optionalCarrier = from.getPreferredCarriers().stream().filter(pc-> pc.getName().equalsIgnoreCase("FedEx")).findFirst();
@@ -89,6 +98,7 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 			carrier = optionalCarrier.get();
 		}
 	}
+
 
 
 	public FedexTransitTime getTransitTime(){

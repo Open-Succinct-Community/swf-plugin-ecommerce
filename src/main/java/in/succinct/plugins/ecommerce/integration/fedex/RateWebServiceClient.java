@@ -81,6 +81,7 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
 	Facility from ;
 	M rateable ;
 	PreferredCarrier carrier;
+	public static final int MAX_TRANSIT_DAYS = 5;
 	public RateWebServiceClient(PreferredCarrier carrier , Facility from , M rateable){
 		this.from = from;
 		this.rateable = rateable;
@@ -139,7 +140,7 @@ public class RateWebServiceClient<M extends Model & com.venky.swf.plugins.collab
         	transitTime = Database.getTable(FedexTransitTime.class).newRecord();
         	transitTime.setOriginCityId(from.getCityId());
         	transitTime.setDestinationCityId(rateable.getCityId());
-        	transitTime.setTransitDays(5);
+        	transitTime.setTransitDays(MAX_TRANSIT_DAYS);
         	transitTime.setRateFor1KgPackage(500.0);
 		}
 		return transitTime;

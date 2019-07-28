@@ -1,6 +1,8 @@
 package in.succinct.plugins.ecommerce.db.model.order;
 
 import com.venky.cache.Cache;
+import com.venky.core.date.DateUtils;
+import com.venky.core.util.ObjectUtil;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import com.venky.cache.UnboundedCache;
 import com.venky.core.util.Bucket;
@@ -10,10 +12,15 @@ import com.venky.swf.db.table.ModelImpl;
 import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.integration.fedex.RateWebServiceClient;
+import org.apache.poi.ss.formula.functions.Rate;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class OrderImpl  extends ModelImpl<Order>{
@@ -170,4 +177,32 @@ public class OrderImpl  extends ModelImpl<Order>{
 		//
 	}
 
+	public Date getExpectedDeliveryDate(){
+		Order order =  getProxy();
+		Timestamp shipByDate = order.getShipByDate();
+		Date expectedDeliveryDate = null;
+		long today = DateUtils.getStartOfDay(System.currentTimeMillis());
+		long shipDate = (shipByDate != null && shipByDate.getTime() >= today) ? shipByDate.getTime() : today ;
+
+		expectedDeliveryDate = new Date(shipDate + getTransitDays() * 24L * 60L * 60L * 1000L);
+
+		return expectedDeliveryDate;
+	}
+	public int getTransitDays(){
+		Order order =  getProxy();
+		int transitDays = RateWebServiceClient.MAX_TRANSIT_DAYS;
+		Optional<OrderAddress> optionalShipTo = order.getAddresses().stream().filter(a-> ObjectUtil.equals(a.getAddressType(),OrderAddress.ADDRESS_TYPE_SHIP_TO)).findFirst();
+		if (!optionalShipTo.isPresent()) {
+			OrderAddress shipTo = optionalShipTo.get();
+			List<OrderLine> lines = order.getOrderLines();
+			if (!lines.isEmpty()){
+				OrderLine line = lines.get(0);
+				if (line.getShipFromId() != null){
+					Facility facility = line.getShipFrom();
+					transitDays = new RateWebServiceClient<OrderAddress>(facility,shipTo).getTransitTime().getTransitDays();
+				}
+			}
+		}
+		return transitDays + 2; //Buffer
+	}
 }

@@ -25,6 +25,7 @@ import java.util.List;
 public interface Service extends Model, CompanySpecific {
     @UNIQUE_KEY("K2")
     @IS_NULLABLE
+    @Index
     public String getCode();
     public void setCode(String code);
 
@@ -32,6 +33,10 @@ public interface Service extends Model, CompanySpecific {
     @Index
     public String getName();
     public void setName(String name);
+
+    @UNIQUE_KEY("K1,K2")
+    public Long getCompanyId();
+
 
 
     public String getTaxCode();

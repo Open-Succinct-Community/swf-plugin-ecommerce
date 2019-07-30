@@ -35,7 +35,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 		if (orderLine.getOrderedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("ORDERED_QUANTITY") ){
             orderLine.setOrderedTs(now);
         }
-		if (orderLine.getRawRecord().isFieldDirty("ACKNOWLEDGED_QUANTITY")) {
+		if (!orderLine.getRawRecord().isNewRecord() && orderLine.getRawRecord().isFieldDirty("ACKNOWLEDGED_QUANTITY")) {
 			if (orderLine.getAcknowledgedQuantity() > 0 ){
 				orderLine.setAcknowledgedTs(now);
 			}else {

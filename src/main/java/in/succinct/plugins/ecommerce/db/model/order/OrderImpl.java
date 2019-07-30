@@ -198,7 +198,7 @@ public class OrderImpl  extends ModelImpl<Order>{
 		Order order =  getProxy();
 		int transitDays = RateWebServiceClient.MAX_TRANSIT_DAYS;
 		Optional<OrderAddress> optionalShipTo = order.getAddresses().stream().filter(a-> ObjectUtil.equals(a.getAddressType(),OrderAddress.ADDRESS_TYPE_SHIP_TO)).findFirst();
-		if (!optionalShipTo.isPresent()) {
+		if (optionalShipTo.isPresent()) {
 			OrderAddress shipTo = optionalShipTo.get();
 			List<OrderLine> lines = order.getOrderLines();
 			if (!lines.isEmpty()){

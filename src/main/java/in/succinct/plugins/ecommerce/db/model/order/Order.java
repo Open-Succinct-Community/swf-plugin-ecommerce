@@ -110,6 +110,8 @@ public interface Order extends Model, CompanySpecific {
 
     public void acknowledge();
 
+    public void backorder();
+
     public void reject();
     public void cancel(String reason);
     public void cancel(String reason,String initiator);

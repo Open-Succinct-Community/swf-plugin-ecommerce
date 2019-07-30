@@ -267,4 +267,6 @@ public interface OrderLine extends Model {
 
 	@IS_VIRTUAL
 	public String getHsn();
+
+    void backorder();
 }

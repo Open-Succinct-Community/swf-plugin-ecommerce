@@ -82,7 +82,13 @@ public class OrderImpl  extends ModelImpl<Order>{
 		}
 		return null;
 	}
-	
+
+	public void backorder(){
+		Order order = getProxy();
+		order.getOrderLines().forEach(ol->{
+			ol.backorder();
+		});
+	}
 	public void acknowledge() { 
 		Order order = getProxy();
 		Bucket orderLinesNotAcknowledged = new Bucket();

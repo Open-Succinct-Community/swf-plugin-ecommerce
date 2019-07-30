@@ -41,7 +41,17 @@ public class OrdersController extends ModelController<Order> {
             return back();
         }
 	}
-	
+	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Back order")
+	public View backorder(long  orderId){
+		Order order = Database.getTable(Order.class).get(orderId);
+		order.backorder();
+		if (getIntegrationAdaptor() != null) {
+			return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+		}else {
+			return back();
+		}
+	}
+
 	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Reject order fulfillment")
 	public View cancel(long orderId) {
 		Order order = Database.getTable(Order.class).get(orderId);

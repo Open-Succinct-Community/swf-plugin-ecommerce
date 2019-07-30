@@ -35,9 +35,12 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 		if (orderLine.getOrderedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("ORDERED_QUANTITY") ){
             orderLine.setOrderedTs(now);
         }
-		if (orderLine.getAcknowledgedQuantity() > 0 &&
-                orderLine.getRawRecord().isFieldDirty("ACKNOWLEDGED_QUANTITY")) {
-            orderLine.setAcknowledgedTs(now);
+		if (orderLine.getRawRecord().isFieldDirty("ACKNOWLEDGED_QUANTITY")) {
+			if (orderLine.getAcknowledgedQuantity() > 0 ){
+				orderLine.setAcknowledgedTs(now);
+			}else {
+				orderLine.setAcknowledgedTs(null);
+			}
 
             TypeConverter<Double> doubleTypeConverter = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
             Double oldAcknowledgedQty = doubleTypeConverter.valueOf(orderLine.getRawRecord().getOldValue("ACKNOWLEDGED_QUANTITY"));

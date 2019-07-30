@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 
 import com.venky.cache.Cache;
+import com.venky.core.util.ObjectUtil;
 import com.venky.geo.GeoCoordinate;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack.PackValidationException;
@@ -19,6 +20,8 @@ import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -171,17 +174,25 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
             throw new Cancel.OrderCancellationException("Cannot cancel more than " + quantityCancellable + quantityReturnable);
         }else {
             double quantityToCancel = quantity;
-
+            boolean backOrder = ObjectUtil.isVoid(initiator) && ObjectUtil.isVoid(reason);
             if (quantityToCancel > 0) {
-                if (quantityCancellable > 0 ){
-                    double quantityCancelled = Math.min(quantityToCancel,quantityCancellable);
-                    orderLine.setCancelledQuantity(orderLine.getCancelledQuantity()+quantityCancelled);
-                    quantityToCancel -= quantityCancelled;
+                if (backOrder) {
+                    if (quantityCancellable > 0 ){
+                        double quantityBackOrdered = Collections.min(Arrays.asList(quantityToCancel,quantityCancellable,orderLine.getAcknowledgedQuantity(),orderLine.getToPackQuantity()));
+                        orderLine.setAcknowledgedQuantity(orderLine.getAcknowledgedQuantity() - quantityBackOrdered);
+                    }
+                }else {
+                    if (quantityCancellable > 0 ){
+                        double quantityCancelled = Math.min(quantityToCancel,quantityCancellable);
+                        orderLine.setCancelledQuantity(orderLine.getCancelledQuantity()+quantityCancelled);
+                        quantityToCancel -= quantityCancelled;
+                    }
+                    orderLine.setReturnedQuantity(orderLine.getReturnedQuantity() + quantityToCancel);
+                    orderLine.setCancellationReason(reason);
+                    orderLine.setCancellationInitiator(initiator);
                 }
-                orderLine.setReturnedQuantity(orderLine.getReturnedQuantity() + quantityToCancel);
-                orderLine.setCancellationReason(reason);
-                orderLine.setCancellationInitiator(initiator);
             }
+
         }
         orderLine.save();
     }
@@ -203,6 +214,9 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 		}
 		return null;
 	}
+	public void backorder(){
+        cancel("","");
+    }
     public void acknowledge(){
         Map<Long,Map<Long,Bucket>> skuATP = new Cache<Long, Map<Long, Bucket>>(0,0) {
             @Override

@@ -14,6 +14,7 @@ import in.succinct.plugins.ecommerce.integration.fedex.TrackWebServiceClient;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -68,7 +69,14 @@ public class ManifestImpl extends ModelImpl<Manifest>{
             if (orderIds.isEmpty()){
                 orders = new ArrayList<>();
             }else {
+                Manifest manifest = getProxy();
                 orders = new Select().from(Order.class).where(new Expression(getReflector().getPool(), "ID", Operator.IN, orderIds.toArray())).execute();
+                for (Iterator<Order> i =orders.iterator(); i.hasNext() ; ){
+                    Order order = i.next();
+                    if (!ObjectUtil.equals(order.getAttribute("courier").getValue(), manifest.getPreferredCarrier().getName())){
+                        i.remove();
+                    }
+                }
             }
         }
         return orders;

@@ -39,7 +39,10 @@ public interface UnitOfMeasure extends Model {
 	
 	@CONNECTED_VIA("TO_ID")
 	public List<UnitOfMeasureConversionTable> getConvertableFromUOMs();
-	
+
+	public static UnitOfMeasure getDefaultWeightMeasure(){
+		return getWeightMeasure("Kgs");
+	}
 	public static UnitOfMeasure getWeightMeasure(String name) { 
 		return getMeasure(MEASURES_WEIGHT,name);
 	}

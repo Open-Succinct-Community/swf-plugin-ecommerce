@@ -117,6 +117,9 @@ public class ShipWebServiceClient {
         // manifestedLinesMap loaded in getManifest
     }
     public void ship(){
+        if (!carrier.getName().equalsIgnoreCase("FedEx")){
+            return;
+        }
 
         ProcessShipmentRequest request = buildRequest(); // Build a request object
         //

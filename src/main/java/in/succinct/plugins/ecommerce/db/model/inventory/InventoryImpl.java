@@ -11,8 +11,10 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 
 	public void adjust(double delta,String comment){
 		Inventory inv = getProxy();
-		inv.setQuantity(inv.getQuantity() + delta);
-		inv.save();
+		if (!inv.isInfinite()) {
+			inv.setQuantity(inv.getQuantity() + delta);
+			inv.save();
+		}
 		InventoryAudit audit = Database.getTable(InventoryAudit.class).newRecord();
 		audit.setInventoryId(inv.getId());
 		audit.setAuditQuantity(delta);

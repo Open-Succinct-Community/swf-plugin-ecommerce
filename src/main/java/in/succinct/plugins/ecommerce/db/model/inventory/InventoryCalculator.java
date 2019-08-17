@@ -42,7 +42,7 @@ public class InventoryCalculator {
 			pendShip.forEach(demand->{
 				pendShipQuantity.increment(demand.getQuantity().doubleValue());
 			});
-			total.increment(inventory.getQuantity() - pendShipQuantity.doubleValue());
+			total.increment(inventory.isInfinite() ? Double.POSITIVE_INFINITY : inventory.getQuantity() - pendShipQuantity.doubleValue());
 			return Math.max(0, total.doubleValue());
 		}
 	}

@@ -17,7 +17,7 @@ public class BeforeSaveOrderAddress extends BeforeSaveAddress<OrderAddress> {
 
     @Override
     public void beforeSave(OrderAddress oAddress) {
-        if (oAddress.getFacilityId() != null && !Address.isAddressChanged(oAddress) && Address.isAddressVoid(oAddress)){
+        if (oAddress.getFacilityId() != null && !Address.isAddressChanged(oAddress)){
             User user = null;
             for (UserFacility fu : oAddress.getFacility().getFacilityUsers()){
                 if (fu.getUser().isStaff()){

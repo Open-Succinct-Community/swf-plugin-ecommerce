@@ -8,6 +8,8 @@ import com.venky.swf.plugins.collab.extensions.beforesave.BeforeSaveAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import org.apache.commons.math3.analysis.function.Add;
 
+import java.util.StringTokenizer;
+
 public class BeforeSaveOrderAddress extends BeforeSaveAddress<OrderAddress> {
     static {
         registerExtension(new BeforeSaveOrderAddress());
@@ -15,15 +17,30 @@ public class BeforeSaveOrderAddress extends BeforeSaveAddress<OrderAddress> {
 
     @Override
     public void beforeSave(OrderAddress oAddress) {
-        if (oAddress.getFacilityId() != null){
+        if (oAddress.getFacilityId() != null && !Address.isAddressChanged(oAddress) && Address.isAddressVoid(oAddress)){
+            User user = null;
             for (UserFacility fu : oAddress.getFacility().getFacilityUsers()){
                 if (fu.getUser().isStaff()){
-                    User user = fu.getUser();
-                    Address.copy(user,oAddress);
+                    user = fu.getUser();
                     break;
                 }
             }
             Address.copy(oAddress.getFacility(),oAddress);
+            if (oAddress.getReflector().isVoid(oAddress.getFirstName()) && user != null){
+                oAddress.setFirstName(user.getFirstName());
+            }
+            if (oAddress.getReflector().isVoid(oAddress.getLastName()) && user != null){
+                oAddress.setLastName(user.getLastName());
+            }
+            if (oAddress.getReflector().isVoid(oAddress.getEmail()) && user != null){
+                oAddress.setEmail(user.getEmail());
+            }
+            if (oAddress.getReflector().isVoid(oAddress.getPhoneNumber()) && user != null){
+                oAddress.setPhoneNumber(user.getPhoneNumber());
+            }
+            if (oAddress.getReflector().isVoid(oAddress.getAlternatePhoneNumber()) && user != null){
+                oAddress.setAlternatePhoneNumber(user.getAlternatePhoneNumber());
+            }
         }
         super.beforeSave(oAddress);
     }

@@ -33,6 +33,11 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public void setItemId(long id);
 	public Item getItem();
 
+
+	@UNIQUE_KEY(value = "UPC",allowMultipleRecordsWithNull = true)
+	public String getSkuCode();
+	public void setSkuCode(String code);
+
 	//*Denormalized from Item.
 	@UNIQUE_KEY("SKU")
 	@PROTECTION(Kind.NON_EDITABLE)

@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
@@ -8,6 +9,7 @@ import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
+import com.venky.swf.db.annotations.column.ui.WATERMARK;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
@@ -50,6 +52,31 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@UNIQUE_KEY("SKU,SKU2")
 	public String getName();
 	public void setName(String name);
+
+	@Index
+	public String getShortDescription();
+	public void setShortDescription(String shortDescription);
+
+	@Index
+	@COLUMN_SIZE(256)
+	public String getLongDescription();
+	public void setLongDescription(String longDescription);
+
+	@WATERMARK("Enter absolute url of small sized product image")
+	public String getSmallImageUrl();
+	public void setSmallImageUrl(String url);
+
+	@WATERMARK("Enter absolute url of large sized product image")
+	public String getLongImageUrl();
+	public void setLongImageUrl(String url);
+
+	public String getBenefits();
+	public void setBenefits(String benefits);
+	
+	public String getCompositionUnitDescription();
+	public void setCompositionUnitDescription(String compositionUnitDescription);
+
+	public List<ProductContent> getProductContents();
 
 	public Double getLength();
 	@PARTICIPANT(redundant=true)
@@ -95,6 +122,7 @@ public interface Sku extends Model,Container, CompanySpecific {
     @COLUMN_DEF(StandardDefault.ZERO)
     public double getTaxRate();
     public void setTaxRate(double taxRate);
+
 
 
 }

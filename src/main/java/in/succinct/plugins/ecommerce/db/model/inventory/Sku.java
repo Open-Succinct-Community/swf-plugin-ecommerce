@@ -53,6 +53,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public String getName();
 	public void setName(String name);
 
+	@Index
 	public boolean isPublished();
 	public  void setPublished(boolean published);
 

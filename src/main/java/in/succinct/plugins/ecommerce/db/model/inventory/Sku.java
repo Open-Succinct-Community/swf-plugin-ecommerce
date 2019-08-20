@@ -58,7 +58,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public void setShortDescription(String shortDescription);
 
 	@Index
-	@COLUMN_SIZE(256)
+	@COLUMN_SIZE(512)
 	public String getLongDescription();
 	public void setLongDescription(String longDescription);
 
@@ -70,9 +70,10 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public String getLongImageUrl();
 	public void setLongImageUrl(String url);
 
+	@COLUMN_SIZE(256)
 	public String getBenefits();
 	public void setBenefits(String benefits);
-	
+
 	public String getCompositionUnitDescription();
 	public void setCompositionUnitDescription(String compositionUnitDescription);
 

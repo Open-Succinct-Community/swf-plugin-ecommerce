@@ -23,6 +23,7 @@ import java.util.Map;
 @EXPORTABLE(false)
 
 public interface Order extends Model, CompanySpecific {
+    @Index
     public String getReference();
     public void setReference(String reference);
 

@@ -60,6 +60,7 @@ import com.fedex.ship.stub.Weight;
 import com.fedex.ship.stub.WeightUnits;
 import com.venky.core.log.SWFLogger;
 import com.venky.core.math.DoubleHolder;
+import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
@@ -671,13 +672,19 @@ public class ShipWebServiceClient {
     private CustomsClearanceDetail addCustomsClearanceDetail() {
         CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
         customs.setDutiesPayment(addDutiesPayment());
-        customs.setCustomsValue(addMoney("INR", new DoubleHolder(order.getSellingPrice(),2).getHeldDouble().doubleValue()));
+        customs.setCustomsValue(addMoney("INR", new DoubleHolder(Math.max(order.getSellingPrice(),1),2).getHeldDouble().doubleValue()));
         customs.setDocumentContent(InternationalDocumentContentType.NON_DOCUMENTS);
         customs.setCommercialInvoice(addCommercialInvoice());
         List<Commodity> commodities = new ArrayList<>();
         order.getOrderLines().forEach(ol->{
             if (ol.getManifestedQuantity() > 0){
-                commodities.add(addCommodity(ol));
+                if (ObjectUtil.equals(ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue(),"Big Shipping Box")){
+                    if (DoubleUtils.equals(order.getSellingPrice(),0)){
+                        commodities.add(addCommodity(ol,1.0));
+                        return;
+                    }
+                }
+                commodities.add(addCommodity(ol,ol.getSellingPrice()));
             }
         });
         if (!commodities.isEmpty()){
@@ -697,7 +704,7 @@ public class ShipWebServiceClient {
         return commercialInvoice;
     }
 
-    private  Commodity addCommodity(OrderLine ol) {
+    private  Commodity addCommodity(OrderLine ol,double price) {
         Commodity commodity = new Commodity();
         commodity.setNumberOfPieces(new NonNegativeInteger("1"));
         Item item =  ol.getSku().getItem();
@@ -724,10 +731,10 @@ public class ShipWebServiceClient {
         commodity.setQuantity(new BigDecimal(ol.getManifestedQuantity()));
         commodity.setQuantityUnits("EA");
         commodity.setUnitPrice(new Money());
-        commodity.getUnitPrice().setAmount(new DoubleHolder(ol.getSellingPrice()/ol.getManifestedQuantity(), 2).getHeldDouble());
+        commodity.getUnitPrice().setAmount(new DoubleHolder(price/ol.getManifestedQuantity(), 2).getHeldDouble());
         commodity.getUnitPrice().setCurrency("INR");
         commodity.setCustomsValue(new Money());
-        commodity.getCustomsValue().setAmount(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble());
+        commodity.getCustomsValue().setAmount(new DoubleHolder(price,2).getHeldDouble());
         commodity.getCustomsValue().setCurrency("INR");
         commodity.setCountryOfManufacture("IN");
         ItemCategory hsn = ol.getSku().getItem().getItemCategory("HSN");

@@ -11,6 +11,7 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.ui.WATERMARK;
 import com.venky.swf.db.annotations.model.MENU;
+import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
@@ -26,6 +27,7 @@ import java.util.List;
 
 
 @MENU("Inventory")
+@ORDER_BY("COMPANY_ID,PUBLISHED DESC,DISPLAY_SEQUENCE_NO,ID")
 public interface Sku extends Model,Container, CompanySpecific {
 
 	@PARTICIPANT(redundant = true)
@@ -62,7 +64,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public void setShortDescription(String shortDescription);
 
 	@Index
-	@COLUMN_SIZE(512)
+	@COLUMN_SIZE(1024)
 	public String getLongDescription();
 	public void setLongDescription(String longDescription);
 

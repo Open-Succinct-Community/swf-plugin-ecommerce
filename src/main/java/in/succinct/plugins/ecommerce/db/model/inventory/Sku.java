@@ -129,5 +129,8 @@ public interface Sku extends Model,Container, CompanySpecific {
     public void setTaxRate(double taxRate);
 
 
+    @COLUMN_DEF(StandardDefault.ZERO)
+    public int getDisplaySequenceNo();
+    public void setDisplaySequenceNo(int displaySequenceNo);
 
 }

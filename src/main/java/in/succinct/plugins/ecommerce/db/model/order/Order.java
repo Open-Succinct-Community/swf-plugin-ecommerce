@@ -54,21 +54,6 @@ public interface Order extends Model, CompanySpecific {
 
     public List<OrderStatus> getOrderStatuses();
 
-    /*
-    public static enum OrderStatus {
-        DOWNLOADED,
-        ACKNOWLEDGED,
-        LOGISTICS_PLANNED,
-        PACKED,
-        MANIFESTED,
-        SHIPPED,
-        CANCELLED,
-        DELIVERED,
-        RETURNED,
-    }
-    */
-
-
     @Enumeration( FULFILLMENT_STATUS_DOWNLOADED + "," + FULFILLMENT_STATUS_ACKNOWLEDGED + ","  +
             FULFILLMENT_STATUS_PACKED + "," + FULFILLMENT_STATUS_MANIFESTED + "," + FULFILLMENT_STATUS_SHIPPED + "," + FULFILLMENT_STATUS_DELIVERED + "," +
             FULFILLMENT_STATUS_CANCELLED +"," + FULFILLMENT_STATUS_RETURNED)

@@ -64,6 +64,7 @@ import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
+import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.routing.Config;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
@@ -670,6 +671,9 @@ public class ShipWebServiceClient {
     }
 
     private CustomsClearanceDetail addCustomsClearanceDetail() {
+        TypeConverter<Double> converter = order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
+        order.setSellingPrice(converter.valueOf(order.getSellingPrice()));
+
         CustomsClearanceDetail customs = new CustomsClearanceDetail(); // International details
         customs.setDutiesPayment(addDutiesPayment());
         customs.setCustomsValue(addMoney("INR", new DoubleHolder(Math.max(order.getSellingPrice(),1),2).getHeldDouble().doubleValue()));
@@ -677,6 +681,7 @@ public class ShipWebServiceClient {
         customs.setCommercialInvoice(addCommercialInvoice());
         List<Commodity> commodities = new ArrayList<>();
         order.getOrderLines().forEach(ol->{
+            ol.setSellingPrice(converter.valueOf(ol.getSellingPrice()));
             if (ol.getManifestedQuantity() > 0){
                 if (ObjectUtil.equals(ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue(),"Big Shipping Box")){
                     if (DoubleUtils.equals(order.getSellingPrice(),0)){

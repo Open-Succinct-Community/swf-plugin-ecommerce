@@ -5,6 +5,8 @@ import com.venky.core.string.StringUtil;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
+import com.venky.swf.db.JdbcTypeHelper.DoubleConverter;
+import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.routing.Config;
 import com.venky.swf.views.controls.Control;
@@ -120,6 +122,8 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
 
             Bucket quantity = new Bucket();
+            TypeConverter<Double> converter = order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
+
             order.getOrderLines().forEach(ol->{
                 Row row = lines.createRow();
                 Sku sku = ol.getSku();
@@ -132,23 +136,23 @@ public class PacklistPrintTask extends EntityTask<Order> {
                 quantity.increment(ol.getPackedQuantity());
                 Column price = row.createColumn();
                 price.addClass("numeric");
-                price.setText(String.valueOf(new DoubleHolder(ol.getPrice(),2).getHeldDouble().doubleValue()));
+                price.setText(String.valueOf(new DoubleHolder(converter.valueOf(ol.getPrice()),2).getHeldDouble().doubleValue()));
 
                 Column cgst = row.createColumn();
                 cgst.addClass("numeric");
-                cgst.setText(String.valueOf(new DoubleHolder(ol.getCGst(),2).getHeldDouble().doubleValue()));
+                cgst.setText(String.valueOf(new DoubleHolder(converter.valueOf(ol.getCGst()),2).getHeldDouble().doubleValue()));
 
                 Column sgst = row.createColumn();
                 sgst.addClass("numeric");
-                sgst.setText(String.valueOf(new DoubleHolder(ol.getSGst(),2).getHeldDouble().doubleValue()));
+                sgst.setText(String.valueOf(new DoubleHolder(converter.valueOf(ol.getSGst()),2).getHeldDouble().doubleValue()));
 
                 Column igst = row.createColumn();
                 igst.addClass("numeric");
-                igst.setText(String.valueOf(new DoubleHolder(ol.getIGst(),2).getHeldDouble().doubleValue()));
+                igst.setText(String.valueOf(new DoubleHolder(converter.valueOf(ol.getIGst()),2).getHeldDouble().doubleValue()));
 
                 Column sellingprice = row.createColumn();
                 sellingprice.addClass("numeric");
-                sellingprice.setText(String.valueOf(new DoubleHolder(ol.getSellingPrice(),2).getHeldDouble().doubleValue()));
+                sellingprice.setText(String.valueOf(new DoubleHolder(converter.valueOf(ol.getSellingPrice()),2).getHeldDouble().doubleValue()));
 
 
             });

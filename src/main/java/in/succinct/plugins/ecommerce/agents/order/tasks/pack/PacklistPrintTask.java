@@ -166,24 +166,24 @@ public class PacklistPrintTask extends EntityTask<Order> {
             colQty.addClass("numeric");
 
             Column price = total.createColumn();
-            price.setText(String.valueOf(new DoubleHolder(order.getPrice(),2).getHeldDouble().doubleValue()));
+            price.setText(String.valueOf(new DoubleHolder(converter.valueOf(order.getPrice()),2).getHeldDouble().doubleValue()));
             price.addClass("numeric");
 
             Column cgst = total.createColumn();
             cgst.addClass("numeric");
-            cgst.setText(String.valueOf(new DoubleHolder(order.getCGst(),2).getHeldDouble().doubleValue()));
+            cgst.setText(String.valueOf(new DoubleHolder(converter.valueOf(order.getCGst()),2).getHeldDouble().doubleValue()));
 
             Column sgst = total.createColumn();
             sgst.addClass("numeric");
-            sgst.setText(String.valueOf(new DoubleHolder(order.getSGst(),2).getHeldDouble().doubleValue()));
+            sgst.setText(String.valueOf(new DoubleHolder(converter.valueOf(order.getSGst()),2).getHeldDouble().doubleValue()));
 
             Column igst = total.createColumn();
             igst.addClass("numeric");
-            igst.setText(String.valueOf(new DoubleHolder(order.getIGst(),2).getHeldDouble().doubleValue()));
+            igst.setText(String.valueOf(new DoubleHolder(converter.valueOf(order.getIGst()),2).getHeldDouble().doubleValue()));
 
 
             Column sellingPrice = total.createColumn();
-            sellingPrice.setText(String.valueOf(order.getSellingPrice()));
+            sellingPrice.setText(String.valueOf(converter.valueOf(order.getSellingPrice())));
             sellingPrice.addClass("numeric");
 
 

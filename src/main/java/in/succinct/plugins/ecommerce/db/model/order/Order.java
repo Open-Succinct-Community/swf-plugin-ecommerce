@@ -11,6 +11,7 @@ import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
+import com.venky.swf.plugins.collab.db.model.user.User;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -144,4 +145,7 @@ public interface Order extends Model, CompanySpecific {
 
 
     public List<OrderIntransitEvent> getIntransitUpdates();
+
+    @IS_VIRTUAL
+    public User getShipFromContact();
 }

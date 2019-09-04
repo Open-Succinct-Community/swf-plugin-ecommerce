@@ -3,6 +3,8 @@ package in.succinct.plugins.ecommerce.db.model.order;
 import com.venky.cache.Cache;
 import com.venky.core.date.DateUtils;
 import com.venky.core.util.ObjectUtil;
+import com.venky.swf.plugins.collab.db.model.user.User;
+import com.venky.swf.plugins.collab.db.model.user.UserFacility;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import com.venky.cache.UnboundedCache;
 import com.venky.core.util.Bucket;
@@ -210,5 +212,19 @@ public class OrderImpl  extends ModelImpl<Order>{
 			}
 		}
 		return transitDays + 2; //Buffer
+	}
+	public User getShipFromContact(){
+		Order order = getProxy();
+		User user = null;
+		OrderLine sample = order.getOrderLines().get(0);
+		if (sample.getShipFromId() != null){
+			for (UserFacility fu : sample.getShipFrom().getFacilityUsers()){
+				if (fu.getUser().isStaff()){
+					user = fu.getUser();
+					break;
+				}
+			}
+		}
+		return user;
 	}
 }

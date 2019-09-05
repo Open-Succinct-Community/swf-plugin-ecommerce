@@ -49,8 +49,8 @@ public interface Order extends Model, CompanySpecific {
     public static final String FULFILLMENT_STATUS_PACKED = "PACKED";
     public static final String FULFILLMENT_STATUS_MANIFESTED = "MANIFESTED";
     public static final String FULFILLMENT_STATUS_SHIPPED = "SHIPPED";
-    public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
     public static final String FULFILLMENT_STATUS_DELIVERED = "DELIVERED";
+    public static final String FULFILLMENT_STATUS_CANCELLED = "CANCELLED";
     public static final String FULFILLMENT_STATUS_RETURNED = "RETURNED";
 
     public List<OrderStatus> getOrderStatuses();

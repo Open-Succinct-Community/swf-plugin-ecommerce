@@ -27,7 +27,6 @@ public class AcknowledgeOrderTask implements Task, AgentSeederTaskBuilder  {
     @Override
     public void execute() {
         if (this.order != null){
-            Registry.instance().callExtensions("order.before.acknowledge",order);
             order.acknowledge();
         }
     }

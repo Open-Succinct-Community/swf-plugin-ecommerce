@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.order;
 import com.venky.cache.Cache;
 import com.venky.core.date.DateUtils;
 import com.venky.core.util.ObjectUtil;
+import com.venky.extension.Registry;
 import com.venky.swf.plugins.collab.db.model.user.User;
 import com.venky.swf.plugins.collab.db.model.user.UserFacility;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
@@ -93,6 +94,8 @@ public class OrderImpl  extends ModelImpl<Order>{
 	}
 	public void acknowledge() { 
 		Order order = getProxy();
+		Registry.instance().callExtensions("order.before.acknowledge",order);
+
 		Bucket orderLinesNotAcknowledged = new Bucket();
 		Bucket orderLinesAcknowledged = new Bucket();
 		TypeConverter<Long> iConv = order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter();

@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 import com.venky.core.util.Bucket;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
+import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
@@ -23,6 +24,7 @@ import java.util.Set;
 @EXPORTABLE(false)
 
 public interface Manifest extends Model {
+	@Index
 	public String getManifestNumber();
 	public void setManifestNumber(String number);
 

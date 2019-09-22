@@ -7,6 +7,8 @@ import com.venky.swf.db.annotations.column.PASSWORD;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
+import com.venky.swf.db.annotations.column.ui.PROTECTION;
+import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.model.Model;
@@ -18,7 +20,7 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     @HIDDEN
     public Long getCompanyId();
 
-    @HIDDEN
+    @PROTECTION(Kind.DISABLED)
     @UNIQUE_KEY("K1,K2")
     public long getFacilityId();
     public void setFacilityId(long id);

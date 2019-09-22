@@ -1,9 +1,10 @@
 package in.succinct.plugins.ecommerce.extensions.participant;
 
+import com.venky.parse.composite.Sequence;
+import com.venky.swf.plugins.collab.db.model.participants.admin.Company;
 import com.venky.swf.plugins.collab.extensions.participation.CompanySpecificParticipantExtension;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
-import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import com.venky.core.collections.SequenceSet;
 import com.venky.swf.db.extensions.ParticipantExtension;
@@ -31,7 +32,15 @@ public class InventoryParticipantExtension extends CompanySpecificParticipantExt
                 }
             }else if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getCompanyId())){
 		        if (partiallyFilledModel.getCompany().isAccessibleBy(user)){
-                    Expression where = new Expression(ModelReflector.instance(Sku.class).getPool(),"COMPANY_ID",Operator.EQ,partiallyFilledModel.getCompanyId());
+                    SequenceSet<Long> companyIds = new SequenceSet<>();
+                    companyIds.add(partiallyFilledModel.getCompanyId());
+                    Company creatorCompany = partiallyFilledModel.getCompany().getCreatorCompany();
+                    while (creatorCompany != null){
+                        companyIds.add(creatorCompany.getId());
+                        creatorCompany = creatorCompany.getCreatorCompany();
+                    }
+
+                    Expression where = new Expression(ModelReflector.instance(Sku.class).getPool(),"COMPANY_ID",Operator.IN,companyIds.toArray());
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Sku.class, user, where));
                 }
             }

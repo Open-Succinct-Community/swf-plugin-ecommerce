@@ -102,7 +102,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@PARTICIPANT(redundant=true)
 	public Long getWeightUOMId();
 
-	public static Sku  find(int companyId, String name) {
+	public static Sku  find(long companyId, String name) {
 		Select select = new Select().from(Sku.class);
 		Expression where = new Expression(select.getPool(), Conjunction.AND);
 		where.add(new Expression(select.getPool(),"NAME",Operator.EQ,name));

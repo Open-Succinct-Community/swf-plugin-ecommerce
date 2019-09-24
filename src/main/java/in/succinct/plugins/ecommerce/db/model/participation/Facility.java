@@ -18,5 +18,6 @@ public interface Facility extends com.venky.swf.plugins.collab.db.model.particip
 	public List<Inventory> getInventoryList();
 
 	public List<PreferredCarrier> getPreferredCarriers();
-	
+
+	public List<MarketPlaceIntegration> getPreferredMarketPlaceIntegrations();
 }

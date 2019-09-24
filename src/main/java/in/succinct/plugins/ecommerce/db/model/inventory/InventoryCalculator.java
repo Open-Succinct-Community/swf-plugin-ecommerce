@@ -10,6 +10,7 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.demand.Demand;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
+import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,11 +18,22 @@ import java.util.Map;
 import java.util.Set;
 
 public class InventoryCalculator {
-	OrderLine orderLine = null;
+	//OrderLine orderLine = null;
+	Facility facility = null;
+	Sku sku = null;
 	public InventoryCalculator(OrderLine orderLine) {
-		this.orderLine = orderLine;
+		//this.orderLine = orderLine;
+		this.facility = orderLine.getShipFrom();
+		this.sku = orderLine.getSku();
 	}
-	
+	public InventoryCalculator(Sku sku){
+		this(sku,null);
+	}
+	public InventoryCalculator(Sku sku, Facility facility){
+		this.sku = sku ;
+		this.facility = facility;
+	}
+
 	public Double getTotalInventory() { 
 		Bucket total = new Bucket();
 		getInventory().forEach(atp->{
@@ -60,10 +72,10 @@ public class InventoryCalculator {
 
 		ModelReflector<Inventory> ref = ModelReflector.instance(Inventory.class);
 		Expression where = new  Expression(ref.getPool(), Conjunction.AND);
-		if (!ref.getJdbcTypeHelper().isVoid(orderLine.getShipFromId())){
-			where.add(new Expression(ref.getPool(),"FACILITY_ID" , Operator.EQ, orderLine.getShipFromId()));
+		if (facility != null){
+			where.add(new Expression(ref.getPool(),"FACILITY_ID" , Operator.EQ, facility.getId()));
 		}
-		where.add(new Expression(ref.getPool(),"SKU_ID" , Operator.EQ, orderLine.getSkuId()));
+		where.add(new Expression(ref.getPool(),"SKU_ID" , Operator.EQ, sku.getId()));
 
 		List<Inventory> inventories = new Select().from(Inventory.class).where(where).execute();
 

@@ -35,6 +35,7 @@ public class MarketPlaceOrderDownloadAgent implements Task, AgentSeederTaskBuild
                 for (MarketPlaceIntegration marketPlaceIntegration : list){
                     tasks.add(new MarketPlaceOrderDownloadAgent(marketPlaceIntegration));
                 }
+                tasks.add(getFinishUpTask());
                 return tasks;
             }
 

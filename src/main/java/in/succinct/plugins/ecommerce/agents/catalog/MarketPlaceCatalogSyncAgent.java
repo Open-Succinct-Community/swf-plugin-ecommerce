@@ -57,6 +57,7 @@ public class MarketPlaceCatalogSyncAgent implements Task, AgentSeederTaskBuilder
                 for (MarketPlaceSkuUpdateQueue entry : list){
                     tasks.add(new MarketPlaceCatalogSyncAgent(entry.getSkuId(),entry.getFacilityId()));
                 }
+                tasks.add(getFinishUpTask());
                 return tasks;
             }
 

@@ -57,6 +57,7 @@ public class MarketPlaceInventorySyncAgent implements Task, AgentSeederTaskBuild
                 for (MarketPlaceInventoryUpdateQueue entry : list){
                     tasks.add(new MarketPlaceInventorySyncAgent(entry.getSkuId(),entry.getFacilityId()));
                 }
+                tasks.add(getFinishUpTask());
                 return tasks;
             }
 

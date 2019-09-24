@@ -17,6 +17,7 @@ import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,10 +31,12 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 
 	@Override
 	public void beforeSave(Order order) {
-		Facility facility = order.getOrderLines().get(0).getShipFrom();
+		List<OrderLine> lines = order.getRawRecord().isNewRecord() ? new ArrayList<>() : order.getOrderLines();
+
+		Facility facility = lines.isEmpty()? null : lines.get(0).getShipFrom();
 		UniCommerce marketPlaceIntegration = null;
 
-		if (!facility.getPreferredMarketPlaceIntegrations().isEmpty()){
+		if (facility != null && !facility.getPreferredMarketPlaceIntegrations().isEmpty()){
 			 marketPlaceIntegration = UniCommerce.getInstance(facility);
 		}
 

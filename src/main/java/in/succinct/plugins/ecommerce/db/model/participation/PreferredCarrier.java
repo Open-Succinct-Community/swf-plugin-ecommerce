@@ -26,8 +26,14 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     public void setFacilityId(long id);
     public Facility getFacility();
 
+    public static final String FEDEX = "FedEx";
+    public static final String INDIA_POST = "IndiaPost";
+    public static final String ECOMM_EXPRESS = "ECommExpress";
+    public static final String MARKET_PLACE = "MarketPlace";
 
-    @Enumeration("FedEx,IndiaPost,ECommExpress")
+    public static final String PREFERRED_CARRIER_NAMES="," + FEDEX +","+ INDIA_POST +"," + ECOMM_EXPRESS +"," + MARKET_PLACE;
+
+    @Enumeration(PREFERRED_CARRIER_NAMES)
     @UNIQUE_KEY("K1,K2")
     public String getName();
     public void setName(String name);

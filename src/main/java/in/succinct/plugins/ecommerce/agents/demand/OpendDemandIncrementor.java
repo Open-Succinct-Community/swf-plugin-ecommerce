@@ -10,6 +10,8 @@ import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceIntegration;
+import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceInventoryUpdateQueue;
 
 import java.util.List;
 
@@ -30,9 +32,9 @@ public class OpendDemandIncrementor implements Task{
     public void execute() {
         Inventory inventory = Database.getTable(Inventory.class).get(inventoryId);
         if (inventory != null){
-            ModelReflector<Demand> reflector = ModelReflector.instance(Demand.class);
-            Expression where = new Expression(reflector.getPool(), Conjunction.AND);
-            where.add(new Expression(reflector.getPool(), "INVENTORY_ID", Operator.EQ , inventoryId));
+                ModelReflector<Demand> reflector = ModelReflector.instance(Demand.class);
+                Expression where = new Expression(reflector.getPool(), Conjunction.AND);
+                where.add(new Expression(reflector.getPool(), "INVENTORY_ID", Operator.EQ, inventoryId));
 
             List<Demand> demands = new Select().from(Demand.class).where(where).orderBy("ID").execute();
             double incrementBy = demandQuantity;
@@ -52,8 +54,7 @@ public class OpendDemandIncrementor implements Task{
             }
             demand.getQuantity().increment(incrementBy);
             demand.save();
-
-
+            MarketPlaceInventoryUpdateQueue.push(inventory);
         }
     }
 

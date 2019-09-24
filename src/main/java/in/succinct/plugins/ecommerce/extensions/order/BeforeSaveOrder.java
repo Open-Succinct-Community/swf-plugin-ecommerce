@@ -8,15 +8,13 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.agents.order.tasks.pack.PacklistPrintTask;
 import in.succinct.plugins.ecommerce.agents.order.tasks.ship.CreateManifestTask;
-import in.succinct.plugins.ecommerce.db.model.order.Manifest;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
-import com.venky.core.collections.SequenceSet;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
 import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderStatus;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
-import in.succinct.plugins.ecommerce.db.model.sequence.SequentialNumber;
+import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
 
 import java.sql.Timestamp;
 import java.util.HashSet;
@@ -32,8 +30,22 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 
 	@Override
 	public void beforeSave(Order order) {
-	    if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_MANIFESTED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
-            TaskManager.instance().executeAsync(new PacklistPrintTask(order.getId()),false);
+		Facility facility = order.getOrderLines().get(0).getShipFrom();
+		UniCommerce marketPlaceIntegration = null;
+
+		if (!facility.getPreferredMarketPlaceIntegrations().isEmpty()){
+			 marketPlaceIntegration = UniCommerce.getInstance(facility);
+		}
+
+		if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_SHIPPED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")) {
+			if (marketPlaceIntegration != null){
+				marketPlaceIntegration.dispatch(order);
+			}
+		}else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_MANIFESTED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
+			TaskManager.instance().executeAsync(new PacklistPrintTask(order.getId()),false);
+			if (marketPlaceIntegration != null){
+				marketPlaceIntegration.readyToShip(order);
+			}
         }else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_PACKED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
 			Set<Long> facilityIds = new HashSet<>();
 			for (OrderLine orderLine : order.getOrderLines()) {

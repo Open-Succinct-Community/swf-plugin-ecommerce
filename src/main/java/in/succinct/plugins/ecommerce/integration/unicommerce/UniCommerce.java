@@ -29,6 +29,7 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
@@ -190,7 +191,7 @@ public class UniCommerce {
         Select select = new Select().from(Order.class);
         Expression where = new Expression(select.getPool(), Conjunction.AND);
         where.add(new Expression(select.getPool(),"REFERENCE",Operator.LK,"UC%"));
-        select.where(where).add(String.format(" and exist (select 1 from order_lines where order_id = orders.id and ship_from_id = %d )",facility.getId()));
+        select.where(where).add(String.format(" and exists (select 1 from order_lines where order_id = orders.id and ship_from_id = %d )",facility.getId()));
         List<Order> orders = select.orderBy("ID DESC").execute(1);
         Order order = null;
         if (!orders.isEmpty()){
@@ -254,7 +255,7 @@ public class UniCommerce {
         order.setReference("UC-" + saleOrder.get("code"));
         order.setCreatedAt(new Timestamp(order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter().valueOf(saleOrder.get("created"))));
         order.setUpdatedAt(new Timestamp(order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter().valueOf(saleOrder.get("updated"))));
-
+        order.setPreferredCarrierName(PreferredCarrier.MARKET_PLACE);
         order.save();
         JSONObject billingAddress = (JSONObject)saleOrder.get("billingAddress");
         OrderAddress billTo = Database.getTable(OrderAddress.class).newRecord();
@@ -311,7 +312,7 @@ public class UniCommerce {
 
 
     }
-    public void pack(Order order){
+    public void readyToShip(Order order){
         if (ObjectUtil.equals(order.getFulfillmentStatus(),Order.FULFILLMENT_STATUS_PACKED) ||
                 ObjectUtil.equals(order.getFulfillmentStatus(),Order.FULFILLMENT_STATUS_MANIFESTED)){
             List<String> packageCodes = new SequenceSet<>();

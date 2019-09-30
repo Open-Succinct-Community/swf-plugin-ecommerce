@@ -26,9 +26,6 @@ public class ServiceOrderParticipationExtension extends CompanySpecificParticipa
                 for (ServiceResource serviceResource : serviceResources){
                     ret.add(serviceResource.getUserId());
                 }
-                if (ret.isEmpty()){
-                    ret.addAll(u.getCompany().getStaffUserIds());
-                }
             }
             return ret;
         }

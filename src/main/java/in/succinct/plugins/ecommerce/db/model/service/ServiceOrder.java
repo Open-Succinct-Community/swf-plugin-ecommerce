@@ -43,6 +43,8 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public User getUser();
 
     @IS_NULLABLE
+    @Index
+    @PARTICIPANT(redundant = true)
     public Long getServicedById();
     public void setServicedById(Long  id);
     public User getServicedBy();

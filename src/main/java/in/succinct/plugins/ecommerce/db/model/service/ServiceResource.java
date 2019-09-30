@@ -14,6 +14,7 @@ public interface ServiceResource extends Model {
     public Service getService();
 
 
+    @PARTICIPANT(redundant = true)
     public Long getUserId();
     public void setUserId(Long userId);
     public User getUser();

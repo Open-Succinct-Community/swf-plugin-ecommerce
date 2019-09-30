@@ -128,21 +128,23 @@ public class UniCommerce {
         }
         InventoryCalculator calculator = new InventoryCalculator(sku,facility);
         double atp = calculator.getTotalInventory();
-        double inventoryInUC = getUnicommerceInventory(sku,headers);
 
         double inventoryToUpdate = atp + getMarketDemand(sku,facility);
+        /*
+        double inventoryInUC = getUnicommerceInventory(sku,headers);
         double inventoryToAdd = inventoryToUpdate - inventoryInUC;
+        */
         // This is because Unicommerce does inventory - demand to show atp in the market place.!! We need to update inventory in unicommerse in such a way that
         // unicom inventory - unicom demand =  wiggles atp.
         JSONObject inventory = new JSONObject();
         JSONObject adjust = new JSONObject();
         inventory.put("inventoryAdjustment",adjust);
         adjust.put("itemSKU",sku.getSkuCode());
-        adjust.put("quantity",inventoryToAdd);
+        adjust.put("quantity",inventoryToUpdate);
         adjust.put("shelfCode","DEFAULT");
         adjust.put("inventoryType","GOOD_INVENTORY");
         adjust.put("facilityCode",facility.getName());
-        adjust.put("adjustmentType","ADD");// Need to update not add / substract!!
+        adjust.put("adjustmentType","REPLACE");// Need to update not add / substract!!
 
         Call<JSONObject> adjustCall = new Call<JSONObject>().url(getBaseUrl(),"services/rest/v1/inventory/adjust");
         adjustCall.inputFormat(InputFormat.JSON).input(inventory).headers(headers);
@@ -332,8 +334,12 @@ public class UniCommerce {
                 JSONObject response = execute(call);
                 map.get("InvoiceCode-" + packageCode).setValue(order.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf(response.get("invoiceCode")));
                 map.get("ShippingProviderCode-" + packageCode).setValue(order.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf(response.get("shippingProviderCode")));
+                map.get("TrackingNumber-" + packageCode).setValue(order.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf(response.get("trackingNumber")));
+                map.get("ShippingLabelLink-" + packageCode).setValue(order.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf(response.get("shippingLabelLink")));
 
-                downloadPackList(order,packageCode,headers);
+
+                //downloadPackList(order,packageCode,headers);
+                downloadPackList(map.get("ShippingLabelLink-" + packageCode).getValue(),order,headers);
 
                 //String invoiceCode = map.get("InvoiceCode-" + packageCode).getValue();
 
@@ -348,6 +354,29 @@ public class UniCommerce {
             }
             order.saveAttributeMap(map);
         }
+    }
+
+    private void downloadPackList(String imageLink, Order order, Map<String, String> headers) {
+        Optional<OrderPrint> opPrint = order.getOrderPrints().stream().filter(p-> ObjectUtil.equals(p.getDocumentType(), OrderPrint.DOCUMENT_TYPE_PACK_SLIP)).findFirst();
+        if (opPrint.isPresent()){
+            return;
+        }
+        if (!imageLink.startsWith("http")){
+            imageLink = getBaseUrl() + "/" + imageLink;
+        }
+
+        Call<JSONObject> call = new Call<JSONObject>().url(imageLink).headers(headers);
+        ByteArrayInputStream byteArrayInputStream = (ByteArrayInputStream)call.getResponseStream();
+
+        //byte[] bytes = Base64.getDecoder().decode(labelbase64.getBytes(StandardCharsets.UTF_8));
+        OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
+        print.setOrderId(order.getId());
+        print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
+        print.setImageContentName("Carton-" + order.getId() + ".png" );
+        print.setImageContentType(MimeType.IMAGE_PNG.toString());
+        print.setImageContentSize(byteArrayInputStream.available());
+        print.setImage(byteArrayInputStream);
+        print.save();
     }
 
     private <T extends  JSONAware> JSONObject execute(Call<T> call){

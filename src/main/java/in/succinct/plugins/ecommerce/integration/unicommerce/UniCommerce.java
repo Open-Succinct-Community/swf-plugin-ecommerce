@@ -372,8 +372,8 @@ public class UniCommerce {
         OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
         print.setOrderId(order.getId());
         print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
-        print.setImageContentName("Carton-" + order.getId() + ".png" );
-        print.setImageContentType(MimeType.IMAGE_PNG.toString());
+        print.setImageContentName("Carton-" + order.getId() + ".pdf" );
+        print.setImageContentType(MimeType.APPLICATION_PDF.toString());
         print.setImageContentSize(byteArrayInputStream.available());
         print.setImage(byteArrayInputStream);
         print.save();

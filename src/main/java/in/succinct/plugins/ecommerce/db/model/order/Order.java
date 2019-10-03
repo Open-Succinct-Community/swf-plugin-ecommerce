@@ -34,6 +34,7 @@ public interface Order extends Model, CompanySpecific {
 
     @Enumeration(PreferredCarrier.PREFERRED_CARRIER_NAMES)
     @IS_NULLABLE
+    @COLUMN_DEF(value = StandardDefault.SOME_VALUE, args = PreferredCarrier.FEDEX)
     public String getPreferredCarrierName();
     public void setPreferredCarrierName(String name);
 

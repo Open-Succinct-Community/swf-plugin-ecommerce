@@ -83,6 +83,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setRemarks(String  remarks);
 
     @PARTICIPANT(redundant = true)
+    @Index
     public long getServiceId();
     public void setServiceId(long id);
     public Service getService();

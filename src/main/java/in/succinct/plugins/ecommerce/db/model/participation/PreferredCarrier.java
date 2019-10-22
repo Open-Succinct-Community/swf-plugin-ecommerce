@@ -20,7 +20,7 @@ public interface PreferredCarrier extends CompanySpecific, Model {
     @HIDDEN
     public Long getCompanyId();
 
-    @PROTECTION(Kind.DISABLED)
+    @PROTECTION(Kind.NON_EDITABLE)
     @UNIQUE_KEY("K1,K2")
     public long getFacilityId();
     public void setFacilityId(long id);

@@ -178,7 +178,9 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
             if (quantityToCancel > 0) {
                 if (backOrder) {
                     if (quantityCancellable > 0 ){
-                        double quantityBackOrdered = Collections.min(Arrays.asList(quantityToCancel,quantityCancellable,orderLine.getAcknowledgedQuantity(),orderLine.getToPackQuantity()));
+                        double quantityBackOrdered = Collections.min(Arrays.asList(quantityToCancel,quantityCancellable,orderLine.getAcknowledgedQuantity()));
+                        orderLine.setManifestedQuantity(Math.max(0,orderLine.getManifestedQuantity() - quantityBackOrdered));
+                        orderLine.setPackedQuantity(Math.max(0,orderLine.getPackedQuantity() - quantityBackOrdered));
                         orderLine.setAcknowledgedQuantity(orderLine.getAcknowledgedQuantity() - quantityBackOrdered);
                     }
                 }else {

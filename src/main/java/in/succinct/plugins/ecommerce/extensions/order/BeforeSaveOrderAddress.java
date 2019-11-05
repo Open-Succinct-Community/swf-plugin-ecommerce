@@ -14,6 +14,9 @@ public class BeforeSaveOrderAddress extends BeforeSaveAddress<OrderAddress> {
     static {
         registerExtension(new BeforeSaveOrderAddress());
     }
+    protected boolean isOkToSetLocationAsync(){
+        return false;
+    }
 
     @Override
     public void beforeSave(OrderAddress oAddress) {

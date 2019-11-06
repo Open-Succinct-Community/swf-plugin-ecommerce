@@ -119,10 +119,12 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
 
 
     @IS_NULLABLE(true)
+    @Index
     public Timestamp getEarliestBy();
     public void setEarliestBy(Timestamp start);
 
     @IS_NULLABLE(true)
+    @Index
     public Timestamp getLatestBy();
     public void setLatestBy(Timestamp end);
 

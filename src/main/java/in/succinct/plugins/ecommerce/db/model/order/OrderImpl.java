@@ -210,7 +210,9 @@ public class OrderImpl  extends ModelImpl<Order>{
 				OrderLine line = lines.get(0);
 				if (line.getShipFromId() != null){
 					Facility facility = line.getShipFrom();
-					transitDays = new RateWebServiceClient<OrderAddress>(facility,shipTo).getTransitTime().getTransitDays();
+					if (facility != null){
+						transitDays = new RateWebServiceClient<OrderAddress>(facility,shipTo).getTransitTime().getTransitDays();
+					}
 				}
 			}
 		}

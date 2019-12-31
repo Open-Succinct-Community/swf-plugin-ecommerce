@@ -83,10 +83,12 @@ public interface Order extends Model, CompanySpecific {
     public Double getSellingPrice();
     public void setSellingPrice(Double price);
 
+    @Index
     public Timestamp getShipByDate();
     public void setShipByDate(Timestamp ts);
 
     @IS_NULLABLE
+    @Index
     public Timestamp getShipAfterDate();
     public void setShipAfterDate(Timestamp ts);
 

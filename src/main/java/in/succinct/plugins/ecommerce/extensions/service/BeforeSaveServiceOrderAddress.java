@@ -7,4 +7,8 @@ public class BeforeSaveServiceOrderAddress extends BeforeSaveAddress<ServiceOrde
     static {
         registerExtension(new BeforeSaveServiceOrderAddress());
     }
+    @Override
+    protected boolean isOkToSetLocationAsync() {
+        return false;
+    }
 }

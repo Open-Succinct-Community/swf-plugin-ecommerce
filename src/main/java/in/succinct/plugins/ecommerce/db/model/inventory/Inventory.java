@@ -29,14 +29,14 @@ public interface Inventory extends Model, CompanySpecific {
     public Long getCompanyId();
 
 	@PARTICIPANT(redundant =  true)
-	@UNIQUE_KEY
+	@UNIQUE_KEY("K1,K2")
 	public long getFacilityId();
 	public void setFacilityId(long id);
 	public Facility getFacility();
 	
 	@PARTICIPANT(redundant = true)
-	@UNIQUE_KEY
-    @Index
+	@UNIQUE_KEY("K1,K2")
+        @Index
 	public long getSkuId();
 	public void setSkuId(long id);
 	public Sku getSku();

@@ -12,33 +12,33 @@ import in.succinct.plugins.ecommerce.db.model.apis.Pack;
 
 import java.util.List;
 
-public class ApiController extends Controller{
+public class ApiController extends Controller {
 
-	public ApiController(Path path) {
-		super(path);
-	}
-	
-	public View pack() {
-		IntegrationAdaptor<Pack, JSON> integrationAdaptor = null;
-		if (getPath().getProtocol() != MimeType.TEXT_HTML){
-        	integrationAdaptor = IntegrationAdaptor.instance(Pack.class, FormatHelper.getFormatClass(path.getProtocol()));
+    public ApiController(Path path) {
+        super(path);
+    }
+
+    public View pack() {
+        IntegrationAdaptor<Pack, JSON> integrationAdaptor = null;
+        if (getPath().getProtocol() != MimeType.TEXT_HTML) {
+            integrationAdaptor = IntegrationAdaptor.instance(Pack.class, FormatHelper.getFormatClass(path.getProtocol()));
         }
-		if (integrationAdaptor == null) { 
-			throw new RuntimeException("Unsupported input format");
-		}
+        if (integrationAdaptor == null) {
+            throw new RuntimeException("Unsupported input format");
+        }
         if (!getPath().getRequest().getMethod().equalsIgnoreCase("POST")) {
-        	throw new RuntimeException("Unsupported request method. Only POST is allowed");
+            throw new RuntimeException("Unsupported request method. Only POST is allowed");
         }
         List<Pack> inputs = integrationAdaptor.readRequest(getPath());
-        inputs.forEach(pack->{ 
-        	pack.pack();
+        inputs.forEach(pack -> {
+            pack.pack();
         });
-		return integrationAdaptor.createResponse(getPath(),inputs);
-	}
+        return integrationAdaptor.createResponse(getPath(), inputs);
+    }
 
-	public View cancel() {
+    public View cancel() {
         IntegrationAdaptor<Cancel, JSON> integrationAdaptor = null;
-        if (getPath().getProtocol() != MimeType.TEXT_HTML){
+        if (getPath().getProtocol() != MimeType.TEXT_HTML) {
             integrationAdaptor = IntegrationAdaptor.instance(Cancel.class, FormatHelper.getFormatClass(path.getProtocol()));
         }
         if (integrationAdaptor == null) {
@@ -48,12 +48,10 @@ public class ApiController extends Controller{
             throw new RuntimeException("Unsupported request method. Only POST is allowed");
         }
         List<Cancel> inputs = integrationAdaptor.readRequest(getPath());
-        inputs.forEach(cancel->{
+        inputs.forEach(cancel -> {
             cancel.reject();
         });
-        return integrationAdaptor.createResponse(getPath(),inputs);
+        return integrationAdaptor.createResponse(getPath(), inputs);
     }
-
-
 
 }

@@ -192,9 +192,18 @@ public class OrderImpl  extends ModelImpl<Order>{
 		Order order =  getProxy();
 		Timestamp shipByDate = order.getShipByDate();
 		Date expectedDeliveryDate = null;
-		long today = DateUtils.getStartOfDay(System.currentTimeMillis());
-		long shipDate = (shipByDate != null && shipByDate.getTime() >= today) ? shipByDate.getTime() : today ;
+                Optional<OrderStatus> orderShippedAudit = order.getOrderStatuses().stream().filter(os->{
+                    return ObjectUtil.equals(os.getFulfillmentStatus(),Order.FULFILLMENT_STATUS_SHIPPED);
+                }).findFirst();
 
+                long shipDate = -1;
+                if (orderShippedAudit.isPresent()){
+                    shipDate = orderShippedAudit.get().getStatusDate().getTime();
+                }else {
+        	    long today = DateUtils.getStartOfDay(System.currentTimeMillis());
+                    shipDate = (shipByDate != null && shipByDate.getTime() >= today) ? shipByDate.getTime() : today ;
+                }
+		
 		expectedDeliveryDate = new Date(shipDate + getTransitDays() * 24L * 60L * 60L * 1000L);
 
 		return expectedDeliveryDate;

@@ -76,7 +76,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public String getLongImageUrl();
 	public void setLongImageUrl(String url);
 
-	@COLUMN_SIZE(256)
+	@COLUMN_SIZE(1024)
 	public String getBenefits();
 	public void setBenefits(String benefits);
 

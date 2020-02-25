@@ -683,7 +683,8 @@ public class ShipWebServiceClient {
         order.getOrderLines().forEach(ol->{
             ol.setSellingPrice(converter.valueOf(ol.getSellingPrice()));
             if (ol.getManifestedQuantity() > 0){
-                if (ObjectUtil.equals(ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY").getMasterItemCategoryValue().getAllowedValue(),"Big Shipping Box")){
+                ItemCategory category = ol.getSku().getItem().getItemCategory("BUNDLE_CATEGORY");
+                if (category != null && ObjectUtil.equals(category.getMasterItemCategoryValue().getAllowedValue(),"Big Shipping Box")){
                     if (DoubleUtils.equals(order.getSellingPrice(),0)){
                         commodities.add(addCommodity(ol,1.0));
                         return;

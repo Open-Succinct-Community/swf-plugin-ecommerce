@@ -227,13 +227,7 @@ public interface OrderLine extends Model {
 	@IS_NULLABLE
 	public String getTrackingNumber(); 
 	public void setTrackingNumber(String trackingNumber);
-	
 
-	@COLUMN_DEF(StandardDefault.ZERO)
-	public double getShippingCharges();
-	public void setShippingCharges(double charges);
-
-	
 	public void reject(String reasonCode);
 	public void reject(String reasonCode,double quantity);
 

@@ -135,6 +135,22 @@ public interface Order extends Model, CompanySpecific {
     public Double getPrice();
     public void setPrice(Double price);
 
+
+    public Double getProductPrice();
+    public void setProductPrice(Double productPrice);
+
+    public Double getProductSellingPrice();
+    public void setProductSellingPrice(Double productSellingPrice);
+
+    @COLUMN_DEF(StandardDefault.ZERO)
+    public double getShippingPrice();
+    public void setShippingPrice(double shippingCharges);
+
+    @COLUMN_DEF(StandardDefault.ZERO)
+    public double getShippingSellingPrice();
+    public void setShippingSellingPrice(double shippingCharges);
+
+
     @IS_VIRTUAL
     public Long getManifestId();
     public void setManifestId(Long id);

@@ -61,6 +61,7 @@ import com.fedex.ship.stub.WeightUnits;
 import com.venky.core.log.SWFLogger;
 import com.venky.core.math.DoubleHolder;
 import com.venky.core.math.DoubleUtils;
+import com.venky.core.string.StringUtil;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
@@ -508,7 +509,7 @@ public class ShipWebServiceClient {
         OrderAddress shipTo = addresses.get(0);
 
         Contact contactRecip = new Contact();
-        contactRecip.setPersonName(shipTo.getFirstName() + " " + shipTo.getLastName());
+        contactRecip.setPersonName(StringUtil.valueOf(shipTo.getFirstName()) + " " + StringUtil.valueOf(shipTo.getLastName()));
         contactRecip.setCompanyName("");
         contactRecip.setPhoneNumber(shipTo.getPhoneNumber());
         recipient.setContact(contactRecip);

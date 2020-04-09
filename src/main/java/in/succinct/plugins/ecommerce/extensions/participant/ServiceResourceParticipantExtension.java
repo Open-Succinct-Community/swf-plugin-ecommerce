@@ -30,8 +30,14 @@ public class ServiceResourceParticipantExtension extends ParticipantExtension<Se
             }
         }else if (ObjectUtil.equals(fieldName,"USER_ID")){
             SequenceSet<Long> ret = new SequenceSet<>();
-            if (u.isStaff()){
-                ret.addAll(u.getCompany().getStaffUserIds());
+            if (partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getUserId())){
+                if (u.isStaff()){
+                    ret.addAll(u.getCompany().getStaffUserIds());
+                }
+            }else {
+                if (partiallyFilledModel.getUser().isAccessibleBy(user)){
+                    ret.add(partiallyFilledModel.getUserId());
+                }
             }
             return ret;
         }

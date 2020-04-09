@@ -22,18 +22,12 @@ public class ServiceResourceParticipantExtension extends ParticipantExtension<Se
 
         if (ObjectUtil.equals(fieldName,"SERVICE_ID")){
             if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getServiceId())){
-                if (partiallyFilledModel.isAccessibleBy(user)){
+                if (partiallyFilledModel.getService().isAccessibleBy(user)){
                     return Arrays.asList(partiallyFilledModel.getServiceId());
                 }else {
                     return new ArrayList<>();
                 }
             }
-        }else if (ObjectUtil.equals(fieldName,"USER_ID")){
-            SequenceSet<Long> ret = new SequenceSet<>();
-            if (u.isStaff()){
-                ret.addAll(u.getCompany().getStaffUserIds());
-            }
-            return ret;
         }
         return null;
     }

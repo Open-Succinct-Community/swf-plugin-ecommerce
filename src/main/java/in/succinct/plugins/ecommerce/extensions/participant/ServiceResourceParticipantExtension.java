@@ -28,6 +28,12 @@ public class ServiceResourceParticipantExtension extends ParticipantExtension<Se
                     return new ArrayList<>();
                 }
             }
+        }else if (ObjectUtil.equals(fieldName,"USER_ID")){
+            SequenceSet<Long> ret = new SequenceSet<>();
+            if (u.isStaff()){
+                ret.addAll(u.getCompany().getStaffUserIds());
+            }
+            return ret;
         }
         return null;
     }

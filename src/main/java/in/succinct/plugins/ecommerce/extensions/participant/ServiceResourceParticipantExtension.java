@@ -8,16 +8,25 @@ import com.venky.swf.pm.DataSecurityFilter;
 import in.succinct.plugins.ecommerce.db.model.catalog.Service;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceResource;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ServiceResourceParticipantExtension extends ParticipantExtension<ServiceResource> {
     @Override
     protected List<Long> getAllowedFieldValues(User user, ServiceResource partiallyFilledModel, String fieldName) {
+        com.venky.swf.plugins.collab.db.model.user.User u = user.getRawRecord().getAsProxy(com.venky.swf.plugins.collab.db.model.user.User.class);
+
         if (ObjectUtil.equals(fieldName,"SERVICE_ID")){
-            return DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Service.class,user));
+            if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getServiceId())){
+                if (partiallyFilledModel.isAccessibleBy(user)){
+                    return Arrays.asList(partiallyFilledModel.getServiceId());
+                }else {
+                    return new ArrayList<>();
+                }
+            }
         }else if (ObjectUtil.equals(fieldName,"USER_ID")){
             SequenceSet<Long> ret = new SequenceSet<>();
-            com.venky.swf.plugins.collab.db.model.user.User u = user.getRawRecord().getAsProxy(com.venky.swf.plugins.collab.db.model.user.User.class);
             if (u.isStaff()){
                 ret.addAll(u.getCompany().getStaffUserIds());
             }

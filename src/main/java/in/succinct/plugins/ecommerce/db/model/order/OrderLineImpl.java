@@ -190,8 +190,12 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
                         quantityToCancel -= quantityCancelled;
                     }
                     orderLine.setReturnedQuantity(orderLine.getReturnedQuantity() + quantityToCancel);
-                    orderLine.setCancellationReason(reason);
-                    orderLine.setCancellationInitiator(initiator);
+                    if (orderLine.getReflector().isVoid(orderLine.getCancellationReason())){
+                        orderLine.setCancellationReason(reason);
+                    }
+                    if (orderLine.getReflector().isVoid(orderLine.getCancellationInitiator())) {
+                        orderLine.setCancellationInitiator(initiator);
+                    }
                 }
             }
 

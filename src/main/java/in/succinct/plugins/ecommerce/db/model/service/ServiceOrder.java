@@ -75,6 +75,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public String getFulfillmentStatus();
     public void setFulfillmentStatus(String status);
 
+    @PARTICIPANT(redundant = true)
     public Long getCancellationReasonId();
     public void setCancellationReasonId(Long id);
     public ServiceCancellationReason getCancellationReason();

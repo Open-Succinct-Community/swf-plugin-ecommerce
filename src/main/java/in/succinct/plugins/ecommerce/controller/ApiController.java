@@ -86,6 +86,7 @@ public class ApiController extends Controller {
             }
 
             AdjustmentRequest request = ModelIOFactory.getReader(AdjustmentRequest.class,helper.getFormatClass()).read(adjustmentElement);
+            request.setInventoryId(inventory.getId());
             request.save();
             requests.add(request);
         }

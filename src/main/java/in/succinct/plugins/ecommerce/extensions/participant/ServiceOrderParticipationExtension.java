@@ -33,11 +33,9 @@ public class ServiceOrderParticipationExtension extends CompanySpecificParticipa
             return ret;
         }else if (ObjectUtil.equals(fieldName,"CANCELLATION_REASON_ID")){
             List<Long> ret = new SequenceSet<>();
-            if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getServiceId()) && !ObjectUtil.isVoid(partiallyFilledModel.getCancellationInitiatedBy())){
+            if (!partiallyFilledModel.getReflector().isVoid(partiallyFilledModel.getServiceId())){
                 for (ServiceCancellationReason r : partiallyFilledModel.getService().getServiceCancellationReasons()){
-                    if (ObjectUtil.equals(r.getInitiator(),partiallyFilledModel.getCancellationInitiatedBy())){
-                        ret.add(r.getId());
-                    }
+                    ret.add(r.getId());
                 }
             }
             return ret;

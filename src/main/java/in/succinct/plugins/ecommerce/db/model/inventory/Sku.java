@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
@@ -134,5 +135,11 @@ public interface Sku extends Model,Container, CompanySpecific {
     @COLUMN_DEF(StandardDefault.ZERO)
     public int getDisplaySequenceNo();
     public void setDisplaySequenceNo(int displaySequenceNo);
+
+    public List<SkuDiscountPlan> getDiscountPlans();
+
+
+    @IS_VIRTUAL
+    public SkuDiscountPlan getActiveDiscountPlan();
 
 }

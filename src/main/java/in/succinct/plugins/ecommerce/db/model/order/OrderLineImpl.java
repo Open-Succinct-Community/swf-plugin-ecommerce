@@ -4,6 +4,7 @@ package in.succinct.plugins.ecommerce.db.model.order;
 import com.venky.cache.Cache;
 import com.venky.core.util.ObjectUtil;
 import com.venky.geo.GeoCoordinate;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack.PackValidationException;
 import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
@@ -343,6 +344,22 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
             }
         }
         return hsn;
+    }
+
+    public double getProductSellingPrice() {
+        return getProxy().getSellingPrice();
+    }
+
+    public double getProductPrice(){
+        return getProxy().getPrice();
+    }
+
+    public double  getShippingSellingPrice() {
+        return 0.0;
+    }
+
+    public double getShippingPrice() {
+        return 0.0;
     }
 
 

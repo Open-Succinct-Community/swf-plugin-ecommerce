@@ -96,7 +96,7 @@ public interface Order extends Model, CompanySpecific {
     public List<OrderAddress> getAddresses();
 
     public List<OrderAttribute> getAttributes();
-    public List<OrderLine> getOrderLines();
+    public <T extends OrderLine> List<T> getOrderLines();
 
     public Map<String,OrderAttribute> getAttributeMap();
     public void saveAttributeMap(Map<String,OrderAttribute> map);

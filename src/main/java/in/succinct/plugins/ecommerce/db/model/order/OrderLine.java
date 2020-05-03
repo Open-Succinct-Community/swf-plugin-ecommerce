@@ -9,6 +9,8 @@ import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
+import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
+import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
@@ -139,7 +141,7 @@ public interface OrderLine extends Model {
 
 
 	public double getMaxRetailPrice();
-	public void setMaxRetailPrice(double mrp); 
+	public void setMaxRetailPrice(double mrp);
 	
 	@COLUMN_DEF(StandardDefault.ZERO)
 	@COLUMN_NAME("DISCOUNT")
@@ -260,7 +262,27 @@ public interface OrderLine extends Model {
 	public void setPrice(Double price);
 
 	@IS_VIRTUAL
+	public double getProductSellingPrice();
+
+	@IS_VIRTUAL
+	public double getProductPrice();
+
+	@IS_VIRTUAL
+	public double  getShippingSellingPrice();
+
+	@IS_VIRTUAL
+	public double getShippingPrice();
+
+
+	@IS_VIRTUAL
 	public String getHsn();
 
     void backorder();
+
+	@IS_NULLABLE
+    public Long getFreeAgainstLineId();
+    public void setFreeAgainstLineId(Long id);
+    public OrderLine getFreeAgainstLine();
+
+
 }

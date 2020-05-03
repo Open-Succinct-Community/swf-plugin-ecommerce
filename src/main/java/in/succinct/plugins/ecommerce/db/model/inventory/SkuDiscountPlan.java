@@ -10,7 +10,7 @@ import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import java.util.Date;
 
 @ORDER_BY("SKU_ID , EFFECTIVE_FROM DESC")
-interface SkuDiscountPlan extends Model {
+public interface SkuDiscountPlan extends Model {
     @UNIQUE_KEY
     public long getSkuId();
     public void setSkuId(long id);

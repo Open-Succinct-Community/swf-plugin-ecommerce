@@ -282,7 +282,7 @@ public interface OrderLine extends Model {
 	@IS_NULLABLE
     public Long getFreeAgainstLineId();
     public void setFreeAgainstLineId(Long id);
-    public OrderLine getFreeAgainstLine();
+    //public OrderLine getFreeAgainstLine();
 
 
 }

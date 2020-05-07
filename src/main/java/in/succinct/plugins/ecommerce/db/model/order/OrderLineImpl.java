@@ -351,7 +351,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
     }
 
     public double getProductPrice(){
-        return getProxy().getPrice();
+        return Database.getJdbcTypeHelper(getProxy().getReflector().getPool()).getTypeRef(double.class).getTypeConverter().valueOf(getProxy().getPrice());
     }
 
     public double  getShippingSellingPrice() {

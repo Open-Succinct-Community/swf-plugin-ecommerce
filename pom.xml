@@ -65,6 +65,12 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>swf-plugin-calendar</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>swf-plugin-bugs</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -35,12 +35,15 @@ public class SkuParticipantExtension extends CompanySpecificParticipantExtension
                     ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(Item.class, user, where));
                 }
             }
-        }else if (fieldName.equals("LENGTH_U_O_M_ID") || fieldName.equals("WIDTH_U_O_M_ID") || fieldName.equals("HEIGHT_U_O_M_ID")){
+        }else if (fieldName.equals("PACKAGING_U_O_M_ID")){
 			ModelReflector<UnitOfMeasure> ref = ModelReflector.instance(UnitOfMeasure.class);
-			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, "Length")));
+			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, UnitOfMeasure.MEASURES_PACKAGING)));
+		}else if (fieldName.equals("LENGTH_U_O_M_ID") || fieldName.equals("WIDTH_U_O_M_ID") || fieldName.equals("HEIGHT_U_O_M_ID")){
+			ModelReflector<UnitOfMeasure> ref = ModelReflector.instance(UnitOfMeasure.class);
+			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, UnitOfMeasure.MEASURES_LENGTH)));
 		}else if (fieldName.equals("WEIGHT_U_O_M_ID")) {
 			ModelReflector<UnitOfMeasure> ref = ModelReflector.instance(UnitOfMeasure.class);
-			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, "Weight")));
+			ret = DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, UnitOfMeasure.MEASURES_WEIGHT)));
 		}else {
 			ret = super.getAllowedFieldValues(user,partiallyFilledModel,fieldName);
 		}

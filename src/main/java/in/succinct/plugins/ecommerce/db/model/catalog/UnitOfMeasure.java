@@ -31,6 +31,7 @@ public interface UnitOfMeasure extends Model {
 	static final String MEASURES_DOSAGE = "Dosage";
 
 	@Enumeration(MEASURES_WEIGHT +"," + MEASURES_LENGTH + "," + MEASURES_PACKAGING + "," + MEASURES_TEMPERATURE + "," + MEASURES_DOSAGE)
+	@UNIQUE_KEY
 	public String getMeasures();
 	public void setMeasures(String type); 
 	

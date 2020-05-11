@@ -2,6 +2,8 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.IS_NULLABLE;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
@@ -10,12 +12,15 @@ import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.plugins.calendar.db.model.WorkCalendar;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.demand.Demand;
+import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.List;
@@ -53,6 +58,30 @@ public interface Inventory extends Model, CompanySpecific {
 	List<InventoryAudit> getAudits();
 	List<Demand> getDemands();
 
+	@IS_NULLABLE
+	public Long getOwnerId();
+	public void setOwnerId(Long id);
+	public Company getOwner();
+
+	//For normal items, This is null, meaning the entire calendar owned by the owner for this sku
+	@IS_NULLABLE
+	public Long getWorkCalendarId();
+	public void setWorkCalendarId(Long WorkCalendarId);
+	public WorkCalendar getWorkCalendar();
+
+	@IS_NULLABLE
+	public String getInventoryHash();
+	public void setInventoryHash(String hash);
+
+	public void computeHash();
+
+
+	public List<InventoryAttributeValue> getInventoryAttributes();
+
+	@IS_VIRTUAL
+	public List<Asset> getAssets();
+
+
 	public void adjust(double delta,String comment);
 
 
@@ -75,6 +104,9 @@ public interface Inventory extends Model, CompanySpecific {
 		}
 		inventory.adjust(signedDelta,comment);
 	}
+
+
+
 
 
 

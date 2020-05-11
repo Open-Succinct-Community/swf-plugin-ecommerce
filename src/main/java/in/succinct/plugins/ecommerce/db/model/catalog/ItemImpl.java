@@ -1,11 +1,28 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
+import com.venky.core.util.ObjectUtil;
+import com.venky.digest.Encryptor;
 import com.venky.swf.db.Database;
+import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.db.table.ModelImpl;
+import com.venky.swf.sql.Conjunction;
+import com.venky.swf.sql.Expression;
+import com.venky.swf.sql.Operator;
+import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.assets.Asset;
+import in.succinct.plugins.ecommerce.db.model.assets.Capability;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 public class ItemImpl extends ModelImpl<Item>{
+    public ItemImpl(){
+        super();
+    }
     public ItemImpl(Item item){
         super(item);
     }
@@ -74,5 +91,51 @@ public class ItemImpl extends ModelImpl<Item>{
             category.save();
         }
         return category;
+    }
+
+
+    public boolean isRentable(){
+        return getProxy().getAssetCode().isSac();
+    }
+
+    public List<Asset> getAssets(){
+        Item item  = getProxy();
+        ModelReflector<Capability> ref = ModelReflector.instance(Capability.class);
+        List<Asset> assets =  new Select().from(Capability.class).where(new Expression(ref.getPool(), Conjunction.AND).
+                add(new Expression(ref.getPool(),"catalog_hash", Operator.EQ, item.getItemHash())).
+                add(new Expression(ref.getPool(), "asset_code_id",Operator.EQ,item.getAssetCodeId()))).execute();
+        return assets;
+    }
+
+    public void computeHash(){
+        Item item = getProxy();
+        if (item.getReflector().isVoid(item.getAssetCodeId())){
+            return;
+        }
+
+        Set<Long> attributeIdsAllowed = new HashSet<>();
+        for (AssetCodeAttribute assetCodeAttribute : item.getAssetCode().getAssetCodeAttributes()) {
+            if (ObjectUtil.equals(assetCodeAttribute.getAttributeType(), AssetCodeAttribute.ATTRIBUTE_TYPE_CATALOG)){
+                attributeIdsAllowed.add(assetCodeAttribute.getAttributeId());
+            }
+        }
+
+        StringBuilder builder = new StringBuilder();
+        builder.append(item.getAssetCodeId());
+
+        SortedSet<Long> attributeValueIds = new TreeSet<>();
+        if (!item.getRawRecord().isNewRecord()){
+            item.getAttributeValues().forEach(a->{
+                if (attributeIdsAllowed.contains(a.getAttributeValue().getAttributeId())){
+                    attributeValueIds.add(a.getAttributeValueId());
+                }else {
+                    a.destroy();
+                }
+            });
+        }
+        builder.append(attributeValueIds);
+
+        item.setItemHash(Encryptor.encrypt(builder.toString()));
+        item.save();
     }
 }

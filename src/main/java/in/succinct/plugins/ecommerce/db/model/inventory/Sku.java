@@ -21,6 +21,7 @@ import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 
 import java.sql.Timestamp;
@@ -32,11 +33,19 @@ import java.util.List;
 public interface Sku extends Model,Container, CompanySpecific {
 
 	@PARTICIPANT(redundant = true)
-	@UNIQUE_KEY("SKU2")
+	@UNIQUE_KEY("SKU2,SKU3")
 	//@PROTECTION(Kind.NON_EDITABLE)
 	public long getItemId();
 	public void setItemId(long id);
 	public Item getItem();
+
+
+	@IS_NULLABLE
+	@UNIQUE_KEY(value = "SKU3",allowMultipleRecordsWithNull = true)
+	@PARTICIPANT(redundant = true)
+	public Long getPackagingUOMId();
+	public void setPackagingUOMId(Long PackagingUnitOfMeasureId);
+	public UnitOfMeasure getPackagingUOM();
 
 
 	@UNIQUE_KEY(value = "UPC",allowMultipleRecordsWithNull = true)

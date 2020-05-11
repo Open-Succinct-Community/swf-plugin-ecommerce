@@ -8,6 +8,7 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
+import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
@@ -56,12 +57,8 @@ public interface Inventory extends Model, CompanySpecific {
 
 	List<AdjustmentRequest> getAdjustmentRequests();
 	List<InventoryAudit> getAudits();
-	List<Demand> getDemands();
 
-	@IS_NULLABLE
-	public Long getOwnerId();
-	public void setOwnerId(Long id);
-	public Company getOwner();
+	List<Demand> getDemands();
 
 	//For normal items, This is null, meaning the entire calendar owned by the owner for this sku
 	@IS_NULLABLE

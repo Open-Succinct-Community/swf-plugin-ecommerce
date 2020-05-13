@@ -285,4 +285,5 @@ public interface OrderLine extends Model {
     //public OrderLine getFreeAgainstLine();
 
 
+	public List<OrderLineItemAttributeValue> getOrderLineItemAttributeValues();
 }

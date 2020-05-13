@@ -74,7 +74,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public void setShortDescription(String shortDescription);
 
 	@Index
-	@COLUMN_SIZE(1024)
+	@COLUMN_SIZE(2048)
 	public String getLongDescription();
 	public void setLongDescription(String longDescription);
 

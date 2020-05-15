@@ -42,7 +42,7 @@ public interface Inventory extends Model, CompanySpecific {
 	
 	@PARTICIPANT(redundant = true)
 	@UNIQUE_KEY("K1,K2")
-        @Index
+	@Index
 	public long getSkuId();
 	public void setSkuId(long id);
 	public Sku getSku();
@@ -60,13 +60,11 @@ public interface Inventory extends Model, CompanySpecific {
 
 	List<Demand> getDemands();
 
-	//For normal items, This is null, meaning the entire calendar owned by the owner for this sku
-	@IS_NULLABLE
-	public Long getWorkCalendarId();
-	public void setWorkCalendarId(Long WorkCalendarId);
+	@IS_VIRTUAL
 	public WorkCalendar getWorkCalendar();
 
 	@IS_NULLABLE
+	@UNIQUE_KEY(allowMultipleRecordsWithNull = false,value = "K1,K2")
 	public String getInventoryHash();
 	public void setInventoryHash(String hash);
 

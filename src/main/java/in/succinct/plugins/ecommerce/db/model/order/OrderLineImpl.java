@@ -2,12 +2,16 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 
 import com.venky.cache.Cache;
+import com.venky.core.date.DateUtils;
 import com.venky.core.util.ObjectUtil;
 import com.venky.digest.Encryptor;
 import com.venky.geo.GeoCoordinate;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
+import com.venky.swf.plugins.calendar.db.model.WorkCalendar;
+import com.venky.swf.plugins.calendar.db.model.WorkSlot;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack.PackValidationException;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
@@ -21,14 +25,21 @@ import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator.ATP;
+import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
+import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -214,40 +225,56 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 
 	public Inventory getInventory(boolean lock) {
         OrderLine line = getProxy();
+        if (line.getInventoryId() != null){
+            if (!lock){
+                return line.getInventory();
+            }else{
+                return Database.getTable(Inventory.class).lock(line.getInventoryId());
+            }
+        }
 	    return getInventory(lock,line.getSkuId());
     }
     public Inventory getInventory(boolean lock,long skuId) {
+	    List<Inventory> inventories = getInventories(lock,skuId);
+	    if (inventories.isEmpty()){
+	        return null;
+        }else{
+	        return inventories.get(0);
+        }
+    }
+    public List<Inventory> getInventories(boolean lock,long skuId) {
 		OrderLine line = getProxy();
 		Select s = new Select(lock).from(Inventory.class);
 		Expression w = new Expression(s.getPool(),Conjunction.AND);
 		w.add(new Expression(s.getPool(), "FACILITY_ID",Operator.EQ, line.getShipFromId()));
 		w.add(new Expression(s.getPool(), "SKU_ID", Operator.EQ, skuId));
-		List<Inventory> inventories = s.where(w).execute();
-		if (inventories.size()== 1) {
-			return inventories.get(0);
-		}
-		return null;
+		w.add(new Expression(s.getPool(), "QUANTITY" , Operator.GE, line.getToShipQuantity()));
+
+
+        s.where(w);
+        for (OrderLineItemAttributeValue orderLineItemAttributeValue : line.getOrderLineItemAttributeValues()){
+            s.add(" and exists (select 1 from inventory_attributes where inventory_id  = inventories.id and attribute_value_id  = " + orderLineItemAttributeValue.getAttributeValueId() +")");
+        }
+
+		List<Inventory> inventories = s.orderBy("FACILITY_ID","SKU_ID","ID").execute();
+
+		return inventories;
 	}
 	public void backorder(){
         cancel("","");
     }
     public void acknowledge(){
-        Map<Long,Map<Long,Bucket>> skuATP = new Cache<Long, Map<Long, Bucket>>(0,0) {
+        Map<Long, List<ATP>> skuATP = new Cache<Long, List<ATP>>() {
             @Override
-            protected Map<Long,Bucket> getValue(Long skuId) {
-                return new Cache<Long, Bucket>(0,0) {
-                    @Override
-                    protected Bucket getValue(Long facilityId) {
-                        return new Bucket();
-                    }
-                };
+            protected List<ATP> getValue(Long skuId) {
+                return new ArrayList<>();
             }
         };
         Bucket acknowlededCounter = new Bucket();
-        Bucket rejectCounter = new Bucket();
+        Bucket rejectCounter= new Bucket();
         acknowledge(skuATP,acknowlededCounter,rejectCounter,false);
     }
-	public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage ){
+	public void acknowledge(Map<Long,List<ATP>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage ){
         OrderLine ol = getProxy();
         Order order = ol.getOrder();
         if (ol.getToAcknowledgeQuantity() >  0 ) { //Not Ack, Shipped or cancelled,
@@ -256,74 +283,88 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
                 if (!skuATP.containsKey(ol.getSkuId())) {
                     InventoryCalculator invCalculator = new InventoryCalculator(ol);
                     for (InventoryCalculator.ATP atp : invCalculator.getInventory()) {
-                        skuATP.get(atp.getInventory().getSkuId()).get(atp.getInventory().getFacilityId()).increment(atp.getQuantity());
+                        skuATP.get(atp.getInventory().getSkuId()).add(atp);
                     }
-                }
-            }
 
-            Bucket currentInventory = null;
-            List<Long> shipNodeIds = new ArrayList<>();
-            if (ol.getReflector().getJdbcTypeHelper().isVoid(ol.getShipFromId())) {
-                Bucket tmpCurrentInventory = new Bucket();
-                skuATP.get(ol.getSkuId()).forEach((fId, bucket) -> {
-                    if (bucket.doubleValue() >= ol.getOrderedQuantity()){
-                        tmpCurrentInventory.increment(bucket.doubleValue());
-                        shipNodeIds.add(fId);
-                    }
-                });
-                currentInventory = tmpCurrentInventory;
-            } else {
-                currentInventory = skuATP.get(ol.getSkuId()).get(ol.getShipFromId());
-            }
-            if (currentInventory.doubleValue() >= ol.getOrderedQuantity()) {
-                ol.setShortage(false);
-                ol.setAcknowledgedQuantity(ol.getOrderedQuantity());
-                currentInventory.decrement(ol.getOrderedQuantity());
-                acknowledgedLineCounter.increment();
-                if (ol.getReflector().isVoid(ol.getShipFromId())){
-                    //Asign Shipnode.
-                    if(shipNodeIds.size() <= 1){
-                        ol.setShipFromId(shipNodeIds.get(0));
-                    }else {
-                        Select select = new Select().from(Facility.class);
-                        List<Facility> facilities = select.where(new Expression(select.getPool(),"FACILITY_ID" , Operator.IN, shipNodeIds.toArray())).execute();
-                        Map<Long,Facility> facilityMap = new HashMap<>();
-                        facilities.forEach(f->{
-                            facilityMap.put(f.getId(),f);
-                        });
-                        List<OrderAddress> shipToAddresses = order.getAddresses().stream().filter(a-> OrderAddress.ADDRESS_TYPE_SHIP_TO.equals(a.getAddressType())).collect(Collectors.toList());
-                        OrderAddress shipToAddress = shipToAddresses.isEmpty()? null : shipToAddresses.get(0);
-                        if (shipToAddress == null){
-                            throw new RuntimeException("Don't know where to ship the order " + order.getId());
+                    List<ATP> atpList = skuATP.get(ol.getSkuId());
+                    if (!atpList.isEmpty()){
+                        Set<Long> shipNodeIds = new HashSet<>();
+                        for (ATP atp : atpList) {
+                            shipNodeIds.add(atp.getInventory().getFacilityId());
                         }
 
-                        shipNodeIds.sort(new Comparator<Long>() {
+                        Select select = new Select().from(Facility.class);
+                        List<Facility> facilities = select.where(new Expression(select.getPool(), "FACILITY_ID", Operator.IN, shipNodeIds.toArray())).execute();
+                        Map<Long, Facility> facilityMap = new HashMap<>();
+                        facilities.forEach(f -> {
+                            facilityMap.put(f.getId(), f);
+                        });
+
+                        List<OrderAddress> shipToAddresses = order.getAddresses().stream().filter(a -> OrderAddress.ADDRESS_TYPE_SHIP_TO.equals(a.getAddressType())).collect(Collectors.toList());
+                        OrderAddress shipToAddress = shipToAddresses.isEmpty() ? null : shipToAddresses.get(0);
+                        if (shipToAddress == null) {
+                            throw new RuntimeException("Don't know where to ship the order " + order.getId());
+                        }
+                        atpList.sort(new Comparator<ATP>() {
                             @Override
-                            public int compare(Long o1, Long o2) {
-                                int ret = 0;
-                                Facility f1 = facilityMap.get(o1);
-                                Facility f2 = facilityMap.get(o2);
-                                double  d1 = new GeoCoordinate(f1).distanceTo(new GeoCoordinate(shipToAddress));
-                                double  d2 = new GeoCoordinate(f2).distanceTo(new GeoCoordinate(shipToAddress));
-                                ret = (int)(d1 - d2) ;
+                            public int compare(ATP o1, ATP o2) {
+                                Facility f1 =  facilityMap.get(o1.getInventory().getFacilityId());
+                                Facility f2 =  facilityMap.get(o2.getInventory().getFacilityId());
+                                double d1 = new GeoCoordinate(f1).distanceTo(new GeoCoordinate(shipToAddress));
+                                double d2 = new GeoCoordinate(f2).distanceTo(new GeoCoordinate(shipToAddress));
+                                int ret = (int) (d1 - d2);
                                 if (ret == 0){
-                                    ret = (int)(o1 - o2);
+                                    ret = (int)(o1.getDemandDate() - o2.getDemandDate());
+                                }
+                                if (ret == 0 && o1.getSlotId() != null && o2.getSlotId() != null){
+                                    ret = (o1.getSlot().getStartTime().compareTo(o2.getSlot().getStartTime()));
+                                }
+                                if (ret == 0) {
+                                    ret = (int) (f1.getId() - f2.getId());
                                 }
                                 return ret;
                             }
                         });
-                        ol.setShipFromId(shipNodeIds.get(0)); // Assign closest shipnode having full inventory.
                     }
+                }
+            }
+
+
+            if (!skuATP.get(ol.getSkuId()).isEmpty()) {
+                ol.setShortage(true);
+                for (ATP atp :skuATP.get(ol.getSkuId())){
+                    if (atp.getQuantity().doubleValue() < ol.getToAcknowledgeQuantity()){
+                        continue;
+                    }
+                    ol.setShipFromId(atp.getInventory().getFacilityId());
+                    ol.setInventoryId(atp.getInventory().getId());
+                    long date =  atp.getDemandDate();
+                    if (atp.getSlotId() != null && date > 0) {
+                        Calendar calendar = Calendar.getInstance();
+                        WorkSlot slot = atp.getSlot();
+
+                        calendar.setTimeInMillis(date + DateUtils.getTime(slot.getStartTime()).getTime());
+                        ol.setDeliveryExpectedNoEarlierThan(new Timestamp(calendar.getTimeInMillis())); //Set Earliest ship by date.
+                        calendar.setTimeInMillis(date + DateUtils.getTime(slot.getEndTime()).getTime());
+                        ol.setDeliveryExpectedNoLaterThan(new Timestamp(calendar.getTimeInMillis()));
+                        ol.setWorkSlotId(atp.getSlotId());
+                    }
+                    atp.getQuantity().decrement(ol.getToAcknowledgeQuantity());
+                    ol.setAcknowledgedQuantity(ol.getAcknowledgedQuantity() + ol.getToAcknowledgeQuantity());
+                    ol.setShortage(false);
+                    acknowledgedLineCounter.increment();
+                    break;
                 }
             } else {
                 ol.setShortage(true);
-                if (cancelOnShortage){
-                    ol.setCancelledQuantity(ol.getOrderedQuantity());
-                    ol.setCancellationReason(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
-                    ol.setCancellationInitiator(OrderLine.CANCELLATION_INITIATOR_COMPANY);
-                    rejectLineCounter.increment();
-                }
             }
+            if (ol.isShortage() && cancelOnShortage){
+                ol.setCancelledQuantity(ol.getOrderedQuantity());
+                ol.setCancellationReason(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
+                ol.setCancellationInitiator(OrderLine.CANCELLATION_INITIATOR_COMPANY);
+                rejectLineCounter.increment();
+            }
+
             ol.save();
         }
     }
@@ -341,6 +382,13 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         if (hsn == null){
             OrderLine line  = getProxy();
             if (!line.getReflector().isVoid(line.getSkuId())){
+                Item item = line.getSku().getItem();
+                if (item.getAssetCodeId() != null){
+                    AssetCode assetCode =  item.getAssetCode();
+                    if (assetCode.isHsn()){
+                        return assetCode.getCode();
+                    }
+                }
                 ItemCategory category = line.getSku().getItem().getItemCategory("HSN");
                 if (category != null){
                     hsn = category.getMasterItemCategoryValue().getAllowedValue();

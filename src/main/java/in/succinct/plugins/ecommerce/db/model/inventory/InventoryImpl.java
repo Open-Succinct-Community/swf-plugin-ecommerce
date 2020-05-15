@@ -5,6 +5,7 @@ import com.venky.digest.Encryptor;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.db.table.ModelImpl;
+import com.venky.swf.plugins.calendar.db.model.WorkCalendar;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
@@ -13,6 +14,8 @@ import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.participation.Company;
+import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.HashSet;
 import java.util.List;
@@ -83,6 +86,23 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 				add(new Expression(ref.getPool(),"inventory_hash", Operator.EQ, inventory.getInventoryHash())).
 				add(new Expression(ref.getPool(), "asset_code_id",Operator.EQ,item.getAssetCodeId()))).execute();
 		return assets;
+	}
+
+	public WorkCalendar getWorkCalendar() {
+		Inventory inventory = getProxy();
+		WorkCalendar calendar = null;
+		//If item facility calendar is required, one could define that too and use here ... Possible extenstion to design of work calendar.
+		Facility facility = inventory.getFacility();
+		if (facility.getWorkCalendarId() != null){
+			calendar = facility.getWorkCalendar();
+		}
+		if (calendar == null){
+			Company company = facility.getCompany().getRawRecord().getAsProxy(Company.class);
+			if (company.getWorkCalendarId() != null){
+				calendar = company.getWorkCalendar();
+			}
+		}
+		return calendar;
 	}
 
 

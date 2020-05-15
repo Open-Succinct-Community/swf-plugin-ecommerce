@@ -13,12 +13,14 @@ import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.table.ModelImpl;
 import com.venky.swf.plugins.background.core.TaskManager;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator.ATP;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.integration.fedex.RateWebServiceClient;
 import org.apache.poi.ss.formula.functions.Rate;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -96,24 +98,18 @@ public class OrderImpl  extends ModelImpl<Order>{
 		Order order = getProxy();
 		Registry.instance().callExtensions("order.before.acknowledge",order);
 
-		Bucket orderLinesNotAcknowledged = new Bucket();
-		Bucket orderLinesAcknowledged = new Bucket();
 		TypeConverter<Long> iConv = order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter();
-		List<OrderLine> orderLines = order.getOrderLines(); 
-		Map<Long,Map<Long,Bucket>> skuATP = new Cache<Long, Map<Long, Bucket>>(0,0) {
-            @Override
-            protected Map<Long,Bucket> getValue(Long skuId) {
-                return new Cache<Long, Bucket>(0,0) {
-                    @Override
-                    protected Bucket getValue(Long facilityId) {
-                        return new Bucket();
-                    }
-                };
-            }
-        };
+		List<OrderLine> orderLines = order.getOrderLines();
+
+		Map<Long, List<ATP>> skuATP = new Cache<Long, List<ATP>>() {
+			@Override
+			protected List<ATP> getValue(Long aLong) {
+				return new ArrayList<>();
+			}
+		};
 
 		orderLines.forEach(ol->{
-		    ol.acknowledge(skuATP,orderLinesAcknowledged,orderLinesNotAcknowledged,false);
+			ol.acknowledge(skuATP,false);
 		});
 
 		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);

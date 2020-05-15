@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.extensions.order.line;
 
 import com.venky.core.collections.SequenceSet;
+import com.venky.core.date.DateUtils;
 import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
@@ -10,6 +11,7 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
+import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
@@ -32,6 +34,11 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 		SequenceSet<Task> tasks = new SequenceSet<>();
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
+		Timestamp demandDate = null;
+		if (orderLine.getSku().getItem().isRentable()){
+			demandDate = new Timestamp(DateUtils.getStartOfDay(orderLine.getDeliveryExpectedNoEarlierThan().getTime()));
+		}
+
 		if (orderLine.getOrderedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("ORDERED_QUANTITY") ){
             orderLine.setOrderedTs(now);
         }
@@ -46,7 +53,16 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             Double oldAcknowledgedQty = doubleTypeConverter.valueOf(orderLine.getRawRecord().getOldValue("ACKNOWLEDGED_QUANTITY"));
             Double newAcknowledgedQty = orderLine.getAcknowledgedQuantity();
             double qtyAcknowledgedNow = newAcknowledgedQty - oldAcknowledgedQty ;
-			tasks.add(new OpendDemandIncrementor(orderLine.getInventory(false).getId(),qtyAcknowledgedNow));
+
+			Item item = orderLine.getSku().getItem();
+			if (item.getAssetCodeId() != null){
+				if (item.isRentable()){
+					if (orderLine.getReflector().isVoid(orderLine.getDeliveryExpectedNoEarlierThan()) || orderLine.getReflector().isVoid(orderLine.getDeliveryExpectedNoEarlierThan())){
+						throw new RuntimeException("Please specify slot to book appointment.");
+					}
+				}
+			}
+			tasks.add(new OpendDemandIncrementor(orderLine.getInventory(false).getId(),qtyAcknowledgedNow,demandDate,orderLine.getWorkSlot()));
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
 		}
 		
@@ -79,7 +95,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 			if (qtyCancelledNow > 0 && orderLine.getShipFromId() != null) {
 			    Inventory inventory = orderLine.getInventory(false);
 			    if (inventory != null) {
-                    tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyCancelledNow));
+                    tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyCancelledNow,demandDate,orderLine.getWorkSlot()));
                 }
             }
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
@@ -101,7 +117,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 				inventory.adjust(-1.0D * qtyShippedNow,object.toString());
 				inventory.save();
 			}
-            tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow));
+            tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow,demandDate,orderLine.getWorkSlot()));
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
 		}
 		if (orderLine.getDeliveredQuantity() > 0  && orderLine.getRawRecord().isFieldDirty("DELIVERED_QUANTITY")) {

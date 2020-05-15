@@ -5,6 +5,7 @@ import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
+import com.venky.swf.plugins.calendar.db.model.WorkSlot;
 import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import com.venky.core.util.Bucket;
@@ -13,6 +14,7 @@ import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @EXPORTABLE(false)
@@ -38,18 +40,22 @@ public interface Demand extends Model{
     public void setQuantity(Bucket demand);
 
     @IS_NULLABLE
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
     public Long getAssetId();
     public void setAssetId(Long id);
     public Asset getAsset();
 
 
-    //Used for services.
     @IS_NULLABLE
-    public Timestamp getDemandStart();
-    public void setDemandStart(Timestamp ts);
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
+    public Date getDemandDate();
+    public void setDemandDate(Date date);
+
+
 
     @IS_NULLABLE
-    public Timestamp getDemandEnd();
-    public void setDemandEnd(Timestamp ts);
-
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
+    public Long getWorkSlotId();
+    public void setWorkSlotId(Long id);
+    public WorkSlot getWorkSlot();
 }

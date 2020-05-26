@@ -1,13 +1,16 @@
 package in.succinct.plugins.ecommerce.db.model.attributes;
 
+import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
+import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 
 import java.util.List;
 
+@MENU("Inventory")
 @HAS_DESCRIPTION_FIELD("DESCRIPTION")
 public interface AssetCode extends Model {
     @Index
@@ -17,6 +20,7 @@ public interface AssetCode extends Model {
 
     @Index
     @IS_NULLABLE(false)
+    @COLUMN_SIZE(4096)
     public String getDescription();
     public void setDescription(String description);
 

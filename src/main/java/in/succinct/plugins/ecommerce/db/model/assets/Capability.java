@@ -2,10 +2,11 @@ package in.succinct.plugins.ecommerce.db.model.assets;
 
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
+import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 
-
+@MENU("Inventory")
 public interface Capability extends Model {
     @UNIQUE_KEY
     public Long getAssetId();

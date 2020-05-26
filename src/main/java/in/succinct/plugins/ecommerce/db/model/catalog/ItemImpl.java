@@ -11,6 +11,7 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 
 import java.util.HashSet;
@@ -95,7 +96,11 @@ public class ItemImpl extends ModelImpl<Item>{
 
 
     public boolean isRentable(){
-        return getProxy().getAssetCode().isSac();
+        AssetCode code = getProxy().getAssetCode();
+        if (code != null){
+            return code.isSac();
+        }
+        return false;
     }
 
     public List<Asset> getAssets(){

@@ -4,6 +4,7 @@ import com.venky.core.collections.SequenceSet;
 import com.venky.core.date.DateUtils;
 import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.ObjectUtil;
+import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
 import com.venky.swf.plugins.background.core.Task;
@@ -115,6 +116,12 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 				object.put("OrderLineId",orderLine.getId());
 				object.put("OrderId",orderLine.getOrderId());
 				inventory.adjust(-1.0D * qtyShippedNow,object.toString());
+				inventory.save();
+			}else {
+				inventory = Database.getTable(Inventory.class).newRecord();
+				inventory.setSkuId(orderLine.getSkuId());
+				inventory.setFacilityId(orderLine.getShipFromId());
+				inventory.setQuantity(0.0);
 				inventory.save();
 			}
             tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow,demandDate,orderLine.getWorkSlot()));

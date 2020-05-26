@@ -47,7 +47,7 @@ public interface Inventory extends Model, CompanySpecific {
 	public void setSkuId(long id);
 	public Sku getSku();
 
-	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	@COLUMN_DEF(StandardDefault.BOOLEAN_TRUE)
 	public boolean isInfinite();
 	public void setInfinite(boolean infinite);
 

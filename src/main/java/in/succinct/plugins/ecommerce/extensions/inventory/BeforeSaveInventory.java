@@ -12,8 +12,8 @@ public class BeforeSaveInventory extends BeforeModelSaveExtension<Inventory> {
 	@Override
 	public void beforeSave(Inventory model) {
         model.setCompanyId(model.getFacility().getCompanyId());
-        if (model.isInfinite() && !DoubleUtils.equals(model.getQuantity(),0.0)){
-        	throw new RuntimeException("First zero out the quantity before marking the inventory as infinite.");
+		if (model.isInfinite() && model.getQuantity() > 0) {
+			model.setQuantity(0.0);
 		}
 		if (!model.isInfinite() ){
 			MarketPlaceInventoryUpdateQueue.push(model);

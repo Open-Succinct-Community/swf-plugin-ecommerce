@@ -6,12 +6,14 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
+import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 @EXPORTABLE(false)
 
+@ORDER_BY(" ORDER_ID, ADDRESS_TYPE DESC ")
 public interface OrderAddress extends Model, Address {
 	@UNIQUE_KEY
 	public long getOrderId();

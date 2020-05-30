@@ -11,7 +11,7 @@ import com.venky.swf.db.model.Model;
 import java.util.List;
 
 @MENU("Inventory")
-@HAS_DESCRIPTION_FIELD("DESCRIPTION")
+@HAS_DESCRIPTION_FIELD("LONG_DESCRIPTION")
 public interface AssetCode extends Model {
     @Index
     @IS_NULLABLE(false)

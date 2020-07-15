@@ -8,6 +8,7 @@ import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
+import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
 import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
@@ -37,6 +38,7 @@ public interface OrderLine extends Model {
 
     @UNIQUE_KEY("K1")
 	@PARTICIPANT(redundant = true)
+	@Index
 	public long getSkuId(); 
 	public void setSkuId(long id); 
 	public Sku getSku();
@@ -46,9 +48,11 @@ public interface OrderLine extends Model {
 	public void setShipFromId(Long id);
 	public Facility getShipFrom();
 
+	@Index
 	public Timestamp getAcknowledgeBy();
 	public void setAcknowledgeBy(Timestamp ts);
-	
+
+	@Index
 	public Timestamp getShipBy();
 	public void setShipBy(Timestamp ts);
 
@@ -67,6 +71,7 @@ public interface OrderLine extends Model {
 	public void setOrderedQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getOrderedTs();
 	public void setOrderedTs(Timestamp orderedTs);
 	
@@ -78,6 +83,7 @@ public interface OrderLine extends Model {
 
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getAcknowledgedTs();
 	public void setAcknowledgedTs(Timestamp orderedTs);
 
@@ -88,6 +94,7 @@ public interface OrderLine extends Model {
 	public  void setPackedQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getPackedTs();
 	public void setPackedTs(Timestamp orderedTs);
 
@@ -98,6 +105,7 @@ public interface OrderLine extends Model {
 	public void setManifestedQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getManifestedTs();
 	public void setManifestedTs(Timestamp orderedTs);
 
@@ -107,6 +115,7 @@ public interface OrderLine extends Model {
 	public void setShippedQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getShippedTs();
 	public void setShippedTs(Timestamp orderedTs);
 
@@ -117,6 +126,7 @@ public interface OrderLine extends Model {
 	public void setDeliveredQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getDeliveredTs();
 	public void setDeliveredTs(Timestamp orderedTs);
 
@@ -127,6 +137,7 @@ public interface OrderLine extends Model {
 	public void setCancelledQuantity(double quantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getCancelledTs();
 	public void setCancelledTs(Timestamp orderedTs);
 
@@ -136,6 +147,7 @@ public interface OrderLine extends Model {
 	public void setReturnedQuantity(double returnedQuantity);
 
 	@IS_NULLABLE
+	@Index
 	public Timestamp getReturnedTs();
 	public void setReturnedTs(Timestamp returnedTs);
 

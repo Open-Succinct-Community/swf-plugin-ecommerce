@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.catalog;
 import java.util.List;
 
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
+import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.CONFIGURATION;
@@ -21,6 +22,7 @@ public interface UnitOfMeasure extends Model {
 	public static final String CENTIMETERS = "Cms";
 	public static final String INCHES = "Inches";
 	@UNIQUE_KEY
+	@Index
 	public String getName();
 	public void setName(String name); 
 	
@@ -32,6 +34,7 @@ public interface UnitOfMeasure extends Model {
 
 	@Enumeration(MEASURES_WEIGHT +"," + MEASURES_LENGTH + "," + MEASURES_PACKAGING + "," + MEASURES_TEMPERATURE + "," + MEASURES_DOSAGE)
 	@UNIQUE_KEY
+	@Index
 	public String getMeasures();
 	public void setMeasures(String type); 
 	

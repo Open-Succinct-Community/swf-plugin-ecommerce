@@ -2,7 +2,9 @@ package in.succinct.plugins.ecommerce.controller;
 
 import com.venky.swf.controller.Controller;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
+import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.io.ModelIOFactory;
+import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.integration.FormatHelper;
 import com.venky.swf.integration.IntegrationAdaptor;
 import com.venky.swf.integration.JSON;
@@ -11,11 +13,17 @@ import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.inventory.AdjustInventoryTask;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack;
+import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
+import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 public class ApiController extends Controller {
 
@@ -78,8 +86,27 @@ public class ApiController extends Controller {
         }
 
         List<AdjustmentRequest> requests = new ArrayList<>();
+        ModelReflector<AdjustmentRequest> ref = ModelReflector.instance(AdjustmentRequest.class);
         for (T adjustmentElement : adjustmentElements){
-            T inventoryElement = FormatHelper.instance(adjustmentElement).getElementAttribute("Inventory");
+            FormatHelper<T> adjustmentElementHelper = FormatHelper.instance(adjustmentElement);
+            boolean newProduct = ref.getJdbcTypeHelper().getTypeRef(Boolean.class).getTypeConverter().valueOf(adjustmentElementHelper.getAttribute("NewProduct"));
+
+            T inventoryElement = adjustmentElementHelper.getElementAttribute("Inventory");
+            T skuElement = FormatHelper.instance(inventoryElement).getElementAttribute("Sku");
+            if (skuElement != null){
+                T itemElement = FormatHelper.instance(skuElement).getElementAttribute("Item");
+                if (itemElement != null){
+                   Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
+                   if (item.getRawRecord().isNewRecord() && newProduct){
+                       item.save();
+                   }
+                }
+                Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
+                if (sku.getRawRecord().isNewRecord() && newProduct){
+                    sku.save();
+                }
+            }
+
             Inventory inventory = ModelIOFactory.getReader(Inventory.class,helper.getFormatClass()).read(inventoryElement);
             if (inventory.getRawRecord().isNewRecord()){
                 inventory.save();//Ensure parent exists
@@ -90,6 +117,17 @@ public class ApiController extends Controller {
             request.save();
             requests.add(request);
         }
-        return integrationAdaptor.createResponse(getPath(),requests);
+        return integrationAdaptor.createResponse(getPath(),requests, Arrays.asList("ID","INVENTORY_ID","NEW_PRODUCT","ADJUSTMENT_QUANTITY"),new HashSet<>(),getAdjustmentRequestFields());
+    }
+
+    protected Map<Class<? extends Model>, List<String>> getAdjustmentRequestFields() {
+        Map<Class<? extends Model>, List<String>> map =  new HashMap<>();
+        map.put(Inventory.class, ModelReflector.instance(Inventory.class).getFields());
+        List<String> itemFields = ModelReflector.instance(Item.class).getUniqueFields();
+        itemFields.add("ASSET_CODE_ID");
+
+        map.put(Item.class, itemFields);
+
+        return map;
     }
 }

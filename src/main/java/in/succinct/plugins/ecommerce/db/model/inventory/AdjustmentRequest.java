@@ -10,6 +10,9 @@ import com.venky.swf.db.model.Model;
 @EXPORTABLE(false)
 @MENU("Inventory")
 public interface AdjustmentRequest extends Model {
+    public boolean isNewProduct();
+    public void setNewProduct(boolean newProduct);
+
     @HIDDEN
     public long getInventoryId();
     public void setInventoryId(long id);

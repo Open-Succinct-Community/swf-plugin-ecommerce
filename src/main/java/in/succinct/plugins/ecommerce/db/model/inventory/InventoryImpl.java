@@ -16,6 +16,8 @@ import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.util.HashSet;
 import java.util.List;
@@ -35,8 +37,20 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 		Inventory inv = getProxy();
 		if (!inv.isInfinite()) {
 			inv.setQuantity(inv.getQuantity() + delta);
-			inv.save();
 		}
+		JSONObject object;
+		try {
+			object = (JSONObject)JSONValue.parse(comment);
+		}catch (Exception ex){
+			object = new JSONObject();
+		}
+		for (String f: inv.getRawRecord().getDirtyFields()){
+			JSONObject audit = new JSONObject();
+			object.put(f, audit);
+			audit.put("old",inv.getRawRecord().getOldValue(f));
+			audit.put("new",inv.getReflector().get(inv,f));
+		}
+		inv.save();
 		InventoryAudit audit = Database.getTable(InventoryAudit.class).newRecord();
 		audit.setInventoryId(inv.getId());
 		audit.setAuditQuantity(delta);

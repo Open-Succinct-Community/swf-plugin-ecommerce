@@ -54,7 +54,7 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 		InventoryAudit audit = Database.getTable(InventoryAudit.class).newRecord();
 		audit.setInventoryId(inv.getId());
 		audit.setAuditQuantity(delta);
-		audit.setComment(comment);
+		audit.setComment(object.toString());
 		audit.save();
 	}
 

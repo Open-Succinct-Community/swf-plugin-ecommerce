@@ -1,4 +1,4 @@
-package in.succinct.mandi.extensions;
+package in.succinct.plugins.ecommerce.extensions.assets;
 
 import com.venky.swf.db.extensions.AfterModelCreateExtension;
 import com.venky.swf.plugins.background.core.TaskManager;

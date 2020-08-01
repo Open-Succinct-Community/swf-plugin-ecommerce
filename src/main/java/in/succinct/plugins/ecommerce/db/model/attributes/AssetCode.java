@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.attributes;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
+import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.annotations.model.MENU;
@@ -15,6 +16,7 @@ import java.util.List;
 public interface AssetCode extends Model {
     @Index
     @IS_NULLABLE(false)
+    @UNIQUE_KEY
     public String getCode();
     public void setCode(String code);
 
@@ -45,6 +47,7 @@ public interface AssetCode extends Model {
     public boolean isSac();
 
     public List<AssetCodeAttribute> getAssetCodeAttributes();
+
 
 
 

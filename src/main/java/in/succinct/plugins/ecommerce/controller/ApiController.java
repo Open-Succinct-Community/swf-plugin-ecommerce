@@ -13,6 +13,7 @@ import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.inventory.AdjustInventoryTask;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
@@ -97,14 +98,10 @@ public class ApiController extends Controller {
                 T itemElement = FormatHelper.instance(skuElement).getElementAttribute("Item");
                 if (itemElement != null){
                    Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
-                   if (item.getRawRecord().isNewRecord() && newProduct){
-                       item.save();
-                   }
+                   item.save();
                 }
                 Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
-                if (sku.getRawRecord().isNewRecord() && newProduct){
-                    sku.save();
-                }
+                sku.save();
             }
 
             Inventory inventory = ModelIOFactory.getReader(Inventory.class,helper.getFormatClass()).read(inventoryElement);
@@ -127,6 +124,7 @@ public class ApiController extends Controller {
         itemFields.add("ASSET_CODE_ID");
 
         map.put(Item.class, itemFields);
+        map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION"));
 
         return map;
     }

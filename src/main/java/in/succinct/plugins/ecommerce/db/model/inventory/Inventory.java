@@ -55,6 +55,11 @@ public interface Inventory extends Model, CompanySpecific {
 	public double getQuantity();
 	public void setQuantity(double quantity);
 
+	@IS_NULLABLE
+	public Double getSellingPrice();
+	public void setSellingPrice(Double sellingPrice);
+
+
 	List<AdjustmentRequest> getAdjustmentRequests();
 	List<InventoryAudit> getAudits();
 

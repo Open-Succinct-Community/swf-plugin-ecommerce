@@ -36,6 +36,7 @@ public interface Inventory extends Model, CompanySpecific {
 
 	@PARTICIPANT(redundant =  true)
 	@UNIQUE_KEY("K1,K2")
+	@Index
 	public long getFacilityId();
 	public void setFacilityId(long id);
 	public Facility getFacility();

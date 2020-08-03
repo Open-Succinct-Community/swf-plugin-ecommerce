@@ -15,6 +15,7 @@ import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -96,6 +97,11 @@ public class ApiController extends Controller {
             T skuElement = FormatHelper.instance(inventoryElement).getElementAttribute("Sku");
             if (skuElement != null){
                 T itemElement = FormatHelper.instance(skuElement).getElementAttribute("Item");
+                T uomElement = FormatHelper.instance(skuElement).getElementAttribute("PackagingUOM");
+                if (uomElement != null){
+                    UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class,helper.getFormatClass()).read(uomElement);
+                    uom.save();
+                }
                 if (itemElement != null){
                    Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
                    item.save();

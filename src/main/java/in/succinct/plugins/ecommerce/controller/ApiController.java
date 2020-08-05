@@ -130,6 +130,11 @@ public class ApiController extends Controller {
         itemFields.add("ASSET_CODE_ID");
 
         map.put(Item.class, itemFields);
+
+        List<String> skuFields = ModelReflector.instance(Sku.class).getUniqueFields();
+        skuFields.add("MAX_RETAIL_PRICE");
+
+        map.put(Sku.class,skuFields);
         map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION"));
 
         return map;

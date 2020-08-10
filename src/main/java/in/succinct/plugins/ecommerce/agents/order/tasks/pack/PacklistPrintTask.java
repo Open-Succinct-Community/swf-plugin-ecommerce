@@ -99,7 +99,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
             String courier = order.getAttribute("courier").getValue();
             String trackingNumber = order.getAttribute("tracking_number").getValue();
-            long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
+            //Long manifestNumber = Long.valueOf(order.getAttribute("manifest_id").getValue());
 
             if (!ObjectUtil.isVoid(trackingNumber)){
                 Div courierBarCode = createCourierBarCode(courier, "AWB #" + trackingNumber, trackingNumber);

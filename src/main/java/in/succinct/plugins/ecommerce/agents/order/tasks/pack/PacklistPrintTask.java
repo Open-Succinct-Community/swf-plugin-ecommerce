@@ -27,6 +27,7 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 import in.succinct.plugins.ecommerce.integration.fedex.ShipWebServiceClient;
 import org.krysalis.barcode4j.impl.code128.Code128Bean;
 import org.krysalis.barcode4j.output.BarcodeCanvasSetupException;
@@ -55,7 +56,7 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
         prints.forEach(p->printMap.put(p.getDocumentType(),p));
 
-        if (printMap.get(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL) == null) {
+        if (printMap.get(OrderPrint.DOCUMENT_TYPE_CARRIER_LABEL) == null && ObjectUtil.equals(PreferredCarrier.FEDEX,order.getPreferredCarrierName())) {
             new ShipWebServiceClient(order).ship();
         }
         if (printMap.get(OrderPrint.DOCUMENT_TYPE_PACK_SLIP) == null){

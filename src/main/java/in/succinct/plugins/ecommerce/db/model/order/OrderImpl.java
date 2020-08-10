@@ -108,8 +108,11 @@ public class OrderImpl  extends ModelImpl<Order>{
 			}
 		};
 
+		Bucket acknowledgedLineCount = new Bucket();
+		Bucket rejectedLineCount = new Bucket();
+
 		orderLines.forEach(ol->{
-			ol.acknowledge(skuATP,false);
+			ol.acknowledge(skuATP,acknowledgedLineCount,rejectedLineCount,false);
 		});
 
 		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);

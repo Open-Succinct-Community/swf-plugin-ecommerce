@@ -12,7 +12,7 @@ public class AssetCodeImpl extends ModelImpl<AssetCode> {
     }
 
     public boolean isSac(){
-        return StringUtil.valueOf(getProxy().getCode()).length() == 6;
+        return StringUtil.valueOf(getProxy().getCode()).length() == 6 && getProxy().getCode().startsWith("99");
     }
 
     public boolean isHsn(){

@@ -35,6 +35,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@PARTICIPANT(redundant = true)
 	@UNIQUE_KEY("SKU2,SKU3")
 	//@PROTECTION(Kind.NON_EDITABLE)
+	@Index
 	public long getItemId();
 	public void setItemId(long id);
 	public Item getItem();
@@ -43,6 +44,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@IS_NULLABLE
 	@UNIQUE_KEY(value = "SKU3",allowMultipleRecordsWithNull = true)
 	@PARTICIPANT(redundant = true)
+	@Index
 	public Long getPackagingUOMId();
 	public void setPackagingUOMId(Long PackagingUnitOfMeasureId);
 	public UnitOfMeasure getPackagingUOM();

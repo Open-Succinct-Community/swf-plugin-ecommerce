@@ -36,7 +36,14 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
 		Timestamp demandDate = null;
+
 		if (orderLine.getSku().getItem().isRentable()){
+			if (orderLine.getDeliveryExpectedNoEarlierThan() == null){
+				orderLine.setDeliveryExpectedNoEarlierThan(orderLine.getOrder().getShipAfterDate());
+			}
+			if (orderLine.getDeliveryExpectedNoLaterThan() == null){
+				orderLine.setDeliveryExpectedNoLaterThan(orderLine.getOrder().getShipByDate());
+			}
 			demandDate = new Timestamp(DateUtils.getStartOfDay(orderLine.getDeliveryExpectedNoEarlierThan().getTime()));
 		}
 

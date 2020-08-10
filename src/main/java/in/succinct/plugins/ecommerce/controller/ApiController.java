@@ -107,6 +107,10 @@ public class ApiController extends Controller {
                    item.save();
                 }
                 Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
+                AssetCode assetCode = sku.getItem().getAssetCode();
+                if (assetCode != null && assetCode.getReflector().isVoid(assetCode.getGstPct())){
+                    sku.setTaxRate(assetCode.getGstPct());
+                }
                 sku.save();
             }
 

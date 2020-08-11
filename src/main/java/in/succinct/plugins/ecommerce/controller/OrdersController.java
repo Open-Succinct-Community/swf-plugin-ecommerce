@@ -1,6 +1,5 @@
 package in.succinct.plugins.ecommerce.controller;
 
-import com.venky.swf.controller.ModelController;
 import com.venky.swf.controller.annotations.SingleRecordAction;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.model.Model;
@@ -8,7 +7,7 @@ import com.venky.swf.db.model.User;
 import com.venky.swf.path.Path;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.TaskManager;
-import com.venky.swf.sql.parser.SQLExpressionParser.Or;
+import com.venky.swf.plugins.templates.controller.TemplatedModelController;
 import com.venky.swf.views.RedirectorView;
 import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class OrdersController extends ModelController<Order> {
+public class OrdersController extends TemplatedModelController<Order> {
 
 	public OrdersController(Path path) {
 		super(path);

@@ -108,7 +108,7 @@ public class ApiController extends Controller {
                 }
                 Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
                 AssetCode assetCode = sku.getItem().getAssetCode();
-                if (assetCode != null && assetCode.getReflector().isVoid(assetCode.getGstPct())){
+                if (assetCode != null && !assetCode.getReflector().isVoid(assetCode.getGstPct())){
                     sku.setTaxRate(assetCode.getGstPct());
                 }
                 sku.save();
@@ -137,6 +137,7 @@ public class ApiController extends Controller {
 
         List<String> skuFields = ModelReflector.instance(Sku.class).getUniqueFields();
         skuFields.add("MAX_RETAIL_PRICE");
+        skuFields.add("TAX_RATE");
 
         map.put(Sku.class,skuFields);
         map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION"));

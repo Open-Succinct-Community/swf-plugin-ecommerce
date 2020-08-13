@@ -7,7 +7,9 @@ import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.DoubleConverter;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
+import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
+import com.venky.swf.plugins.templates.util.templates.TemplateEngine;
 import com.venky.swf.routing.Config;
 import com.venky.swf.views.controls.Control;
 import com.venky.swf.views.controls.page.Body;
@@ -188,14 +190,23 @@ public class PacklistPrintTask extends EntityTask<Order> {
             sellingPrice.addClass("numeric");
 
 
+
             OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
             print.setOrderId(order.getId());
             print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
-            print.setImageContentType("text/html");
-            byte[] bytes = html.toString().getBytes();
+            byte[] htmlbytes = html.toString().getBytes();
+            byte[] bytes = TemplateEngine.getInstance().htmlToPdf(htmlbytes);
+            if  (bytes.length > 0){
+                print.setImageContentName("packlist"+order.getOrderNumber()+".pdf");
+                print.setImageContentType(MimeType.APPLICATION_PDF.toString());
+            }else {
+                bytes = htmlbytes;
+                print.setImageContentName("packlist"+order.getOrderNumber()+".html");
+                print.setImageContentType(MimeType.TEXT_HTML.toString());
+            }
+
             print.setImage(new ByteArrayInputStream(bytes));
             print.setImageContentSize(bytes.length);
-            print.setImageContentName("packlist"+order.getOrderNumber()+".html");
             print.save();
         }
     }

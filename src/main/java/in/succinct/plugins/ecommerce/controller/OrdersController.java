@@ -18,6 +18,7 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -35,7 +36,9 @@ public class OrdersController extends TemplatedModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.acknowledge();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -45,7 +48,9 @@ public class OrdersController extends TemplatedModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.backorder();
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+			return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
 		}else {
 			return back();
 		}
@@ -56,7 +61,9 @@ public class OrdersController extends TemplatedModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.reject();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -87,7 +94,9 @@ public class OrdersController extends TemplatedModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.pack();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+            return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
         }else {
             return back();
         }
@@ -101,7 +110,7 @@ public class OrdersController extends TemplatedModelController<Order> {
 				print=p;
 				break;
 			}
-		};
+		}
 		if (print == null) {
 			boolean orderPacked = true;
 			for (OrderLine line : order.getOrderLines()){

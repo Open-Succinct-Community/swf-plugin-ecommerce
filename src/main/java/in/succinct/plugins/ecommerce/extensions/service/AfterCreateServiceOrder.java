@@ -10,6 +10,7 @@ import com.venky.swf.plugins.collab.db.model.user.User;
 import in.succinct.plugins.ecommerce.db.model.participation.ExtendedAddress;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrder;
 import in.succinct.plugins.ecommerce.db.model.service.ServiceOrderAddress;
+import in.succinct.plugins.ecommerce.db.model.service.ServiceOrderRemark;
 
 import java.util.List;
 import java.util.StringTokenizer;
@@ -27,6 +28,13 @@ public class AfterCreateServiceOrder extends AfterModelCreateExtension<ServiceOr
         billTo.setAddressType(ServiceOrderAddress.ADDRESS_TYPE_BILL_TO);
         setAddress(model.getUser().getRawRecord().getAsProxy(User.class), billTo);
         billTo.save();
+        if (!model.getReflector().isVoid(model.getRemarks())){
+            ServiceOrderRemark remark = Database.getTable(ServiceOrderRemark.class).newRecord();
+            remark.setServiceOrderId(model.getId());
+            remark.setRemarks(model.getRemarks());
+            remark.save();
+
+        }
     }
     private void setAddress(User owner, ServiceOrderAddress latest) {
         StringTokenizer tok = new StringTokenizer(owner.getLongName());

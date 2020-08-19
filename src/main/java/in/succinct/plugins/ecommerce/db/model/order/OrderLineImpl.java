@@ -97,6 +97,11 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 	
 	public void pack(double quantity) {
 		OrderLine orderLine = getProxy();
+		double quantityAcknowledged = orderLine.getAcknowledgedQuantity();
+		if (quantityAcknowledged < quantity){
+		    orderLine.acknowledge();
+        }
+
 		double remainingQuantityToPack = orderLine.getToPackQuantity();
 		if (quantity > remainingQuantityToPack) {
 			throw new PackValidationException("Quantity " + quantity + " Exceeds quantity remaining to be packed" +  remainingQuantityToPack);

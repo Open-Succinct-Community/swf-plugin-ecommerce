@@ -42,7 +42,7 @@ public class OrderImpl  extends ModelImpl<Order>{
 	String orderNumber = null;
 	public String getOrderNumber(){
 		if (orderNumber == null){
-			orderNumber = getProxy().getId() == 0 ? "" : String.valueOf(getProxy().getId());
+			orderNumber = getProxy().getId() == 0 ? "" : String.format("%019d", Long.valueOf(getProxy().getId()));
 		}
 		return orderNumber;
 	}

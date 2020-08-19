@@ -101,6 +101,8 @@ public class OrdersController extends TemplatedModelController<Order> {
             return back();
         }
 	}
+
+
 	@SingleRecordAction(icon="glyphicon-barcode", tooltip="Print Pack List")
 	public View print(long orderId) {
 		Order order = Database.getTable(Order.class).get(orderId);
@@ -130,6 +132,31 @@ public class OrdersController extends TemplatedModelController<Order> {
 			return new RedirectorView(getPath(), getPath().controllerPath() + "/show/"+orderId +"/order_prints", "view/"+print.getId());
 		}
 	}
+
+	@SingleRecordAction(icon="glyphicon-road", tooltip="Ship")
+	public View ship(long orderId) {
+		Order order = Database.getTable(Order.class).get(orderId);
+		order.ship();
+		if (getIntegrationAdaptor() != null) {
+			return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
+		}else {
+			return back();
+		}
+	}
+
+	@SingleRecordAction(icon = "glyphicon-envelope",tooltip = "Deliver")
+	public View deliver(long orderId){
+		Order order = Database.getTable(Order.class).get(orderId);
+		order.deliver();
+		if (getIntegrationAdaptor() != null) {
+			return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+		}else {
+			return back();
+		}
+	}
+
 	protected List<Task> getTasksToPrint(long orderId){
 		List<Task> printTasks = new ArrayList<>();
 		printTasks.add(new PacklistPrintTask(orderId));

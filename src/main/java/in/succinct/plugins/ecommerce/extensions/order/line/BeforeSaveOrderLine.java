@@ -4,6 +4,7 @@ import com.venky.core.collections.SequenceSet;
 import com.venky.core.date.DateUtils;
 import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.ObjectUtil;
+import com.venky.extension.Registry;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
@@ -13,9 +14,7 @@ import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
-import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
-import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import org.json.simple.JSONObject;
@@ -107,6 +106,8 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
                 }
             }
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+
+			Registry.instance().callExtensions("OrderLine.cancelled.quantity",orderLine,qtyCancelledNow); //For future.!!
         }
 		
 		if (orderLine.getShippedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("SHIPPED_QUANTITY")) {

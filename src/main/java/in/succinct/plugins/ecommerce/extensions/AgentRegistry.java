@@ -1,10 +1,7 @@
 package in.succinct.plugins.ecommerce.extensions;
 
-import com.venky.extension.Extension;
-import com.venky.extension.Registry;
 import com.venky.swf.plugins.background.core.agent.Agent;
 import in.succinct.plugins.ecommerce.agents.catalog.MarketPlaceCatalogSyncAgent;
-import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.inventory.MarketPlaceInventorySyncAgent;
 import in.succinct.plugins.ecommerce.agents.order.tasks.AcknowledgeOrderTask;
 import in.succinct.plugins.ecommerce.agents.order.tasks.MarketPlaceOrderDownloadAgent;

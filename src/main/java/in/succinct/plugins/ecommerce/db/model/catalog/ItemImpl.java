@@ -96,10 +96,11 @@ public class ItemImpl extends ModelImpl<Item>{
 
 
     public boolean isRentable(){
+        /*
         AssetCode code = getProxy().getAssetCode();
         if (code != null){
             return code.isSac();
-        }
+        }*/
         return false;
     }
 

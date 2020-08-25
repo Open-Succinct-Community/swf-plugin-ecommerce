@@ -4,6 +4,9 @@ import com.venky.swf.controller.annotations.SingleRecordAction;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.User;
+import com.venky.swf.db.model.reflection.ModelReflector;
+import com.venky.swf.db.model.reflection.ModelReflector.FieldMatcher;
+import com.venky.swf.db.table.Table.ColumnDescriptor;
 import com.venky.swf.path.Path;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.TaskManager;
@@ -57,7 +60,7 @@ public class OrdersController extends TemplatedModelController<Order> {
 	}
 
 	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Reject order fulfillment")
-	public View cancel(long orderId) {
+	public View reject(long orderId) {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.reject();
         if (getIntegrationAdaptor() != null) {
@@ -68,6 +71,18 @@ public class OrdersController extends TemplatedModelController<Order> {
             return back();
         }
 	}
+	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Cancel order fulfillment")
+	public View cancel(long orderId) {
+		Order order = Database.getTable(Order.class).get(orderId);
+		order.cancel("No Longer Required",OrderLine.CANCELLATION_INITIATOR_USER);
+		if (getIntegrationAdaptor() != null) {
+			return getIntegrationAdaptor().createResponse(getPath(), order,
+					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(), getIncludedModelFields());
+		}else {
+			return back();
+		}
+	}
 
 
 	@Override
@@ -77,7 +92,7 @@ public class OrdersController extends TemplatedModelController<Order> {
 		return set;
 	}
 
-	
+
 	@Override
 	protected Map<Class<? extends Model>, List<String>> getIncludedModelFields() {
 		Map<Class<? extends Model>,List<String>> map =  new HashMap<>();
@@ -85,7 +100,7 @@ public class OrdersController extends TemplatedModelController<Order> {
 		//map.put(OrderAttribute.class, null);
 		//map.put(OrderLineAttribute.class, null);
 		map.put(OrderAddress.class, null);
-		
+
 		return map;
 	}
 	

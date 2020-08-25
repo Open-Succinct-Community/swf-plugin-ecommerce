@@ -181,7 +181,7 @@ public class InventoryCalculator {
 						atp.inventory = inventory;
 						atp.onDate = date;
 						atp.slot = slot;
-						atp.pendShip = map.get(inventory.getId()).get(date).get(slot.getId());
+						atp.pendShip = map.get(inventory.getId()).get(new Date(date)).get(slot.getId());
 						inv.add(atp);
 					}
 					date = DateUtils.addHours(date,24);

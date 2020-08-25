@@ -94,7 +94,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             Double newCancelledQty = orderLine.getCancelledQuantity();
             double qtyCancelledNow = newCancelledQty - oldCancelledQty ;
 
-			if (!orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE)){
+			if (!orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE) && !orderLine.getShipFrom().getPreferredMarketPlaceIntegrations().isEmpty()){
 				tasks.add(new CancelOrderTask(orderLine.getOrderId(), OrderLine.CANCELLATION_REASON_PARTIAL_CANCEL_NOT_SUPPORTED,
 						OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE));
             }
@@ -156,7 +156,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             Double oldReturnedQuantity = dConvertor.valueOf(orderLine.getRawRecord().getOldValue("RETURNED_QUANTITY"));
             if (DoubleUtils.equals(oldReturnedQuantity,0)) {
                 orderLine.setReturnedTs(now);
-                if ( orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_COMPANY) ){
+                if ( orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_COMPANY) && !orderLine.getShipFrom().getPreferredMarketPlaceIntegrations().isEmpty()){
                     tasks.add(new CancelOrderTask(orderLine.getOrderId(),OrderLine.CANCELLATION_REASON_PARTIAL_CANCEL_NOT_SUPPORTED,OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE));
                 }
                 tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));

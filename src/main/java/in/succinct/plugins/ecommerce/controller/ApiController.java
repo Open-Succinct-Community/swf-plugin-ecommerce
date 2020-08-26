@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.controller;
 
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.controller.Controller;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.db.model.Model;
@@ -96,16 +97,23 @@ public class ApiController extends Controller {
             T inventoryElement = adjustmentElementHelper.getElementAttribute("Inventory");
             T skuElement = FormatHelper.instance(inventoryElement).getElementAttribute("Sku");
             if (skuElement != null){
-                T itemElement = FormatHelper.instance(skuElement).getElementAttribute("Item");
-                T uomElement = FormatHelper.instance(skuElement).getElementAttribute("PackagingUOM");
+                FormatHelper<T> skuHelper = FormatHelper.instance(skuElement);
+
+                T itemElement = skuHelper.getElementAttribute("Item");
+                FormatHelper<T> itemHelper = FormatHelper.instance(itemElement);
+
+                T uomElement = skuHelper.getElementAttribute("PackagingUOM");
                 if (uomElement != null){
                     UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class,helper.getFormatClass()).read(uomElement);
                     uom.save();
+                }else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))){
+                    skuHelper.setAttribute("Name",itemHelper.getAttribute("Name"));
                 }
                 if (itemElement != null){
                    Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
                    item.save();
                 }
+
                 Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
                 AssetCode assetCode = sku.getItem().getAssetCode();
                 if (assetCode != null && !assetCode.getReflector().isVoid(assetCode.getGstPct())){

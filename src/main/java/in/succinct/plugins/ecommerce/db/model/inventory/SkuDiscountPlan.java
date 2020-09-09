@@ -5,9 +5,8 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
-import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 
-import java.util.Date;
+import java.sql.Date;
 
 @ORDER_BY("SKU_ID , EFFECTIVE_FROM DESC")
 public interface SkuDiscountPlan extends Model {

@@ -138,8 +138,11 @@ public interface Sku extends Model,Container, CompanySpecific {
 
     public List<SkuDiscountPlan> getDiscountPlans();
 
+	public List<ActiveSkuDiscountPlan> getActiveDiscountPlans();
+
 
     @IS_VIRTUAL
+	public Long getActiveDiscountPlanId();
     public SkuDiscountPlan getActiveDiscountPlan();
 
 }

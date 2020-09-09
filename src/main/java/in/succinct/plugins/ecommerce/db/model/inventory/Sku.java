@@ -2,7 +2,6 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
-import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
@@ -23,7 +22,6 @@ import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 
@@ -138,11 +136,9 @@ public interface Sku extends Model,Container, CompanySpecific {
 
     public List<SkuDiscountPlan> getDiscountPlans();
 
-	public List<ActiveSkuDiscountPlan> getActiveDiscountPlans();
-
-
-    @IS_VIRTUAL
+	@IS_VIRTUAL
 	public Long getActiveDiscountPlanId();
-    public SkuDiscountPlan getActiveDiscountPlan();
+    public ActiveSkuDiscountPlan getActiveDiscountPlan();
+
 
 }

@@ -33,7 +33,7 @@ public class ItemsController  extends ModelController<Item> {
         map.put(Item.class,itemFields);
 
         List<String> assetFields = map.getOrDefault(AssetCode.class, new ArrayList<>());
-        assetFields.addAll(Arrays.asList("CODE","DESCRIPTION","LONG_DESCRIPTION"));
+        assetFields.addAll(Arrays.asList("CODE","DESCRIPTION","LONG_DESCRIPTION", "GST_PCT"));
         map.put(AssetCode.class,assetFields);
 
     }

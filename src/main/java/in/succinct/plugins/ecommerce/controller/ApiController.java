@@ -110,8 +110,13 @@ public class ApiController extends Controller {
                     skuHelper.setAttribute("Name",itemHelper.getAttribute("Name"));
                 }
                 if (itemElement != null){
-                   Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
-                   item.save();
+                    T assetCodeElement = itemHelper.getElementAttribute("AssetCode");
+                    if (ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))){
+                        itemHelper.removeElementAttribute("AssetCode");
+                    }
+
+                    Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
+                    item.save();
                 }
 
                 Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);

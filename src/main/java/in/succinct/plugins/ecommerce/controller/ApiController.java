@@ -153,7 +153,7 @@ public class ApiController extends Controller {
         skuFields.add("TAX_RATE");
 
         map.put(Sku.class,skuFields);
-        map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION"));
+        map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION","GST_PCT"));
 
         return map;
     }

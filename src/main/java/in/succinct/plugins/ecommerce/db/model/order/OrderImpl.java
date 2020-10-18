@@ -115,7 +115,7 @@ public class OrderImpl  extends ModelImpl<Order>{
 			ol.acknowledge(skuATP,acknowledgedLineCount,rejectedLineCount,false);
 		});
 
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 
 	}
     public void reject() {
@@ -126,6 +126,7 @@ public class OrderImpl  extends ModelImpl<Order>{
         order.getOrderLines().forEach(ol->{
             ol.cancel(reason,initiator);
         });
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 
     }
 	public void cancel(String reason) {
@@ -137,7 +138,7 @@ public class OrderImpl  extends ModelImpl<Order>{
 		order.getOrderLines().forEach(ol->{
 			ol.pack(ol.getToPackQuantity());
 		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 	public void ship() {
 		Order order = getProxy(); 
@@ -151,18 +152,23 @@ public class OrderImpl  extends ModelImpl<Order>{
 				}
 				return (int)(ret);
 			}
-		}).forEach(ol->{
-			ol.ship();
-		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		}).forEach(ol-> ol.ship());
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 	public void deliver() {
 		Order order = getProxy();
-		order.getOrderLines().forEach(ol->{
-			ol.setDeliveredQuantity(ol.getShippedQuantity());
-			ol.save();
-		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		order.getOrderLines().stream().sorted(new Comparator<OrderLine>() {
+			// Prevent Dead Lock
+			@Override
+			public int compare(OrderLine o1, OrderLine o2) {
+				long ret = o1.getSkuId() - o2.getSkuId();
+				if (ret == 0L){
+					ret = o1.getShipFromId() - o2.getShipFromId();
+				}
+				return (int)(ret);
+			}
+		}).forEach(ol-> ol.deliver());
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 
 	public boolean isShort() {

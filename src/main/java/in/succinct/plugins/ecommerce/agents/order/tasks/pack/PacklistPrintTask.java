@@ -83,25 +83,27 @@ public class PacklistPrintTask extends EntityTask<Order> {
             root.put("TrackingNumber",trackingNumber);
         }
 
-        OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
-        print.setOrderId(order.getId());
-        print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
+        String templateName = "prints/PRINT_packslip.ftlh";
+        String html = TemplateEngine.getInstance().exists(templateName)? TemplateEngine.getInstance().publish(templateName, root) : null;
+        if (!ObjectUtil.isVoid(html)){
+            OrderPrint print = Database.getTable(OrderPrint.class).newRecord();
+            print.setOrderId(order.getId());
+            print.setDocumentType(OrderPrint.DOCUMENT_TYPE_PACK_SLIP);
+            byte[] htmlbytes = html.getBytes();
+            byte[] bytes = TemplateEngine.getInstance().htmlToPdf(htmlbytes);
+            if  (bytes.length > 0){
+                print.setImageContentName("packlist"+order.getOrderNumber()+".pdf");
+                print.setImageContentType(MimeType.APPLICATION_PDF.toString());
+            }else {
+                bytes = htmlbytes;
+                print.setImageContentName("packlist"+order.getOrderNumber()+".html");
+                print.setImageContentType(MimeType.TEXT_HTML.toString());
+            }
 
-        String html = TemplateEngine.getInstance().publish("PRINT_packslip.ftlh", root);
-        byte[] htmlbytes = html.getBytes();
-        byte[] bytes = TemplateEngine.getInstance().htmlToPdf(htmlbytes);
-        if  (bytes.length > 0){
-            print.setImageContentName("packlist"+order.getOrderNumber()+".pdf");
-            print.setImageContentType(MimeType.APPLICATION_PDF.toString());
-        }else {
-            bytes = htmlbytes;
-            print.setImageContentName("packlist"+order.getOrderNumber()+".html");
-            print.setImageContentType(MimeType.TEXT_HTML.toString());
+            print.setImage(new ByteArrayInputStream(bytes));
+            print.setImageContentSize(bytes.length);
+            print.save();
         }
-
-        print.setImage(new ByteArrayInputStream(bytes));
-        print.setImageContentSize(bytes.length);
-        print.save();
 
     }
 

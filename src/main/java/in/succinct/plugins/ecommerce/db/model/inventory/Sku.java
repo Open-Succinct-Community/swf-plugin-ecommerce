@@ -15,6 +15,7 @@ import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.plugins.attachment.db.model.Attachment;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
@@ -152,5 +153,5 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public Long getActiveDiscountPlanId();
     public ActiveSkuDiscountPlan getActiveDiscountPlan();
 
-
+	List<Attachment> getAttachments();
 }

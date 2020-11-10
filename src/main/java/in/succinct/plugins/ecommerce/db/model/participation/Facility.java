@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.participation;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.plugins.calendar.db.model.WorkCalendar;
+import com.venky.swf.plugins.attachment.db.model.Attachment;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 
 import java.util.List;
@@ -26,4 +27,7 @@ public interface Facility extends com.venky.swf.plugins.collab.db.model.particip
 	public Long getWorkCalendarId();
 	public void setWorkCalendarId(Long WorkCalendarId);
 	public WorkCalendar getWorkCalendar();
+
+	public List<Attachment> getAttachments();
+
 }

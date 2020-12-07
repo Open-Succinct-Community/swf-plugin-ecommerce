@@ -27,6 +27,9 @@ public interface SkuDiscountPlan extends Model {
     public double getDistributorDiscountPct();
     public void setDistributorDiscountPct(double distributerDiscountPct);
 
+    @COLUMN_DEF(StandardDefault.ZERO)
+    public double getGeneralDiscountPct();
+    public void setGeneralDiscountPct(double generalDiscountPct);
 
     public double getBuy();
     public void setBuy(double buy);

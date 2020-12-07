@@ -8,6 +8,7 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
+import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.ui.PROTECTION;
 import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.column.ui.WATERMARK;
@@ -148,10 +149,15 @@ public interface Sku extends Model,Container, CompanySpecific {
     public void setDisplaySequenceNo(int displaySequenceNo);
 
     public List<SkuDiscountPlan> getDiscountPlans();
+    @IS_VIRTUAL
+	@HIDDEN
+    public List<ActiveSkuDiscountPlan> getActiveDiscountPlans();
 
 	@IS_VIRTUAL
 	public Long getActiveDiscountPlanId();
     public ActiveSkuDiscountPlan getActiveDiscountPlan();
+
+
 
 	List<Attachment> getAttachments();
 }

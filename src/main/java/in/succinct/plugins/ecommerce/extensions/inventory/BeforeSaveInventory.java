@@ -15,7 +15,7 @@ public class BeforeSaveInventory extends BeforeModelSaveExtension<Inventory> {
 			model.setQuantity(0.0);
 		}
 		if (model.getSellingPrice() == null){
-			model.setSellingPrice(model.getSku().getMaxRetailPrice());
+			model.setSellingPrice(model.getSku().getSellingPrice());
 		}
 
 		if (!model.isInfinite() ){

@@ -138,6 +138,9 @@ public interface Sku extends Model,Container, CompanySpecific {
     public double getMaxRetailPrice();
     public void setMaxRetailPrice(double sellingPrice);
 
+    @IS_VIRTUAL
+	public double getSellingPrice(); //Treated like mrp.  it promotional mrp.
+
 
     @COLUMN_DEF(StandardDefault.ZERO)
     public double getTaxRate();
@@ -149,13 +152,10 @@ public interface Sku extends Model,Container, CompanySpecific {
     public void setDisplaySequenceNo(int displaySequenceNo);
 
     public List<SkuDiscountPlan> getDiscountPlans();
-    @IS_VIRTUAL
-	@HIDDEN
-    public List<ActiveSkuDiscountPlan> getActiveDiscountPlans();
 
 	@IS_VIRTUAL
 	public Long getActiveDiscountPlanId();
-    public ActiveSkuDiscountPlan getActiveDiscountPlan();
+    public SkuDiscountPlan getActiveDiscountPlan();
 
 
 

@@ -41,4 +41,13 @@ public class SkuImpl extends ModelImpl<Sku> {
         }
         return activeSkuDiscountPlans;
     }
+
+    public double getSellingPrice(){
+        Sku sku = getProxy();
+        SkuDiscountPlan plan = getActiveDiscountPlan();
+        if (plan != null){
+            return sku.getMaxRetailPrice() * (1.0 - plan.getGeneralDiscountPct()/100.0);
+        }
+        return sku.getMaxRetailPrice();
+    }
 }

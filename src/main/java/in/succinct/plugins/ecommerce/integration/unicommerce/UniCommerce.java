@@ -108,7 +108,7 @@ public class UniCommerce {
         itemType.put("width", UnitOfMeasureConversionTable.convert(sku.getWidth(), UnitOfMeasure.MEASURES_LENGTH, sku.getWidthUOM().getName(), UnitOfMeasure.CENTIMETERS));
         itemType.put("height", UnitOfMeasureConversionTable.convert(sku.getHeight(), UnitOfMeasure.MEASURES_LENGTH, sku.getHeightUOM().getName(), UnitOfMeasure.CENTIMETERS));
         itemType.put("weight", UnitOfMeasureConversionTable.convert(sku.getWeight(), UnitOfMeasure.MEASURES_WEIGHT, sku.getWeightUOM().getName(), UnitOfMeasure.GRAMS));
-        itemType.put("maxRetailPrice", sku.getMaxRetailPrice());
+        itemType.put("maxRetailPrice", sku.getSellingPrice());
         ItemCategory category = sku.getItem().getItemCategory("HSN");
         if (category != null) {
             itemType.put("hsnCode", sku.getItem().getItemCategory("HSN").getMasterItemCategoryValue().getAllowedValue());
@@ -292,7 +292,7 @@ public class UniCommerce {
             Sku sku = Sku.find(facility.getCompanyId(),line.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf("itemSku"));
             line.setSkuId(sku.getId());
             line.setOrderedQuantity(1.0D);
-            line.setMaxRetailPrice(sku.getMaxRetailPrice());
+            line.setMaxRetailPrice(sku.getSellingPrice());
             line.setSellingPrice(line.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().valueOf("sellingPrice"));
             line.setShipTogetherCode(line.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf("shippingPackageCode"));
             line.setPrice(line.getSellingPrice()/(1 + sku.getTaxRate()/100.0));

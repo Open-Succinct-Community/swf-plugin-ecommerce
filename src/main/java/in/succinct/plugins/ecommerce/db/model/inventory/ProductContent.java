@@ -13,11 +13,18 @@ public interface ProductContent extends Model {
     public Sku getSku();
 
     @UNIQUE_KEY
+    public String getCategory();
+    public void setCategory(String category);
+
+
+    @UNIQUE_KEY
     public String getName();
     public void setName(String name);
 
+    @UNIQUE_KEY
     public int getDisplaySequence();
     public void setDisplaySequence(int displaySequence);
+
 
     public String getValue();
     public void setValue(String value);

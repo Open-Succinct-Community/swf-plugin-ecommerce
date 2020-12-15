@@ -16,6 +16,7 @@ public interface SkuDiscountPlan extends Model {
     public Sku getSku();
 
     @UNIQUE_KEY
+    @COLUMN_DEF(StandardDefault.CURRENT_DATE)
     public Date getEffectiveFrom();
     public void setEffectiveFrom(Date date);
 

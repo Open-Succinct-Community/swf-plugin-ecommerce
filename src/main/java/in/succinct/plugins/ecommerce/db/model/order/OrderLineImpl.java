@@ -127,6 +127,10 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 		OrderLine ol = getProxy(); 
 		return Math.max(0, getRemainingCancellableQuantity()- ol.getShippedQuantity());
 	}
+    public double getToDeliverQuantity() {
+        OrderLine ol = getProxy();
+        return Math.max(0, ol.getShippedQuantity() - ol.getReturnedQuantity() - ol.getDeliveredQuantity());
+    }
 
     public double getToAcknowledgeQuantity() {
         OrderLine ol = getProxy();
@@ -158,12 +162,12 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
     }
     public void deliver() {
 	    OrderLine ol = getProxy();
-        deliver(ol.getShippedQuantity() - ol.getDeliveredQuantity() -ol.getReturnedQuantity());
+        deliver(ol.getToDeliverQuantity());
     }
     public void deliver(double quantity){
         OrderLine ol = getProxy();
 
-        double remainingDeliverableQuanity = ol.getShippedQuantity() - ol.getDeliveredQuantity() - ol.getReturnedQuantity() ; //Some of the retured qty is cancelled post shipping and some are post delivery.
+        double remainingDeliverableQuanity = ol.getToDeliverQuantity();
 
         if (quantity > remainingDeliverableQuanity ){
             throw new IllegalArgumentException("Quantity " + quantity + " Exceeds quantity remaining to be delivered" +  remainingDeliverableQuanity);

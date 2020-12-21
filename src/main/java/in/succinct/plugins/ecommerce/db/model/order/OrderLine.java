@@ -213,8 +213,11 @@ public interface OrderLine extends Model {
 	
 	public void pack(double quantity);
 	public void pack(String unitNumber);
-	
-	
+
+
+	@IS_VIRTUAL
+	public double getToDeliverQuantity();
+
 	@IS_VIRTUAL
 	public double getToShipQuantity();
 

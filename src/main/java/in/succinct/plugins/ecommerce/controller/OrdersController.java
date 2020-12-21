@@ -166,7 +166,9 @@ public class OrdersController extends TemplatedModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.deliver();
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,null,getIgnoredParentModels(), getIncludedModelFields());
+			return getIntegrationAdaptor().createResponse(getPath(), order,getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
+					getIgnoredParentModels(),
+					getIncludedModelFields());
 		}else {
 			return back();
 		}

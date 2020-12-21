@@ -157,7 +157,8 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         ol.save();
     }
     public void deliver() {
-        deliver(getProxy().getShippedQuantity());
+	    OrderLine ol = getProxy();
+        deliver(ol.getShippedQuantity() - ol.getDeliveredQuantity() -ol.getReturnedQuantity());
     }
     public void deliver(double quantity){
         OrderLine ol = getProxy();

@@ -14,6 +14,7 @@ import com.venky.swf.views.View;
 import in.succinct.plugins.ecommerce.agents.inventory.AdjustInventoryTask;
 import in.succinct.plugins.ecommerce.db.model.apis.Cancel;
 import in.succinct.plugins.ecommerce.db.model.apis.Pack;
+import in.succinct.plugins.ecommerce.db.model.attachments.Attachment;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
@@ -154,6 +155,7 @@ public class ApiController extends Controller {
 
         map.put(Sku.class,skuFields);
         map.put(AssetCode.class, Arrays.asList("CODE","LONG_DESCRIPTION","GST_PCT"));
+        map.put(Attachment.class,Arrays.asList("ATTACHMENT_URL"));
 
         return map;
     }

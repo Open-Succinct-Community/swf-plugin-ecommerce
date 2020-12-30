@@ -40,6 +40,10 @@ public interface MasterFacilityCategoryValue extends Model{
 	public boolean isCanStockProducts();
 	public  void setCanStockProducts(boolean canStockProducts);
 
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	public boolean isCustomerInvoiceExternallyHandled();
+	public void setCustomerInvoiceExternallyHandled(boolean customerInvoiceExternallyHandled);
+
 	@CONNECTED_VIA("MASTER_FACILITY_CATEGORY_VALUE_ID")
 	List<FacilityCategory> getFacilityCategories();
 	

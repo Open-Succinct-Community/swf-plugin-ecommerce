@@ -21,6 +21,7 @@ public interface UnitOfMeasure extends Model {
 	public static final String GRAMS = "Gms";
 	public static final String CENTIMETERS = "Cms";
 	public static final String INCHES = "Inches";
+	public static final String KILOMETERS = "Kms";
 	@UNIQUE_KEY
 	@Index
 	public String getName();

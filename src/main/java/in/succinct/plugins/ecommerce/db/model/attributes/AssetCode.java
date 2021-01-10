@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.attributes;
 
+import com.venky.core.collections.SequenceSet;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
@@ -9,6 +10,11 @@ import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.db.model.reflection.ModelReflector;
+import com.venky.swf.pm.DataSecurityFilter;
+import com.venky.swf.sql.Expression;
+import com.venky.swf.sql.Operator;
+import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 
 import java.util.List;
@@ -53,5 +59,15 @@ public interface AssetCode extends Model {
     @HIDDEN
     public List<Item> getItems();
 
-
+    public static List<Long> getDeliverySkuIds(){
+        List<AssetCode> assetCodes = new Select().from(AssetCode.class).where(new Expression(ModelReflector.instance(AssetCode.class).getPool(),"CODE", Operator.LK,"99681%")).execute();
+        List<Long> deliverySkuIds = new SequenceSet<>();
+        for (AssetCode ac : assetCodes){
+            List<in.succinct.plugins.ecommerce.db.model.catalog.Item> items = ac.getItems();
+            for (in.succinct.plugins.ecommerce.db.model.catalog.Item i :items){
+                deliverySkuIds.addAll(DataSecurityFilter.getIds(i.getSkus()));
+            }
+        }
+        return deliverySkuIds;
+    }
 }

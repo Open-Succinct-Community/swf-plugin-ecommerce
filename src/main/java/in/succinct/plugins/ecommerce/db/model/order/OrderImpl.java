@@ -135,9 +135,20 @@ public class OrderImpl  extends ModelImpl<Order>{
 
 	public void pack() {
 		Order order = getProxy();
-		order.getOrderLines().forEach(ol->{
-			ol.pack(ol.getToPackQuantity());
+		// Prevent Dead Lock
+		List<OrderLine> toSort = order.getOrderLines();
+
+		// Prevent Dead Lock
+		toSort.sort((o1, o2) -> {
+			long ret = o1.getSkuId() - o2.getSkuId();
+			if (ret == 0L) {
+				ret = o1.getShipFromId() - o2.getShipFromId();
+			}
+			return (int) (ret);
 		});
+		for (OrderLine ol : toSort) {
+			ol.pack();
+		}
 		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 	public void ship() {

@@ -94,7 +94,10 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 		}
 		return null;
 	}
-	
+
+	public void pack(){
+	    pack(getToPackQuantity());
+    }
 	public void pack(double quantity) {
 		OrderLine orderLine = getProxy();
 		double quantityAcknowledged = orderLine.getAcknowledgedQuantity();
@@ -162,7 +165,12 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
     }
     public void deliver() {
 	    OrderLine ol = getProxy();
-        deliver(ol.getToDeliverQuantity());
+        Item item = ol.getSku().getItem();
+	    if (item.getAssetCodeId() != null && item.getAssetCode().isSac()){
+	        ol.pack();
+	        ol.ship();
+        }
+	    deliver(ol.getToDeliverQuantity());
     }
     public void deliver(double quantity){
         OrderLine ol = getProxy();

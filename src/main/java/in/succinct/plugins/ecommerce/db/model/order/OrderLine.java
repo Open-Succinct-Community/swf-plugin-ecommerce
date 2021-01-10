@@ -210,7 +210,8 @@ public interface OrderLine extends Model {
 	public Map<String,OrderLineAttribute> getAttributeMap();
 	public void saveAttributeMap(Map<String,OrderLineAttribute> map);
 	public OrderLineAttribute getAttribute(String name); 
-	
+
+	public void pack();
 	public void pack(double quantity);
 	public void pack(String unitNumber);
 

@@ -5,9 +5,11 @@ import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.indexing.Index;
+import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
+import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 
 import java.util.List;
 
@@ -48,7 +50,8 @@ public interface AssetCode extends Model {
 
     public List<AssetCodeAttribute> getAssetCodeAttributes();
 
-
+    @HIDDEN
+    public List<Item> getItems();
 
 
 }

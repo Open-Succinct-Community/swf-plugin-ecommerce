@@ -132,7 +132,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 	}
     public double getToDeliverQuantity() {
         OrderLine ol = getProxy();
-        return Math.max(0, ol.getShippedQuantity() - ol.getReturnedQuantity() - ol.getDeliveredQuantity());
+        return Math.max(0, ol.getShippedQuantity() - Math.max(ol.getReturnedQuantity(),ol.getDeliveredQuantity()));
     }
 
     public double getToAcknowledgeQuantity() {

@@ -119,5 +119,12 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 		return calendar;
 	}
 
+	public boolean isPublished(){
+		Inventory inventory = getProxy();
+		if (inventory.getRawRecord().isNewRecord()){
+			return false;
+		}
+		return inventory.isInfinite() || inventory.getQuantity() > 0;
+	}
 
 }

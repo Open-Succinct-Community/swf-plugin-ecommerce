@@ -4,6 +4,8 @@ import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.db.model.reflection.ModelReflector;
+import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.plugins.templates.util.templates.TemplateEngine;
 import in.succinct.plugins.ecommerce.agents.order.tasks.EntityTask;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -49,8 +51,20 @@ public class PacklistPrintTask extends EntityTask<Order> {
     private Map<Class<? extends Model>, List<String>> getEntityFieldMap() {
         Map<Class<? extends Model>,List<String>> entityFieldMap = new HashMap<>();
 
+        entityFieldMap.put(Order.class,ModelReflector.instance(Order.class).getVisibleFields());
         entityFieldMap.put(Sku.class, Arrays.asList("NAME","MAX_RETAIL_PRICE","TAX_RATE"));
         entityFieldMap.put(OrderLine.class,Arrays.asList("HSN","SKU_ID","PACKED_QUANTITY","SHIPPED_QUANTITY","MAX_RETAIL_PRICE","DISCOUNT_PERCENTAGE","SELLING_PRICE","PRICE","I_GST","C_GST","S_GST"));
+
+        List<String> facilityFields = ModelReflector.instance(Facility.class).getUniqueFields();
+        facilityFields.addAll(Arrays.asList(Address.getAddressFields()));
+        entityFieldMap.put(Facility.class,facilityFields);
+
+        List<String> addressFields = ModelReflector.instance(OrderAddress.class).getUniqueFields();
+        addressFields.addAll(Arrays.asList(Address.getAddressFields()));
+        addressFields.add("FIRST_NAME");
+        addressFields.add("LAST_NAME");
+
+        entityFieldMap.put(OrderAddress.class,Arrays.asList(Address.getAddressFields()));
         return entityFieldMap;
 
     }

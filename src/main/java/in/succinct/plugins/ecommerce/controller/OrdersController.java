@@ -7,6 +7,7 @@ import com.venky.swf.db.model.User;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.db.model.reflection.ModelReflector.FieldMatcher;
 import com.venky.swf.db.table.Table.ColumnDescriptor;
+import com.venky.swf.integration.IntegrationAdaptor;
 import com.venky.swf.path.Path;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.TaskManager;
@@ -136,15 +137,24 @@ public class OrdersController extends TemplatedModelController<Order> {
 					break;
 				}
 			}
-			if (orderPacked){
-				TaskManager.instance().executeAsync(getTasksToPrint(orderId),false);
-				getPath().addInfoMessage("Labels being generated.. check after some time.");
-			}else {
-				getPath().addErrorMessage("Order is not yet packed.");
+			if (!orderPacked){
+				throw new RuntimeException("Order is not yet packed");
 			}
-			return back();
+			TaskManager.instance().executeAsync(getTasksToPrint(orderId),false);
+			if (getReturnIntegrationAdaptor() != null){
+				return IntegrationAdaptor.instance(OrderPrint.class,getReturnIntegrationAdaptor().getFormatClass()).createResponse(getPath(),
+						new ArrayList<>());
+			}else {
+				getPath().addInfoMessage("Labels being generated.. check after some time.");
+				return back();
+			}
 		}else {
-			return new RedirectorView(getPath(), getPath().controllerPath() + "/show/"+orderId +"/order_prints", "view/"+print.getId());
+			if (getReturnIntegrationAdaptor() != null){
+				return IntegrationAdaptor.instance(OrderPrint.class,getReturnIntegrationAdaptor().getFormatClass()).createResponse(getPath(),
+						Arrays.asList(print),Arrays.asList("ID"));
+			}else {
+				return new RedirectorView(getPath(), getPath().controllerPath() + "/show/" + orderId + "/order_prints", "view/" + print.getId());
+			}
 		}
 	}
 

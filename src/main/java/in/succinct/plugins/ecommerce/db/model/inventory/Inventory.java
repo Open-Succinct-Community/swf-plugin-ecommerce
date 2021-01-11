@@ -56,6 +56,9 @@ public interface Inventory extends Model, CompanySpecific {
 	public double getQuantity();
 	public void setQuantity(double quantity);
 
+	@IS_VIRTUAL
+	public boolean isPublished();
+
 	@IS_NULLABLE
 	public Double getSellingPrice();
 	public void setSellingPrice(Double sellingPrice);

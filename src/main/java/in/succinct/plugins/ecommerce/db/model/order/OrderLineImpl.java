@@ -160,6 +160,9 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         if (quantity > remainingShippableQuantity ){
             throw new IllegalArgumentException("Quantity " + quantity + " Exceeds quantity remaining to be shipped" +  remainingShippableQuantity);
         }
+        if (ol.getPackedQuantity() < quantity){
+            ol.pack(quantity - ol.getPackedQuantity());
+        }
         ol.setShippedQuantity(ol.getShippedQuantity() + quantity);
         ol.save();
     }

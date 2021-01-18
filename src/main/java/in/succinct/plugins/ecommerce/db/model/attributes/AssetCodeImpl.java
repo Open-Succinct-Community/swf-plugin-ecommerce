@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.attributes;
 
 import com.venky.core.string.StringUtil;
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.table.ModelImpl;
 
 public class AssetCodeImpl extends ModelImpl<AssetCode> {
@@ -12,7 +13,7 @@ public class AssetCodeImpl extends ModelImpl<AssetCode> {
     }
 
     public boolean isSac(){
-        return getProxy().getCode().startsWith("99");
+        return ObjectUtil.isVoid(getProxy().getCode()) ? false:  getProxy().getCode().startsWith("99");
     }
 
     public boolean isHsn(){

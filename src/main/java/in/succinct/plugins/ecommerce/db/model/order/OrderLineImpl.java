@@ -172,6 +172,8 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 	    if (item.getAssetCodeId() != null && item.getAssetCode().isSac()){
 	        ol.pack();
 	        ol.ship();
+        }else {
+	        ol.ship();
         }
 	    deliver(ol.getToDeliverQuantity());
     }

@@ -122,7 +122,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 		pack(1);
 	}
 
-    private double getRemainingCancellableQuantity(){
+    public double getRemainingCancellableQuantity(){
         return getProxy().getOrderedQuantity() - getProxy().getCancelledQuantity() - getProxy().getReturnedQuantity();
     }
 

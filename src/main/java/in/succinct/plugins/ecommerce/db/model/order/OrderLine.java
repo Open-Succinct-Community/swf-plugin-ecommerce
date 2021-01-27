@@ -157,6 +157,10 @@ public interface OrderLine extends Model {
 	public double getReturnedQuantity();
 	public void setReturnedQuantity(double returnedQuantity);
 
+
+	@IS_VIRTUAL
+	public double getRemainingCancellableQuantity();
+
 	@IS_NULLABLE
 	@Index
 	public Timestamp getReturnedTs();

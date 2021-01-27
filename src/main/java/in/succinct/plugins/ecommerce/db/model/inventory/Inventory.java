@@ -60,6 +60,11 @@ public interface Inventory extends Model, CompanySpecific {
 	public boolean isPublished();
 
 	@IS_NULLABLE
+	public Double getMaxRetailPrice();
+	public void setMaxRetailPrice(Double maximumRetailPrice);
+
+
+	@IS_NULLABLE
 	public Double getSellingPrice();
 	public void setSellingPrice(Double sellingPrice);
 

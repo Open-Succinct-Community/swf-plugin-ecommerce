@@ -264,6 +264,9 @@ public class OrderImpl  extends ModelImpl<Order>{
 
 	public void setPreferredCarrierId(Long preferredCarrierId) {
 		this.preferredCarrierId = preferredCarrierId;
+		if (this.preferredCarrierId != null){
+			getProxy().setPreferredCarrierName(getProxy().getPreferredCarrier().getName()); //This will make model marked dirty.
+		}
 	}
 
 	Long preferredCarrierId ;

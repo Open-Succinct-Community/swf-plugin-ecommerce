@@ -257,4 +257,14 @@ public class OrderImpl  extends ModelImpl<Order>{
 		}
 		return user;
 	}
+
+	public Long getPreferredCarrierId() {
+		return preferredCarrierId;
+	}
+
+	public void setPreferredCarrierId(Long preferredCarrierId) {
+		this.preferredCarrierId = preferredCarrierId;
+	}
+
+	Long preferredCarrierId ;
 }

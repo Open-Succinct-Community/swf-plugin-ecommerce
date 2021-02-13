@@ -26,5 +26,8 @@ public class BeforeValidateOrder extends BeforeModelValidateExtension<Order> {
                 throw new RuntimeException(model.getCompany().getName()  + " does not have a relation ship with " + model.getPreferredCarrierName());
             }
         }
+        if (model.getPreferredCarrierId() != null){
+            model.setPreferredCarrierName(model.getPreferredCarrier().getName());
+        }
     }
 }

@@ -18,7 +18,7 @@ public class BeforeValidateOrder extends BeforeModelValidateExtension<Order> {
     public void beforeValidate(Order model) {
         if (model.getRawRecord().isFieldDirty("PREFERRED_CARRIER_NAME") && !model.getReflector().isVoid(model.getPreferredCarrierName())){
             Expression where = new Expression(model.getReflector().getPool(), Conjunction.AND);
-            where.add(new Expression(model.getReflector().getPool(),"PREFERRED_CARRIER_NAME", Operator.EQ,model.getPreferredCarrierName()));
+            where.add(new Expression(model.getReflector().getPool(),"NAME", Operator.EQ,model.getPreferredCarrierName()));
             where.add(new Expression(model.getReflector().getPool(),"COMPANY_ID", Operator.EQ,model.getCompanyId()));
 
             List<PreferredCarrier> carrierList = new Select().from(PreferredCarrier.class).where(where).execute(1);

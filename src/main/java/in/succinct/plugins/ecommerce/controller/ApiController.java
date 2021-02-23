@@ -83,66 +83,16 @@ public class ApiController extends Controller {
             throw new RuntimeException("Unsupported request method. Only POST is allowed");
         }
         FormatHelper<T> helper =  FormatHelper.instance(integrationAdaptor.getMimeType(),getPath().getInputStream());
-        List<T> adjustmentElements = helper.getChildElements("AdjustmentRequest");
-        if (adjustmentElements.isEmpty()){
-            T adjustmentElement = helper.getElementAttribute("AdjustmentRequest");
-            adjustmentElements.add(adjustmentElement);
-        }
+        List<AdjustmentRequest> requests = AdjustmentRequest.adjust(helper);
+        Map<Class<? extends Model>, List<String>> requestFields = getAdjustmentRequestFields();
 
-        List<AdjustmentRequest> requests = new ArrayList<>();
-        ModelReflector<AdjustmentRequest> ref = ModelReflector.instance(AdjustmentRequest.class);
-        for (T adjustmentElement : adjustmentElements){
-            FormatHelper<T> adjustmentElementHelper = FormatHelper.instance(adjustmentElement);
-            boolean newProduct = ref.getJdbcTypeHelper().getTypeRef(Boolean.class).getTypeConverter().valueOf(adjustmentElementHelper.getAttribute("NewProduct"));
-
-            T inventoryElement = adjustmentElementHelper.getElementAttribute("Inventory");
-            T skuElement = FormatHelper.instance(inventoryElement).getElementAttribute("Sku");
-            if (skuElement != null){
-                FormatHelper<T> skuHelper = FormatHelper.instance(skuElement);
-
-                T itemElement = skuHelper.getElementAttribute("Item");
-                FormatHelper<T> itemHelper = FormatHelper.instance(itemElement);
-
-                T uomElement = skuHelper.getElementAttribute("PackagingUOM");
-                if (uomElement != null){
-                    UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class,helper.getFormatClass()).read(uomElement);
-                    uom.save();
-                }else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))){
-                    skuHelper.setAttribute("Name",itemHelper.getAttribute("Name"));
-                }
-                if (itemElement != null){
-                    T assetCodeElement = itemHelper.getElementAttribute("AssetCode");
-                    if (ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))){
-                        itemHelper.removeElementAttribute("AssetCode");
-                    }
-
-                    Item item = ModelIOFactory.getReader(Item.class,helper.getFormatClass()).read(itemElement);
-                    item.save();
-                }
-
-                Sku sku = ModelIOFactory.getReader(Sku.class,helper.getFormatClass()).read(skuElement);
-                AssetCode assetCode = sku.getItem().getAssetCode();
-                if (assetCode != null && !assetCode.getReflector().isVoid(assetCode.getGstPct())){
-                    sku.setTaxRate(assetCode.getGstPct());
-                }
-                sku.save();
-            }
-
-            Inventory inventory = ModelIOFactory.getReader(Inventory.class,helper.getFormatClass()).read(inventoryElement);
-            if (inventory.getRawRecord().isNewRecord()){
-                inventory.save();//Ensure parent exists
-            }
-
-            AdjustmentRequest request = ModelIOFactory.getReader(AdjustmentRequest.class,helper.getFormatClass()).read(adjustmentElement);
-            request.setInventoryId(inventory.getId());
-            request.save();
-            requests.add(request);
-        }
-        return integrationAdaptor.createResponse(getPath(),requests, Arrays.asList("ID","INVENTORY_ID","NEW_PRODUCT","ADJUSTMENT_QUANTITY"),new HashSet<>(),getAdjustmentRequestFields());
+        return integrationAdaptor.createResponse(getPath(),requests,requestFields.get(AdjustmentRequest.class),new HashSet<>(),
+                requestFields);
     }
 
-    protected Map<Class<? extends Model>, List<String>> getAdjustmentRequestFields() {
+    public static Map<Class<? extends Model>, List<String>> getAdjustmentRequestFields() {
         Map<Class<? extends Model>, List<String>> map =  new HashMap<>();
+        map.put(AdjustmentRequest.class,Arrays.asList("ID","INVENTORY_ID","NEW_PRODUCT","ADJUSTMENT_QUANTITY"));
         map.put(Inventory.class, ModelReflector.instance(Inventory.class).getFields());
         List<String> itemFields = ModelReflector.instance(Item.class).getUniqueFields();
         itemFields.add("ASSET_CODE_ID");

@@ -1,4 +1,4 @@
-package in.succinct.mandi.extensions;
+package in.succinct.plugins.ecommerce.extensions.catalog;
 
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
 import com.venky.swf.plugins.background.core.TaskManager;

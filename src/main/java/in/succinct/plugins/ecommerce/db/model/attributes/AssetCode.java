@@ -16,6 +16,7 @@ import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 
 import java.util.List;
 
@@ -59,15 +60,20 @@ public interface AssetCode extends Model {
     @HIDDEN
     public List<Item> getItems();
 
-    public static List<Long> getDeliverySkuIds(){
+
+    public static List<Sku> getDeliverySkus(){
         List<AssetCode> assetCodes = new Select().from(AssetCode.class).where(new Expression(ModelReflector.instance(AssetCode.class).getPool(),"CODE", Operator.LK,"99681%")).execute();
-        List<Long> deliverySkuIds = new SequenceSet<>();
+        List<Sku> deliverySkus = new SequenceSet<>();
         for (AssetCode ac : assetCodes){
             List<in.succinct.plugins.ecommerce.db.model.catalog.Item> items = ac.getItems();
             for (in.succinct.plugins.ecommerce.db.model.catalog.Item i :items){
-                deliverySkuIds.addAll(DataSecurityFilter.getIds(i.getSkus()));
+                deliverySkus.addAll(i.getSkus());
             }
         }
-        return deliverySkuIds;
+        return deliverySkus;
+    }
+
+    public static List<Long> getDeliverySkuIds(){
+        return DataSecurityFilter.getIds(getDeliverySkus());
     }
 }

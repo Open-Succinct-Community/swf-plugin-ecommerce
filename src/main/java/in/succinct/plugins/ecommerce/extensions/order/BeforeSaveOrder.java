@@ -14,6 +14,8 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderStatus;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceIntegration;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
 import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
 
 import java.sql.Timestamp;
@@ -34,20 +36,22 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 		List<OrderLine> lines = order.getRawRecord().isNewRecord() ? new ArrayList<>() : order.getOrderLines();
 
 		Facility facility = lines.isEmpty()? null : lines.get(0).getShipFrom();
-		UniCommerce marketPlaceIntegration = null;
+		List<MarketPlace> marketPlaceIntegrations;
 
 		if (facility != null && !facility.getPreferredMarketPlaceIntegrations().isEmpty()){
-			 marketPlaceIntegration = UniCommerce.getInstance(facility);
+			 marketPlaceIntegrations = MarketPlace.get(facility.getId());
+		}else {
+			marketPlaceIntegrations = new ArrayList<>();
 		}
 
 		if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_SHIPPED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")) {
-			if (marketPlaceIntegration != null){
-				marketPlaceIntegration.dispatch(order);
+			for (MarketPlace mp : marketPlaceIntegrations){
+				mp.getWarehouseActionHandler().ship(order);
 			}
 		}else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_MANIFESTED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
 			TaskManager.instance().executeAsync(new PacklistPrintTask(order.getId()),false);
-			if (marketPlaceIntegration != null){
-				marketPlaceIntegration.readyToShip(order);
+			for (MarketPlace mp : marketPlaceIntegrations){
+				mp.getWarehouseActionHandler().pack(order);
 			}
         }else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_PACKED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
 			Set<Long> facilityIds = new HashSet<>();

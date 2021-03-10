@@ -22,7 +22,7 @@ public class BeforeSaveInventory extends BeforeModelSaveExtension<Inventory> {
 				model.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().valueOf(model.getMaxRetailPrice()) );
 
 		model.setMaxRetailPrice(mrp);
-		if (model.getSellingPrice() == null ){
+		if (model.getReflector().isVoid(model.getSellingPrice())){
 			model.setSellingPrice(mrp);
 		}
 
@@ -31,7 +31,7 @@ public class BeforeSaveInventory extends BeforeModelSaveExtension<Inventory> {
 			sku.save();
 		}
 
-		if (!model.isInfinite() ){
+		if (!model.isInfinite() || model.getRawRecord().isFieldDirty("INFINITE")){
 			MarketPlaceInventoryUpdateQueue.push(model);
 		}
 	}

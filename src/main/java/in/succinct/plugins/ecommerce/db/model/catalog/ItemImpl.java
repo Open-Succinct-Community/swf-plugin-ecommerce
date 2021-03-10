@@ -13,6 +13,7 @@ import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
+import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 
 import java.util.HashSet;
 import java.util.List;
@@ -144,4 +145,25 @@ public class ItemImpl extends ModelImpl<Item>{
         item.setItemHash(Encryptor.encrypt(builder.toString()));
         item.save();
     }
+
+    private String hsn = null;
+    public String getHsn(){
+        if (hsn == null){
+            Item item = getProxy();
+            if (item.getAssetCodeId() != null){
+                AssetCode assetCode =  item.getAssetCode();
+                if (assetCode.isHsn()){
+                    return assetCode.getCode();
+                }
+            }
+            ItemCategory category = item.getItemCategory("HSN");
+            if (category != null){
+                hsn = category.getMasterItemCategoryValue().getAllowedValue();
+            }else {
+                hsn = "";
+            }
+        }
+        return hsn;
+    }
+
 }

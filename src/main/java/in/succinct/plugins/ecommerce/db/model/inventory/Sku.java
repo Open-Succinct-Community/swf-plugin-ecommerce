@@ -115,6 +115,26 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@PARTICIPANT(redundant=true)
 	public Long getWeightUOMId();
 
+	public static Sku  find(long companyId, String itemName, String uomName) {
+		Item item = Item.find(companyId,itemName);
+		UnitOfMeasure uom = UnitOfMeasure.getMeasure("Packaging",uomName);
+		if (item == null || uom == null){
+			return null;
+		}
+		Select select = new Select().from(Sku.class);
+		Expression where = new Expression(select.getPool(), Conjunction.AND);
+		where.add(new Expression(select.getPool(),"ITEM_ID",Operator.EQ,item.getId()));
+		where.add(new Expression(select.getPool(),"PACKAGING_U_O_M_ID",Operator.EQ,uom.getId()));
+		where.add(new Expression(select.getPool(),"COMPANY_ID",Operator.EQ,companyId));
+
+		List<Sku> skus = select.where(where).execute();
+		if (skus.size() == 0) {
+			return null;
+		}else if(skus.size() > 1) {
+			throw new UniqueKeyValidator.UniqueConstraintViolatedException("CompanyId = " + companyId + ", Item: " + itemName + ", Uom : " + uomName);
+		}
+		return skus.get(0);
+	}
 	public static Sku  find(long companyId, String name) {
 		Select select = new Select().from(Sku.class);
 		Expression where = new Expression(select.getPool(), Conjunction.AND);

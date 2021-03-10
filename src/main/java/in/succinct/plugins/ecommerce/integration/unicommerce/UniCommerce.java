@@ -21,6 +21,7 @@ import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.ItemCategory;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasureConversionTable;
+import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
@@ -29,7 +30,12 @@ import in.succinct.plugins.ecommerce.db.model.order.OrderAttribute;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 import in.succinct.plugins.ecommerce.db.model.order.OrderPrint;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceIntegration;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
+import in.succinct.plugins.ecommerce.integration.MarketPlace.UserActionHandler;
+import in.succinct.plugins.ecommerce.integration.MarketPlace.WarehouseActionHandler;
+import in.succinct.plugins.ecommerce.integration.humbhionline.HumBhiOnline;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONObject;
@@ -45,25 +51,51 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class UniCommerce {
-    private static Map<Long,UniCommerce> instance = new Cache<Long, UniCommerce>() {
+public class UniCommerce implements MarketPlace, WarehouseActionHandler, UserActionHandler {
+    private static Map<Long, UniCommerce> instance = new Cache<Long, UniCommerce>() {
         @Override
-        protected UniCommerce getValue(Long facilityId) {
-            return new UniCommerce(facilityId);
+        protected UniCommerce getValue(Long marketPlaceIntegrationId) {
+            return new UniCommerce(marketPlaceIntegrationId);
         }
     };
-    private Facility facility = null;
-    private UniCommerce(Long facilityId){
-        facility = Database.getTable(Facility.class).get(facilityId);
-        if (facility.getPreferredMarketPlaceIntegrations().isEmpty()){
-            throw new RuntimeException("Marketplace integration not configured for facility " + facility.getName());
+    MarketPlaceIntegration marketPlaceIntegration;
+    Facility facility ;
+    private UniCommerce(Long marketPlaceIntegrationId){
+        this(Database.getTable(MarketPlaceIntegration.class).get(marketPlaceIntegrationId));
+    }
+    private UniCommerce(MarketPlaceIntegration marketPlaceIntegration){
+        this.marketPlaceIntegration = marketPlaceIntegration;
+        this.facility = marketPlaceIntegration.getFacility();
+    }
+
+    public static UniCommerce getInstance(MarketPlaceIntegration marketPlaceIntegration) {
+        if (!instance.containsKey(marketPlaceIntegration.getId())) {
+            synchronized (instance) {
+                if (!instance.containsKey(marketPlaceIntegration.getId())) {
+                    instance.put(marketPlaceIntegration.getId(), new UniCommerce(marketPlaceIntegration));
+                }
+            }
         }
+        return instance.get(marketPlaceIntegration.getId());
     }
 
-
-    public static UniCommerce getInstance(Facility facility) {
-        return instance.get(facility.getId());
+    @Override
+    public long getFacilityId() {
+        return marketPlaceIntegration.getFacilityId();
     }
+
+    @Override
+    public String getOrderPrefix() {
+        return "UC";
+    }
+
+    public WarehouseActionHandler getWarehouseActionHandler() {
+        return this;
+    }
+    public UserActionHandler getUserActionHandler() {
+        return this;
+    }
+
 
     private String getBaseUrl(){
         return facility.getPreferredMarketPlaceIntegrations().get(0).getBaseUrl();
@@ -189,19 +221,30 @@ public class UniCommerce {
         }
         return demand.doubleValue();
     }
-    public void pullOrders(){
-        Select select = new Select().from(Order.class);
-        Expression where = new Expression(select.getPool(), Conjunction.AND);
-        where.add(new Expression(select.getPool(),"REFERENCE",Operator.LK,"UC%"));
-        select.where(where).add(String.format(" and exists (select 1 from order_lines where order_id = orders.id and ship_from_id = %d )",facility.getId()));
-        List<Order> orders = select.orderBy("ID DESC").execute(1);
-        Order order = null;
-        if (!orders.isEmpty()){
-            order = orders.get(0);
-        }
-        Timestamp timestamp = order == null ? new Timestamp(0L) : order.getCreatedAt();
-        pullOrders(timestamp);
+
+    @Override
+    public void sync(Inventory inventory) {
+        syncInventory(inventory.getSku());
     }
+
+
+
+    @Override
+    public void pullOrders(Order lastOrder) {
+        pullOrders(lastOrder == null ? new Timestamp(0L) : lastOrder.getCreatedAt());
+    }
+
+    @Override
+    public void pack(Order order) {
+        readyToShip(order);
+    }
+
+    @Override
+    public void ship(Order order) {
+        dispatch(order);
+    }
+
+
     public void pullOrders(Timestamp after){
         Map<String,String> headers = getDefaultHeaders();
         JSONObject input =  new JSONObject();
@@ -434,4 +477,33 @@ public class UniCommerce {
         print.save();
     }
 
+    @Override
+    public void reject(Order order) {
+
+    }
+
+    @Override
+    public void reject(OrderLine orderLine) {
+
+    }
+
+    @Override
+    public void book(JSONObject orderJson) {
+
+    }
+
+    @Override
+    public void cancel(JSONObject orderJson) {
+
+    }
+
+    @Override
+    public void cancel_line(JSONObject orderLineJson) {
+
+    }
+
+    @Override
+    public void confirm_delivery(JSONObject orderJson) {
+
+    }
 }

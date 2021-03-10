@@ -93,24 +93,31 @@ public interface Inventory extends Model, CompanySpecific {
 
 	public void adjust(double delta,String comment);
 
-
-	public static void adjust(Facility facility , Sku sku, double signedDelta,String comment){
+	public static Inventory find(Facility facility, Sku sku) {
+		return find(facility.getId(),sku.getId());
+	}
+	public static Inventory find(long facilityId, long skuId){
 		Select inventorySelect = new Select().from(Inventory.class);
 		Expression where = new Expression(inventorySelect.getPool(), Conjunction.AND);
-		where.add(new Expression(inventorySelect.getPool(),"FACILITY_ID", Operator.EQ,facility.getId()));
-		where.add(new Expression(inventorySelect.getPool(),"SKU_ID",Operator.EQ,sku.getId()));
+		where.add(new Expression(inventorySelect.getPool(),"FACILITY_ID", Operator.EQ,facilityId));
+		where.add(new Expression(inventorySelect.getPool(),"SKU_ID",Operator.EQ,skuId));
 
 		List<Inventory> inventories = inventorySelect.where(where).execute();
 		Inventory inventory = null;
 		if (inventories.isEmpty()) {
 			inventory = Database.getTable(Inventory.class).newRecord();
-			inventory.setFacilityId(facility.getId());
-			inventory.setSkuId(sku.getId());
+			inventory.setFacilityId(facilityId);
+			inventory.setSkuId(skuId);
 		}else if (inventories.size() == 1){
 			inventory = inventories.get(0);
 		}else {
 			throw new RuntimeException("Cannot find inventory record uniquely:" + where.getRealSQL() );
 		}
+
+		return inventory;
+	}
+	public static void adjust(Facility facility , Sku sku, double signedDelta,String comment){
+		Inventory inventory =find (facility,sku);
 		inventory.adjust(signedDelta,comment);
 	}
 

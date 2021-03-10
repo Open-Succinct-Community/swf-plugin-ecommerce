@@ -58,7 +58,7 @@ public interface Item extends Container, Model, CompanySpecific {
 
 
 
-    public static Item  find(int companyId,String name) {
+    public static Item  find(long companyId,String name) {
         Select select = new Select().from(Item.class);
         Expression where = new Expression(select.getPool(), Conjunction.AND);
         where.add(new Expression(select.getPool(),"NAME",Operator.EQ,name));
@@ -95,4 +95,6 @@ public interface Item extends Container, Model, CompanySpecific {
 	@IS_VIRTUAL
 	public void computeHash();
 
+	@IS_VIRTUAL
+	public String getHsn();
 }

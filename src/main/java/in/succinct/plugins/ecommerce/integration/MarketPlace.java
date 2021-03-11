@@ -67,7 +67,6 @@ public interface MarketPlace {
     }
     public interface UserActionHandler {
         public void book(JSONObject orderJson);
-        public void cancel(JSONObject orderJson);
         public void cancel_line(JSONObject orderLineJson);
         public void confirm_delivery(JSONObject orderJson);
     }

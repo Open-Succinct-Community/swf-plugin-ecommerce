@@ -242,13 +242,6 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
                 "CHANNEL_ORDER_LINE_REF", Operator.EQ, hboOrderLineNumber)).execute();
         return orderLines;
     }
-    @Override
-    public void cancel(JSONObject orderJson) {
-        String hboOrderNumber = String.valueOf(orderJson.get("Id"));
-        for (Order order : getOrders(orderJson)){
-            order.cancel("User Cancellation");
-        }
-    }
 
     @Override
     public void cancel_line(JSONObject orderLineJson) {

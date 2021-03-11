@@ -18,6 +18,7 @@ import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
 import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
@@ -178,8 +179,17 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 
 			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_RETURNED +".quantity",orderLine,qtyReturnedNow);
         }
+		if (isBeingFullyCancelled(orderLine)){
+			MarketPlace.get(orderLine.getShipFromId()).forEach(mp->mp.getWarehouseActionHandler().reject(orderLine));
+		}
+
 
 		TaskManager.instance().executeAsync(tasks,false);
+	}
+
+	private boolean isBeingFullyCancelled(OrderLine model) {
+		return (model.getCancelledQuantity() + model.getReturnedQuantity() > 0 && model.getRemainingCancellableQuantity() == 0
+				&& ( model.getRawRecord().isFieldDirty("CANCELLED_QUANTITY") || model.getRawRecord().isFieldDirty("RETURNED_QUANTITY")) );
 	}
 
 }

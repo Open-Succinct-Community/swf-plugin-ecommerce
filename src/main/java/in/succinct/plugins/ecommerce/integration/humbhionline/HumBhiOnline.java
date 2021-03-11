@@ -210,19 +210,11 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
 
     }
 
-    @Override
-    public void reject(Order order) {
-        String hboOrderNumber = order.getReference().substring(getOrderPrefix().length());
-        Call<JSONObject> call = new Call<JSONObject>().url("/orders/reject/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
-        if (call.hasErrors()){
-            throw new RuntimeException(call.getError());
-        }
-    }
 
     @Override
     public void reject(OrderLine orderLine) {
         String hboOrderLineId = orderLine.getChannelOrderLineRef();
-        Call<JSONObject> call = new Call<JSONObject>().url("/orders/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url("/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }

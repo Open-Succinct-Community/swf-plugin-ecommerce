@@ -40,10 +40,10 @@ public interface MarketPlace {
 
     public static List<MarketPlace> get(long facilityId){
         Facility facility = Database.getTable(Facility.class).get(facilityId);
-        if (facility == null || facility.getPreferredMarketPlaceIntegrations().isEmpty()){
-            throw new RuntimeException("No market integration found!");
-        }
         List<MarketPlace> marketPlaces = new ArrayList<>();
+        if (facility == null || facility.getPreferredMarketPlaceIntegrations().isEmpty()){
+            return marketPlaces;
+        }
         for (MarketPlaceIntegration integration : facility.getPreferredMarketPlaceIntegrations()){
             switch (integration.getName()) {
                 case "HumBhiOnline":
@@ -62,7 +62,6 @@ public interface MarketPlace {
         public void pullOrders(Order lastOrder);
         public void pack(Order order);
         public void ship(Order order);
-        public void reject(Order order);
         public void reject(OrderLine orderLine);
     }
     public interface UserActionHandler {

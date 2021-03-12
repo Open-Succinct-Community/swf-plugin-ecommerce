@@ -316,19 +316,20 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
                 valueOf(marketOrderHelper.getAttribute("IGst")));
         order.save();
 
+        Company company = order.getCompany().getRawRecord().getAsProxy(Company.class);
+        Facility defaultShippingFacility = marketPlaceIntegration.getFacility();
+        Boolean shippingWithinSameState = null;
         for (String at : new String[]{OrderAddress.ADDRESS_TYPE_SHIP_TO , OrderAddress.ADDRESS_TYPE_BILL_TO}){
             OrderAddress address = Database.getTable(OrderAddress.class).newRecord();
             address.setAddressType(at);
             Address.copy(user,address);
             address.setOrderId(order.getId());
             address.save();
+            if (shippingWithinSameState == null && at.equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)){
+                shippingWithinSameState = ObjectUtil.equals(defaultShippingFacility.getStateId(),address.getStateId());
+            }
         }
 
-        Company company = order.getCompany().getRawRecord().getAsProxy(Company.class);
-        Facility defaultShippingFacility = marketPlaceIntegration.getFacility();
-
-
-        Boolean shippingWithinSameState = null;
         double defaultGSTPct = 18;
         Cache<String, Bucket> buckets = new Cache<String, Bucket>() {
             @Override

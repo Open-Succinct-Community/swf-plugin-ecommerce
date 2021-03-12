@@ -191,9 +191,21 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         }
     }
 
+    public String getMarketPlaceOrderNumber(Order order){
+        if (!order.getReflector().getJdbcTypeHelper().getTypeRef(String.class).getTypeConverter().valueOf(order.getReference())
+                .startsWith(getOrderPrefix())){
+            return null;
+        }else {
+            return order.getReference().substring(getOrderPrefix().length());
+        }
+    }
+
     @Override
     public void pack(Order order) {
-        String hboOrderNumber = order.getReference().substring(getOrderPrefix().length());
+        String hboOrderNumber = getMarketPlaceOrderNumber(order);
+        if (ObjectUtil.isVoid(hboOrderNumber)) {
+            return;
+        }
         Call<JSONObject> call = new Call<JSONObject>().url("/orders/pack/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
@@ -202,7 +214,10 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
 
     @Override
     public void ship(Order order) {
-        String hboOrderNumber = order.getReference().substring(getOrderPrefix().length());
+        String hboOrderNumber = getMarketPlaceOrderNumber(order);
+        if (ObjectUtil.isVoid(hboOrderNumber)) {
+            return;
+        }
         Call<JSONObject> call = new Call<JSONObject>().url("/orders/ship/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
@@ -213,6 +228,10 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
 
     @Override
     public void reject(OrderLine orderLine) {
+        String hboOrderNumber = getMarketPlaceOrderNumber(orderLine.getOrder());
+        if (ObjectUtil.isVoid(hboOrderNumber)) {
+            return;
+        }
         String hboOrderLineId = orderLine.getChannelOrderLineRef();
         Call<JSONObject> call = new Call<JSONObject>().url("/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){

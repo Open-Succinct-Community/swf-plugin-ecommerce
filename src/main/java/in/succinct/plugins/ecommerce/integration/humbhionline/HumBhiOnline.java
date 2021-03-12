@@ -169,7 +169,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         userJson.put("Password",marketPlaceIntegration.getPassword());
 
 
-        JSONObject response = new Call<JSONObject>().url("/login").inputFormat(InputFormat.JSON).input(loginJson).method(HttpMethod.POST).getResponseAsJson();
+        JSONObject response = new Call<JSONObject>().url("/login").inputFormat(InputFormat.JSON).input(loginJson).header("content-type",MimeType.APPLICATION_JSON.toString()).method(HttpMethod.POST).getResponseAsJson();
         if (response != null){
             return (String)(((JSONObject)response.get("User")).get("ApiKey"));
         }
@@ -323,6 +323,8 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             OrderAddress address = Database.getTable(OrderAddress.class).newRecord();
             address.setAddressType(at);
             Address.copy(user,address);
+            address.setFirstName(user.getFirstName());
+            address.setLastName(user.getLastName());
             address.setOrderId(order.getId());
             address.save();
             if (shippingWithinSameState == null && at.equals(OrderAddress.ADDRESS_TYPE_SHIP_TO)){

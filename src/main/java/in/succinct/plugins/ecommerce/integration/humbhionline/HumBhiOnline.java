@@ -199,7 +199,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (ObjectUtil.isVoid(hboOrderNumber)) {
             return;
         }
-        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl() + "/orders/pack/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl() + "/orders/pack/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders());
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }
@@ -211,7 +211,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (ObjectUtil.isVoid(hboOrderNumber)) {
             return;
         }
-        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/orders/ship/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/orders/ship/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders());
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }
@@ -226,7 +226,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             return;
         }
         String hboOrderLineId = orderLine.getChannelOrderLineRef();
-        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders());
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }

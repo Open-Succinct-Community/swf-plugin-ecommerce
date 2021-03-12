@@ -169,7 +169,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         userJson.put("Password",marketPlaceIntegration.getPassword());
 
 
-        JSONObject response = new Call<JSONObject>().url("/login").inputFormat(InputFormat.JSON).input(loginJson).header("content-type",MimeType.APPLICATION_JSON.toString()).method(HttpMethod.POST).getResponseAsJson();
+        JSONObject response = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl() + "/login").inputFormat(InputFormat.JSON).input(loginJson).header("content-type",MimeType.APPLICATION_JSON.toString()).method(HttpMethod.POST).getResponseAsJson();
         if (response != null){
             return (String)(((JSONObject)response.get("User")).get("ApiKey"));
         }
@@ -182,7 +182,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         String maxOrderNumber = String.valueOf(Math.pow(10,hboOrderNumber.length()) - 1) ;
         JSONObject params = new JSONObject();
         params.put("q","FACILITY_ID:" + marketPlaceIntegration.getChannelFacilityRef() + " AND OPEN:Y AND ID:[" + hboOrderNumber + " TO " + maxOrderNumber + "]");
-        JSONObject orders = new Call<JSONObject>().url("/orders/search").method(HttpMethod.GET).inputFormat(InputFormat.JSON)
+        JSONObject orders = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl() + "/orders/search").method(HttpMethod.GET).inputFormat(InputFormat.JSON)
                 .headers(getDefaultHeaders()).input(params).getResponseAsJson();
         JSONArray  orderList = (JSONArray) orders.get("Orders");
         for (int i = 0; i < orderList.size() ; i ++){

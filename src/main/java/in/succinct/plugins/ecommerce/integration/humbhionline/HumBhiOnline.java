@@ -2,16 +2,13 @@ package in.succinct.plugins.ecommerce.integration.humbhionline;
 
 import com.venky.cache.Cache;
 import com.venky.core.math.DoubleUtils;
-import com.venky.core.string.StringUtil;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
-import com.venky.swf.db.model.io.ModelIO;
 import com.venky.swf.db.model.io.ModelIOFactory;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.integration.FormatHelper;
-import com.venky.swf.integration.JSON;
 import com.venky.swf.integration.api.Call;
 import com.venky.swf.integration.api.HttpMethod;
 import com.venky.swf.integration.api.InputFormat;
@@ -22,7 +19,6 @@ import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
-import in.succinct.plugins.ecommerce.db.model.inventory.SkuDiscountPlan;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
@@ -33,14 +29,11 @@ import in.succinct.plugins.ecommerce.db.model.participation.User;
 import in.succinct.plugins.ecommerce.integration.MarketPlace;
 import in.succinct.plugins.ecommerce.integration.MarketPlace.UserActionHandler;
 import in.succinct.plugins.ecommerce.integration.MarketPlace.WarehouseActionHandler;
-import org.graalvm.compiler.core.common.type.ArithmeticOpTable.BinaryOp.Add;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-import javax.management.RuntimeMBeanException;
 import java.sql.Timestamp;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -148,7 +141,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         adjustmentRequest.put("Comment", "Adjust");
 
         Call<JSONObject> call = new Call<>();
-        if (call.url("/api/adjust").inputFormat(InputFormat.JSON).input(adjustmentRequest).method(HttpMethod.POST).
+        if (call.url(marketPlaceIntegration.getBaseUrl()+"/api/adjust").inputFormat(InputFormat.JSON).input(adjustmentRequest).method(HttpMethod.POST).
                 headers(getDefaultHeaders()).
                 hasErrors()){
             throw new RuntimeException(call.getError());
@@ -206,7 +199,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (ObjectUtil.isVoid(hboOrderNumber)) {
             return;
         }
-        Call<JSONObject> call = new Call<JSONObject>().url("/orders/pack/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl() + "/orders/pack/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }
@@ -218,7 +211,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (ObjectUtil.isVoid(hboOrderNumber)) {
             return;
         }
-        Call<JSONObject> call = new Call<JSONObject>().url("/orders/ship/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/orders/ship/"+hboOrderNumber).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }
@@ -233,7 +226,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             return;
         }
         String hboOrderLineId = orderLine.getChannelOrderLineRef();
-        Call<JSONObject> call = new Call<JSONObject>().url("/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/order_lines/reject/"+hboOrderLineId).method(HttpMethod.GET).headers(getDefaultHeaders()).getResponseAsJson();
         if (call.hasErrors()){
             throw new RuntimeException(call.getError());
         }

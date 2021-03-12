@@ -285,8 +285,9 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         User user = getUser(juser);
         JSONObject jfacility = marketOrderHelper.getElementAttribute("Facility");
         marketOrderHelper.removeElementAttribute("Facility");
-        if (!ObjectUtil.equals(jfacility.get("Id"),marketPlaceIntegration.getChannelFacilityRef())){
-            throw new RuntimeException(String.format("Facility mismatch (%s vs %s) for %s",jfacility.get("Id"),marketPlaceIntegration.getChannelFacilityRef(), marketPlaceIntegration.getName()));
+        if (!ObjectUtil.equals(jfacility.get("MerchantFacilityReference"),String.valueOf(marketPlaceIntegration.getFacilityId()))){
+            throw new RuntimeException(String.format("Facility mismatch (%s vs %d) for %s",jfacility.get("MerchantFacilityReference"),marketPlaceIntegration.getFacilityId(),
+                    marketPlaceIntegration.getName()));
         }
         Order order = Database.getTable(Order.class).newRecord();
         order.setReference(getOrderPrefix() + marketOrderHelper.getAttribute("Id"));

@@ -48,8 +48,10 @@ public interface MarketPlace {
             switch (integration.getName()) {
                 case "HumBhiOnline":
                     marketPlaces.add(HumBhiOnline.getInstance(integration));
+                    break;
                 case "UniCommerce":
                     marketPlaces.add(UniCommerce.getInstance(integration));
+                    break;
                 default:
                     throw new RuntimeException(String.format("% not a valid market place integrator!",integration.getName()));
             }

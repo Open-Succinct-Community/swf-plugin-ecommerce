@@ -153,7 +153,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         JSONObject attachmentJSON= new JSONObject();
 
         attachmentParams.put("Attachment", attachmentJSON);
-        attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + "/" + sku.getSmallImageUrl());
+        attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + "/resources/cdn/wiggles/image/" + sku.getSmallImageUrl());
         attachmentJSON.put("Sku",skuJson);
         call = new Call<>();
         if (call.url(marketPlaceIntegration.getBaseUrl() +"/attachments/save").inputFormat(InputFormat.JSON).input(attachmentParams).method(HttpMethod.POST).

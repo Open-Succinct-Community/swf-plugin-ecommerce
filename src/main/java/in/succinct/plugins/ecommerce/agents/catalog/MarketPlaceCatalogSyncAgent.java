@@ -1,17 +1,13 @@
 package in.succinct.plugins.ecommerce.agents.catalog;
 
 import com.venky.core.collections.SequenceSet;
-import com.venky.swf.db.Database;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTask;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTaskBuilder;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
-import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
-import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceSkuUpdateQueue;
 import in.succinct.plugins.ecommerce.integration.MarketPlace;
-import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
 
 import java.util.List;
 import java.util.Objects;

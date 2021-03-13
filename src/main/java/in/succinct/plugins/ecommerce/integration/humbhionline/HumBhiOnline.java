@@ -119,7 +119,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
 
         JSONObject skuJson = new JSONObject();
         skuJson.put("Item",itemJson);
-        skuJson.put("PackagingUom",uomJson);
+        skuJson.put("PackagingUOM",uomJson);
         skuJson.put("Name", itemJson.get("Name") + "-" + uomJson.get("Name"));
         skuJson.put("SkuCode",inventory.getSku().getSkuCode());
         skuJson.put("Published",inventory.getSku().isPublished());

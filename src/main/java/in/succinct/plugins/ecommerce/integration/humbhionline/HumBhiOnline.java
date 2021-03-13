@@ -141,7 +141,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         adjustmentRequest.put("Comment", "Adjust");
 
         Call<JSONObject> call = new Call<>();
-        if (call.url(marketPlaceIntegration.getBaseUrl()+"/api/adjust").inputFormat(InputFormat.JSON).input(adjustmentRequest).method(HttpMethod.POST).
+        if (call.url(marketPlaceIntegration.getBaseUrl()+"/api/adjust").inputFormat(InputFormat.JSON).input(params).method(HttpMethod.POST).
                 headers(getDefaultHeaders()).
                 hasErrors()){
             throw new RuntimeException(call.getError());

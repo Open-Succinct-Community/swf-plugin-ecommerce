@@ -1,7 +1,9 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.core.util.ObjectUtil;
+import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
+import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.validations.MinLength;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
@@ -20,9 +22,6 @@ import java.util.List;
 @EXPORTABLE(false)
 @MENU("Inventory")
 public interface AdjustmentRequest extends Model {
-    public boolean isNewProduct();
-
-    public void setNewProduct(boolean newProduct);
 
     @HIDDEN
     public long getInventoryId();

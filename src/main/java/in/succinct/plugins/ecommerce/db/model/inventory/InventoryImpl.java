@@ -43,6 +43,7 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 			object = (JSONObject)JSONValue.parse(comment);
 		}catch (Exception ex){
 			object = new JSONObject();
+			object.put("Comment",comment);
 		}
 		for (String f: inv.getRawRecord().getDirtyFields()){
 			JSONObject audit = new JSONObject();

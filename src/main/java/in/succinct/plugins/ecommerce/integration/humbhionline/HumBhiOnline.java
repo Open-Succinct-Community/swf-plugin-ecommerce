@@ -125,8 +125,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         skuJson.put("Published",inventory.getSku().isPublished());
 
         JSONObject faciltyJson = new JSONObject();
-        faciltyJson.put("Name",inventory.getFacility().getName());
-        faciltyJson.put("Company",companyJson);
+        faciltyJson.put("Id",marketPlaceIntegration.getChannelFacilityRef());
 
         JSONObject inventoryJson = new JSONObject();
 

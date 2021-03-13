@@ -42,6 +42,9 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 		try {
 			object = (JSONObject)JSONValue.parse(comment);
 		}catch (Exception ex){
+			object = null ;
+		}
+		if (object == null){
 			object = new JSONObject();
 			object.put("Comment",comment);
 		}

@@ -13,9 +13,11 @@ import com.venky.swf.integration.api.Call;
 import com.venky.swf.integration.api.HttpMethod;
 import com.venky.swf.integration.api.InputFormat;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
+import com.venky.swf.routing.Config;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.attachments.Attachment;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -139,12 +141,26 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         adjustmentRequest.put("AdjustmentQuantity",0.0);
         adjustmentRequest.put("Comment", "Adjust");
 
+        Map<String,String> headers = getDefaultHeaders();
         Call<JSONObject> call = new Call<>();
         if (call.url(marketPlaceIntegration.getBaseUrl()+"/api/adjust").inputFormat(InputFormat.JSON).input(params).method(HttpMethod.POST).
-                headers(getDefaultHeaders()).
+                headers(headers).
                 hasErrors()){
             throw new RuntimeException(call.getError());
         }
+
+        JSONObject attachmentParams = new JSONObject();
+        JSONObject attachmentJSON= new JSONObject();
+
+        attachmentParams.put("Attachment", attachmentJSON);
+        attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + "/" + sku.getSmallImageUrl());
+        attachmentJSON.put("Sku",skuJson);
+        call = new Call<>();
+        call.url(marketPlaceIntegration.getBaseUrl() +"/attachments/save").inputFormat(InputFormat.JSON).input(attachmentParams).method(HttpMethod.POST).
+                headers(headers).hasErrors(){
+            throw new RuntimeException(call.getError());
+        }
+
     }
     private Map<String,String> getDefaultHeaders(){
         Map<String,String> headers = new HashMap<>();

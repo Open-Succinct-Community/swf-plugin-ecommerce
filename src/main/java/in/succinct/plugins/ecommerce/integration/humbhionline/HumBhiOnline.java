@@ -123,8 +123,8 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         skuJson.put("Item",itemJson);
         skuJson.put("PackagingUOM",uomJson);
         skuJson.put("Name", itemJson.get("Name") + "-" + uomJson.get("Name"));
-        skuJson.put("SkuCode",inventory.getSku().getSkuCode());
-        skuJson.put("Published",inventory.getSku().isPublished());
+        skuJson.put("SkuCode",sku.getSkuCode());
+        skuJson.put("Published",sku.isPublished());
 
         JSONObject faciltyJson = new JSONObject();
         faciltyJson.put("Id",marketPlaceIntegration.getChannelFacilityRef());
@@ -135,6 +135,8 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         inventoryJson.put("Facility",faciltyJson);
         inventoryJson.put("Company",companyJson);
         inventoryJson.put("Infinite",inventory.isPublished()) ;
+        inventoryJson.put("MaxRetailPrice",sku.getMaxRetailPrice());
+        inventoryJson.put("SellingPrice",sku.getSellingPrice());
 
 
         adjustmentRequest.put("Inventory",inventoryJson);

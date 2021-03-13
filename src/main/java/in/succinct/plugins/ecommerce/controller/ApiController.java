@@ -92,7 +92,7 @@ public class ApiController extends Controller {
 
     public static Map<Class<? extends Model>, List<String>> getAdjustmentRequestFields() {
         Map<Class<? extends Model>, List<String>> map =  new HashMap<>();
-        map.put(AdjustmentRequest.class,Arrays.asList("ID","INVENTORY_ID","NEW_PRODUCT","ADJUSTMENT_QUANTITY"));
+        map.put(AdjustmentRequest.class,Arrays.asList("ID","INVENTORY_ID","ADJUSTMENT_QUANTITY"));
         map.put(Inventory.class, ModelReflector.instance(Inventory.class).getFields());
         List<String> itemFields = ModelReflector.instance(Item.class).getUniqueFields();
         itemFields.add("ASSET_CODE_ID");

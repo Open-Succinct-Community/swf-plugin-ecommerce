@@ -477,13 +477,14 @@ public class UniCommerce implements MarketPlace, WarehouseActionHandler, UserAct
         print.save();
     }
 
+
     @Override
-    public void reject(Order order) {
+    public void reject(OrderLine orderLine) {
 
     }
 
     @Override
-    public void reject(OrderLine orderLine) {
+    public void startCount() {
 
     }
 
@@ -492,10 +493,6 @@ public class UniCommerce implements MarketPlace, WarehouseActionHandler, UserAct
 
     }
 
-    @Override
-    public void cancel(JSONObject orderJson) {
-
-    }
 
     @Override
     public void cancel_line(JSONObject orderLineJson) {

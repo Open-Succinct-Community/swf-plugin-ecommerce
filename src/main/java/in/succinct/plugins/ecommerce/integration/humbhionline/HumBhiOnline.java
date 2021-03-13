@@ -231,6 +231,13 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         }
     }
 
+    @Override
+    public void startCount() {
+        Call<JSONObject> call = new Call<JSONObject>().url(marketPlaceIntegration.getBaseUrl()+"/facilities/startCount/"+marketPlaceIntegration.getChannelFacilityRef()).method(HttpMethod.GET).headers(getDefaultHeaders());
+        if (call.hasErrors()){
+            throw new RuntimeException(call.getError());
+        }
+    }
 
 
     public List<Order> getOrders(JSONObject orderJson){

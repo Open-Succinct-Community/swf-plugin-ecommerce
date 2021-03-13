@@ -65,6 +65,7 @@ public interface MarketPlace {
         public void pack(Order order);
         public void ship(Order order);
         public void reject(OrderLine orderLine);
+        public void startCount();
     }
     public interface UserActionHandler {
         public void book(JSONObject orderJson);

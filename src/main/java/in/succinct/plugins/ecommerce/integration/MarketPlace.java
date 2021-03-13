@@ -64,6 +64,7 @@ public interface MarketPlace {
         public void pullOrders(Order lastOrder);
         public void pack(Order order);
         public void ship(Order order);
+        public void deliver(Order order);
         public void reject(OrderLine orderLine);
         public void startCount();
     }

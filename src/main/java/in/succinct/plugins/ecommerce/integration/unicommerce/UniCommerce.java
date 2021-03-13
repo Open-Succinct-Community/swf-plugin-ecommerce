@@ -244,6 +244,11 @@ public class UniCommerce implements MarketPlace, WarehouseActionHandler, UserAct
         dispatch(order);
     }
 
+    @Override
+    public void deliver(Order order) {
+
+    }
+
 
     public void pullOrders(Timestamp after){
         Map<String,String> headers = getDefaultHeaders();

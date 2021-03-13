@@ -43,8 +43,11 @@ public class BeforeSaveOrder extends BeforeModelSaveExtension<Order> {
 		}else {
 			marketPlaceIntegrations = new ArrayList<>();
 		}
-
-		if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_SHIPPED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")) {
+		if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_DELIVERED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")) {
+			for (MarketPlace mp : marketPlaceIntegrations){
+				mp.getWarehouseActionHandler().deliver(order);
+			}
+		}else if (order.getFulfillmentStatus().equals(Order.FULFILLMENT_STATUS_SHIPPED) && order.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")) {
 			for (MarketPlace mp : marketPlaceIntegrations){
 				mp.getWarehouseActionHandler().ship(order);
 			}

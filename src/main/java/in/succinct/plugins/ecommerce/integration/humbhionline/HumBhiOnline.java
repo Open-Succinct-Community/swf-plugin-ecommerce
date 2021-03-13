@@ -167,6 +167,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
     private Map<String,String> getDefaultHeaders(){
         Map<String,String> headers = new HashMap<>();
         headers.put("Content-Type", MimeType.APPLICATION_JSON.toString());
+        headers.put("Accept", MimeType.APPLICATION_JSON.toString());
         headers.put("ApiKey", getApiKey());
         return headers;
     }

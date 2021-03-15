@@ -328,24 +328,24 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         order.setShipAfterDate(order.getReflector().getJdbcTypeHelper().getTypeRef(Timestamp.class).getTypeConverter().
                 valueOf(marketOrderHelper.getAttribute("ShipAfterDate")));
 
-        order.setProductPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("ProductPrice")));
-        order.setProductSellingPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("ProductSellingPrice")));
-        order.setShippingPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("ShippingPrice")));
-        order.setShippingSellingPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("ShippingSellingPrice")));
-        order.setPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("Price")));
-        order.setSellingPrice(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("SellingPrice")));
-        order.setCGst(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("CGst")));
-        order.setSGst(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("SGst")));
-        order.setIGst(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
-                valueOf(marketOrderHelper.getAttribute("IGst")));
+        order.setProductPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("ProductPrice")),2).getHeldDouble().doubleValue());
+        order.setProductSellingPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("ProductSellingPrice")),2).getHeldDouble().doubleValue());
+        order.setShippingPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("ShippingPrice")),2).getHeldDouble().doubleValue());
+        order.setShippingSellingPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("ShippingSellingPrice")),2).getHeldDouble().doubleValue());
+        order.setPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("Price")),2).getHeldDouble().doubleValue());
+        order.setSellingPrice(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("SellingPrice")),2).getHeldDouble().doubleValue());
+        order.setCGst(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("CGst")),2).getHeldDouble().doubleValue());
+        order.setSGst(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("SGst")),2).getHeldDouble().doubleValue());
+        order.setIGst(new DoubleHolder(order.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter().
+                valueOf(marketOrderHelper.getAttribute("IGst")),2).getHeldDouble().doubleValue());
         order.save();
 
         Company company = order.getCompany().getRawRecord().getAsProxy(Company.class);

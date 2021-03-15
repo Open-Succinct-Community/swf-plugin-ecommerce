@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.integration.humbhionline;
 
 import com.venky.cache.Cache;
+import com.venky.core.math.DoubleHolder;
 import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.Bucket;
 import com.venky.core.util.ObjectUtil;
@@ -393,19 +394,19 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             line.setOrderedQuantity(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
                     valueOf(lineHelper.getAttribute("OrderedQuantity")));
 
-            line.setMaxRetailPrice(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("MaxRetailPrice")));
-            line.setSellingPrice(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("SellingPrice")));
-            line.setPrice(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("Price")));
+            line.setMaxRetailPrice(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("MaxRetailPrice")),2).getHeldDouble().doubleValue());
+            line.setSellingPrice(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("SellingPrice")),2).getHeldDouble().doubleValue());
+            line.setPrice(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("Price")),2).getHeldDouble().doubleValue());
 
-            line.setCGst(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("CGst")));
-            line.setSGst(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("SGst")));
-            line.setIGst(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
-                    valueOf(lineHelper.getAttribute("IGst")));
+            line.setCGst(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("CGst")),2).getHeldDouble().doubleValue());
+            line.setSGst(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("SGst")),2).getHeldDouble().doubleValue());
+            line.setIGst(new DoubleHolder(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
+                    valueOf(lineHelper.getAttribute("IGst")),2).getHeldDouble().doubleValue());
 
 
             line.setDiscountPercentage(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().
@@ -415,15 +416,15 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             for (String priceField : LINE_FIELDS_TO_SYNC) {
                 buckets.get(priceField).increment(line.getReflector().getJdbcTypeHelper().getTypeRef(double.class).getTypeConverter().valueOf(line.getReflector().get(line,priceField)));
             }
-
             line.save();
         }
         if (shippingWithinSameState == null){
             throw new RuntimeException("No Lines passed");
         }
 
+
         for (String priceField : LINE_FIELDS_TO_SYNC) {
-            if (!DoubleUtils.equals(buckets.get(priceField).doubleValue(),order.getReflector().get(order,priceField))){
+            if (!DoubleUtils.equals(buckets.get(priceField).doubleValue(),order.getReflector().get(order,priceField),2)){
                 throw new RuntimeException("Error, Price mismatch on " + order.getReference());
             }
         }

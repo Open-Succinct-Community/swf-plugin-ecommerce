@@ -15,7 +15,7 @@ public class BeforeSaveServiceOrder extends BeforeModelSaveExtension<ServiceOrde
     }
     @Override
     public void beforeSave(ServiceOrder model) {
-        if (model.getFulfillmentStatus().equals(ServiceOrder.FULFILLMENT_STATUS_COMPLETE)){
+        if (model.getFulfillmentStatus().equals(ServiceOrder.FULFILLMENT_STATUS_COMPLETE) && model.getRawRecord().isFieldDirty("FULFILLMENT_STATUS")){
             if (ObjectUtil.isVoid(model.getServicedById())){
                 throw new RuntimeException("Please enter who serviced the request");
             }

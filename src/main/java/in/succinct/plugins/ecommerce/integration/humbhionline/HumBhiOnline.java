@@ -18,7 +18,6 @@ import com.venky.swf.routing.Config;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
-import in.succinct.plugins.ecommerce.db.model.attachments.Attachment;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
@@ -374,7 +373,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
 
         String[] LINE_FIELDS_TO_SYNC = new String[] {"PRODUCT_SELLING_PRICE","PRODUCT_PRICE","C_GST", "I_GST", "S_GST"};
 
-        for (JSONObject orderLineElement : marketOrderHelper.getChildElements("OrderLine")){
+        for (JSONObject orderLineElement : marketOrderHelper.getArrayElements("OrderLine")){
             FormatHelper<JSONObject> lineHelper = FormatHelper.instance(orderLineElement);
             FormatHelper<JSONObject> skuHelper = FormatHelper.instance(lineHelper.getElementAttribute("Sku"));
             String itemName = (String)skuHelper.getElementAttribute("Item").get("Name");

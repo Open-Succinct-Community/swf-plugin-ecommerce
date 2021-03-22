@@ -1,9 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.core.util.ObjectUtil;
-import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
-import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.column.validations.MinLength;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
@@ -41,7 +39,7 @@ public interface AdjustmentRequest extends Model {
     public void setComment(String comment);
 
     public static <T> List<AdjustmentRequest> adjust(FormatHelper<T> helper) {
-        List<T> adjustmentElements = helper.getChildElements("AdjustmentRequest");
+        List<T> adjustmentElements = helper.getArrayElements("AdjustmentRequest");
         if (adjustmentElements.isEmpty()) {
             T adjustmentElement = helper.getElementAttribute("AdjustmentRequest");
             adjustmentElements.add(adjustmentElement);

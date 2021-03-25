@@ -1,6 +1,10 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
+import com.venky.swf.db.annotations.column.IS_NULLABLE;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
+import in.succinct.plugins.ecommerce.db.model.assets.Asset;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.inventory.Container;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
@@ -54,7 +58,7 @@ public interface Item extends Container, Model, CompanySpecific {
 
 
 
-    public static Item  find(int companyId,String name) {
+    public static Item  find(long companyId,String name) {
         Select select = new Select().from(Item.class);
         Expression where = new Expression(select.getPool(), Conjunction.AND);
         where.add(new Expression(select.getPool(),"NAME",Operator.EQ,name));
@@ -69,4 +73,28 @@ public interface Item extends Container, Model, CompanySpecific {
         return items.get(0);
 
     }
+
+
+	@IS_NULLABLE
+	public Long getAssetCodeId();
+	public void setAssetCodeId(Long id);
+	public AssetCode getAssetCode();
+
+	@IS_VIRTUAL
+	public List<Asset> getAssets();
+
+
+	@IS_VIRTUAL
+	public boolean isRentable();
+
+	public List<ItemAttributeValue> getAttributeValues();
+
+	public String getItemHash();
+	public void setItemHash(String hash);
+
+	@IS_VIRTUAL
+	public void computeHash();
+
+	@IS_VIRTUAL
+	public String getHsn();
 }

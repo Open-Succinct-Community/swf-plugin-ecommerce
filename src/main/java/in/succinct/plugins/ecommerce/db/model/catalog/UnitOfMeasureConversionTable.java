@@ -37,9 +37,9 @@ public interface UnitOfMeasureConversionTable extends Model{
 		UnitOfMeasure from = UnitOfMeasure.getMeasure(measureType, fromUom);
 		UnitOfMeasure to = UnitOfMeasure.getMeasure(measureType, toUom);
 		if (from == null) {
-			throw new IllegalArgumentException(from.getName() + " is not a valid uom for " + measureType);
+			throw new IllegalArgumentException(fromUom + " is not a valid uom for " + measureType);
 		}else if (to == null) {
-			throw new IllegalArgumentException(to.getName() + " is not a valid uom for " + measureType);
+			throw new IllegalArgumentException(toUom + " is not a valid uom for " + measureType);
 		}
 
 		return convert(measurement,measureType,from,to);

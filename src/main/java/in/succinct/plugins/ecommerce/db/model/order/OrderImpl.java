@@ -13,12 +13,14 @@ import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.table.ModelImpl;
 import com.venky.swf.plugins.background.core.TaskManager;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator.ATP;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import in.succinct.plugins.ecommerce.integration.fedex.RateWebServiceClient;
 import org.apache.poi.ss.formula.functions.Rate;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Comparator;
 import java.util.List;
@@ -40,7 +42,7 @@ public class OrderImpl  extends ModelImpl<Order>{
 	String orderNumber = null;
 	public String getOrderNumber(){
 		if (orderNumber == null){
-			orderNumber = getProxy().getId() == 0 ? "" : String.valueOf(getProxy().getId());
+			orderNumber = getProxy().getId() == 0 ? "" : String.format("%019d", Long.valueOf(getProxy().getId()));
 		}
 		return orderNumber;
 	}
@@ -96,27 +98,24 @@ public class OrderImpl  extends ModelImpl<Order>{
 		Order order = getProxy();
 		Registry.instance().callExtensions("order.before.acknowledge",order);
 
-		Bucket orderLinesNotAcknowledged = new Bucket();
-		Bucket orderLinesAcknowledged = new Bucket();
 		TypeConverter<Long> iConv = order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter();
-		List<OrderLine> orderLines = order.getOrderLines(); 
-		Map<Long,Map<Long,Bucket>> skuATP = new Cache<Long, Map<Long, Bucket>>(0,0) {
-            @Override
-            protected Map<Long,Bucket> getValue(Long skuId) {
-                return new Cache<Long, Bucket>(0,0) {
-                    @Override
-                    protected Bucket getValue(Long facilityId) {
-                        return new Bucket();
-                    }
-                };
-            }
-        };
+		List<OrderLine> orderLines = order.getOrderLines();
+
+		Map<Long, List<ATP>> skuATP = new Cache<Long, List<ATP>>() {
+			@Override
+			protected List<ATP> getValue(Long aLong) {
+				return new ArrayList<>();
+			}
+		};
+
+		Bucket acknowledgedLineCount = new Bucket();
+		Bucket rejectedLineCount = new Bucket();
 
 		orderLines.forEach(ol->{
-		    ol.acknowledge(skuATP,orderLinesAcknowledged,orderLinesNotAcknowledged,false);
+			ol.acknowledge(skuATP,acknowledgedLineCount,rejectedLineCount,false);
 		});
 
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 
 	}
     public void reject() {
@@ -127,6 +126,7 @@ public class OrderImpl  extends ModelImpl<Order>{
         order.getOrderLines().forEach(ol->{
             ol.cancel(reason,initiator);
         });
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 
     }
 	public void cancel(String reason) {
@@ -135,10 +135,21 @@ public class OrderImpl  extends ModelImpl<Order>{
 
 	public void pack() {
 		Order order = getProxy();
-		order.getOrderLines().forEach(ol->{
-			ol.pack(ol.getToPackQuantity());
+		// Prevent Dead Lock
+		List<OrderLine> toSort = order.getOrderLines();
+
+		// Prevent Dead Lock
+		toSort.sort((o1, o2) -> {
+			long ret = o1.getSkuId() - o2.getSkuId();
+			if (ret == 0L) {
+				ret = o1.getShipFromId() - o2.getShipFromId();
+			}
+			return (int) (ret);
 		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		for (OrderLine ol : toSort) {
+			ol.pack();
+		}
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 	public void ship() {
 		Order order = getProxy(); 
@@ -152,18 +163,23 @@ public class OrderImpl  extends ModelImpl<Order>{
 				}
 				return (int)(ret);
 			}
-		}).forEach(ol->{
-			ol.ship();
-		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		}).forEach(ol-> ol.ship());
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 	public void deliver() {
 		Order order = getProxy();
-		order.getOrderLines().forEach(ol->{
-			ol.setDeliveredQuantity(ol.getShippedQuantity());
-			ol.save();
-		});
-		TaskManager.instance().executeAsync(new OrderStatusMonitor(order.getId()),false);
+		order.getOrderLines().stream().sorted(new Comparator<OrderLine>() {
+			// Prevent Dead Lock
+			@Override
+			public int compare(OrderLine o1, OrderLine o2) {
+				long ret = o1.getSkuId() - o2.getSkuId();
+				if (ret == 0L){
+					ret = o1.getShipFromId() - o2.getShipFromId();
+				}
+				return (int)(ret);
+			}
+		}).forEach(ol-> ol.deliver());
+		TaskManager.instance().execute(new OrderStatusMonitor(order.getId()));
 	}
 
 	public boolean isShort() {

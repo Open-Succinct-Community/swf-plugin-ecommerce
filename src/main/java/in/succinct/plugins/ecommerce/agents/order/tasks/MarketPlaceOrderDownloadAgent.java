@@ -1,28 +1,28 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks;
 
-import com.venky.swf.db.Database;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTask;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTaskBuilder;
+import com.venky.swf.pm.DataSecurityFilter;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
-import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceIntegration;
-import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MarketPlaceOrderDownloadAgent implements Task, AgentSeederTaskBuilder {
     long facilityId = -1;
     public MarketPlaceOrderDownloadAgent(){
 
     }
-    public MarketPlaceOrderDownloadAgent(MarketPlaceIntegration marketPlaceIntegration){
-        facilityId = marketPlaceIntegration.getFacilityId();
+    public MarketPlaceOrderDownloadAgent(long facilityId){
+        this.facilityId = facilityId;
     }
     @Override
     public void execute() {
-        UniCommerce.getInstance(Database.getTable(Facility.class).get(facilityId)).pullOrders();
+        MarketPlace.get(facilityId).forEach(mp->mp.pullOrders());
     }
 
     @Override
@@ -30,10 +30,14 @@ public class MarketPlaceOrderDownloadAgent implements Task, AgentSeederTaskBuild
         return new AgentSeederTask() {
             @Override
             public List<Task> getTasks() {
-                List<MarketPlaceIntegration> list = new Select().from(MarketPlaceIntegration.class).execute();
+                Select select = new Select().from(Facility.class);
+                select.add(" where exists ( select 1 from market_place_integrations where facility_id = facilities.id)");
+
+                List<Facility> facilities = select.execute();
+                Set<Long> facilityIds = DataSecurityFilter.getIds(facilities);
                 List<Task> tasks = new ArrayList<>();
-                for (MarketPlaceIntegration marketPlaceIntegration : list){
-                    tasks.add(new MarketPlaceOrderDownloadAgent(marketPlaceIntegration));
+                for (long facilityId : facilityIds){
+                    tasks.add(new MarketPlaceOrderDownloadAgent(facilityId));
                 }
                 tasks.add(getFinishUpTask());
                 return tasks;

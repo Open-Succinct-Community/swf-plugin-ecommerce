@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
+import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
@@ -22,6 +23,7 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.attachments.Attachment;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 
 import java.util.List;
@@ -32,11 +34,21 @@ import java.util.List;
 public interface Sku extends Model,Container, CompanySpecific {
 
 	@PARTICIPANT(redundant = true)
-	@UNIQUE_KEY("SKU2")
+	@UNIQUE_KEY("SKU2,SKU3")
 	//@PROTECTION(Kind.NON_EDITABLE)
+	@Index
 	public long getItemId();
 	public void setItemId(long id);
 	public Item getItem();
+
+
+	@IS_NULLABLE
+	@UNIQUE_KEY(value = "SKU3",allowMultipleRecordsWithNull = true)
+	@PARTICIPANT(redundant = true)
+	@Index
+	public Long getPackagingUOMId();
+	public void setPackagingUOMId(Long PackagingUnitOfMeasureId);
+	public UnitOfMeasure getPackagingUOM();
 
 
 	@UNIQUE_KEY(value = "UPC",allowMultipleRecordsWithNull = true)
@@ -103,6 +115,26 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@PARTICIPANT(redundant=true)
 	public Long getWeightUOMId();
 
+	public static Sku  find(long companyId, String itemName, String uomName) {
+		Item item = Item.find(companyId,itemName);
+		UnitOfMeasure uom = UnitOfMeasure.getMeasure("Packaging",uomName);
+		if (item == null || uom == null){
+			return null;
+		}
+		Select select = new Select().from(Sku.class);
+		Expression where = new Expression(select.getPool(), Conjunction.AND);
+		where.add(new Expression(select.getPool(),"ITEM_ID",Operator.EQ,item.getId()));
+		where.add(new Expression(select.getPool(),"PACKAGING_U_O_M_ID",Operator.EQ,uom.getId()));
+		where.add(new Expression(select.getPool(),"COMPANY_ID",Operator.EQ,companyId));
+
+		List<Sku> skus = select.where(where).execute();
+		if (skus.size() == 0) {
+			return null;
+		}else if(skus.size() > 1) {
+			throw new UniqueKeyValidator.UniqueConstraintViolatedException("CompanyId = " + companyId + ", Item: " + itemName + ", Uom : " + uomName);
+		}
+		return skus.get(0);
+	}
 	public static Sku  find(long companyId, String name) {
 		Select select = new Select().from(Sku.class);
 		Expression where = new Expression(select.getPool(), Conjunction.AND);

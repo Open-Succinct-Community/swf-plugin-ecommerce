@@ -1,8 +1,10 @@
 package in.succinct.plugins.ecommerce.extensions.order.line;
 
 import com.venky.core.collections.SequenceSet;
+import com.venky.core.date.DateUtils;
 import com.venky.core.math.DoubleUtils;
 import com.venky.core.util.ObjectUtil;
+import com.venky.extension.Registry;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.JdbcTypeHelper.TypeConverter;
 import com.venky.swf.db.extensions.BeforeModelSaveExtension;
@@ -11,11 +13,12 @@ import com.venky.swf.plugins.background.core.TaskManager;
 import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
-import in.succinct.plugins.ecommerce.db.model.inventory.AdjustmentRequest;
+import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
-import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator;
+import in.succinct.plugins.ecommerce.db.model.order.Order;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
 import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
@@ -33,8 +36,25 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 		SequenceSet<Task> tasks = new SequenceSet<>();
         Timestamp now = new Timestamp(System.currentTimeMillis());
 
+		Timestamp demandDate = null;
+
+		if (orderLine.getSku().getItem().isRentable()){
+			if (orderLine.getDeliveryExpectedNoEarlierThan() == null){
+				orderLine.setDeliveryExpectedNoEarlierThan(orderLine.getOrder().getShipAfterDate());
+			}
+			if (orderLine.getDeliveryExpectedNoLaterThan() == null){
+				orderLine.setDeliveryExpectedNoLaterThan(orderLine.getOrder().getShipByDate());
+			}
+			demandDate = new Timestamp(DateUtils.getStartOfDay(orderLine.getDeliveryExpectedNoEarlierThan().getTime()));
+		}
+
 		if (orderLine.getOrderedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("ORDERED_QUANTITY") ){
             orderLine.setOrderedTs(now);
+			TypeConverter<Double> doubleTypeConverter = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
+			Double oldOrderedQty = doubleTypeConverter.valueOf(orderLine.getRawRecord().getOldValue("ORDERED_QUANTITY"));
+			Double newOrderedQty = orderLine.getOrderedQuantity();
+			double qtyOrderedNow = newOrderedQty - oldOrderedQty ;
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_DOWNLOADED +".quantity",orderLine,qtyOrderedNow);
         }
 		if (!orderLine.getRawRecord().isNewRecord() && orderLine.getRawRecord().isFieldDirty("ACKNOWLEDGED_QUANTITY")) {
 			if (orderLine.getAcknowledgedQuantity() > 0 ){
@@ -47,8 +67,18 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             Double oldAcknowledgedQty = doubleTypeConverter.valueOf(orderLine.getRawRecord().getOldValue("ACKNOWLEDGED_QUANTITY"));
             Double newAcknowledgedQty = orderLine.getAcknowledgedQuantity();
             double qtyAcknowledgedNow = newAcknowledgedQty - oldAcknowledgedQty ;
-			tasks.add(new OpendDemandIncrementor(orderLine.getInventory(false).getId(),qtyAcknowledgedNow));
+
+			Item item = orderLine.getSku().getItem();
+			if (item.getAssetCodeId() != null){
+				if (item.isRentable()){
+					if (orderLine.getReflector().isVoid(orderLine.getDeliveryExpectedNoEarlierThan()) || orderLine.getReflector().isVoid(orderLine.getDeliveryExpectedNoEarlierThan())){
+						throw new RuntimeException("Please specify slot to book appointment.");
+					}
+				}
+			}
+			tasks.add(new OpendDemandIncrementor(orderLine.getInventory(false).getId(),qtyAcknowledgedNow,demandDate,orderLine.getWorkSlot()));
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_ACKNOWLEDGED +".quantity",orderLine,qtyAcknowledgedNow);
 		}
 		
 
@@ -56,13 +86,16 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
                 orderLine.getRawRecord().isFieldDirty("PACKED_QUANTITY")) {
 		    orderLine.setPackedTs(now);
 			tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_PACKED +".quantity",orderLine,orderLine.getPackedQuantity());
 		}
 		
 		if (orderLine.getManifestedQuantity() > 0 && orderLine.getToManifestQuantity() <=0 &&
                 orderLine.getRawRecord().isFieldDirty("MANIFESTED_QUANTITY")) {
 		    orderLine.setManifestedTs(now);
 			tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_MANIFESTED +".quantity",orderLine,orderLine.getManifestedQuantity());
 		}
+
 		if (orderLine.getCancelledQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("CANCELLED_QUANTITY")){
 			TypeConverter<Double> dConvertor = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
 			Double oldCancelledQty = dConvertor.valueOf(orderLine.getRawRecord().getOldValue("CANCELLED_QUANTITY"));
@@ -72,7 +105,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
             Double newCancelledQty = orderLine.getCancelledQuantity();
             double qtyCancelledNow = newCancelledQty - oldCancelledQty ;
 
-			if (!orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE)){
+			if (!orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE) && !orderLine.getShipFrom().getPreferredMarketPlaceIntegrations().isEmpty()){
 				tasks.add(new CancelOrderTask(orderLine.getOrderId(), OrderLine.CANCELLATION_REASON_PARTIAL_CANCEL_NOT_SUPPORTED,
 						OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE));
             }
@@ -80,10 +113,12 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 			if (qtyCancelledNow > 0 && orderLine.getShipFromId() != null) {
 			    Inventory inventory = orderLine.getInventory(false);
 			    if (inventory != null) {
-                    tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyCancelledNow));
+                    tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyCancelledNow,demandDate,orderLine.getWorkSlot()));
                 }
             }
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_CANCELLED +".quantity",orderLine,qtyCancelledNow);
         }
 		
 		if (orderLine.getShippedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("SHIPPED_QUANTITY")) {
@@ -108,8 +143,9 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 				inventory.setQuantity(0.0);
 				inventory.save();
 			}
-            tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow));
+            tasks.add(new OpendDemandIncrementor(inventory.getId(),-1*qtyShippedNow,demandDate,orderLine.getWorkSlot()));
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_SHIPPED +".quantity",orderLine,qtyShippedNow);
 		}
 		if (orderLine.getDeliveredQuantity() > 0  && orderLine.getRawRecord().isFieldDirty("DELIVERED_QUANTITY")) {
 			TypeConverter<Double> dConvertor = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
@@ -126,20 +162,34 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine>{
 				OrderAddress shipToFacility = possibleShipToFacility.get();
 				Inventory.adjust(shipToFacility.getFacility(),orderLine.getSku(),qtyDeliveredNow,"Receipt into facility " + shipToFacility.getFacility().getName() + " via Order " + orderLine.getOrderId());
 			}
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_DELIVERED +".quantity",orderLine,qtyDeliveredNow);
 		}
 		if (orderLine.getReturnedQuantity() > 0 && orderLine.getRawRecord().isFieldDirty("RETURNED_QUANTITY")) {
             TypeConverter<Double> dConvertor = orderLine.getReflector().getJdbcTypeHelper().getTypeRef(Double.class).getTypeConverter();
             Double oldReturnedQuantity = dConvertor.valueOf(orderLine.getRawRecord().getOldValue("RETURNED_QUANTITY"));
             if (DoubleUtils.equals(oldReturnedQuantity,0)) {
                 orderLine.setReturnedTs(now);
-                if ( orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_COMPANY) ){
+                if ( orderLine.getCancellationInitiator().equals(OrderLine.CANCELLATION_INITIATOR_COMPANY) && !orderLine.getShipFrom().getPreferredMarketPlaceIntegrations().isEmpty()){
                     tasks.add(new CancelOrderTask(orderLine.getOrderId(),OrderLine.CANCELLATION_REASON_PARTIAL_CANCEL_NOT_SUPPORTED,OrderLine.CANCELLATION_INITIATOR_MARKET_PLACE));
                 }
                 tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
             }
+			double newReturnedQuantity = orderLine.getReturnedQuantity();
+			double qtyReturnedNow = newReturnedQuantity - oldReturnedQuantity;
+
+			Registry.instance().callExtensions("OrderLine."+ Order.FULFILLMENT_STATUS_RETURNED +".quantity",orderLine,qtyReturnedNow);
         }
+		if (isBeingFullyCancelled(orderLine)){
+			MarketPlace.get(orderLine.getShipFromId()).forEach(mp->mp.getWarehouseActionHandler().reject(orderLine));
+		}
+
 
 		TaskManager.instance().executeAsync(tasks,false);
+	}
+
+	private boolean isBeingFullyCancelled(OrderLine model) {
+		return (model.getCancelledQuantity() + model.getReturnedQuantity() > 0 && model.getRemainingCancellableQuantity() == 0
+				&& ( model.getRawRecord().isFieldDirty("CANCELLED_QUANTITY") || model.getRawRecord().isFieldDirty("RETURNED_QUANTITY")) );
 	}
 
 }

@@ -1,15 +1,13 @@
 package in.succinct.plugins.ecommerce.agents.catalog;
 
 import com.venky.core.collections.SequenceSet;
-import com.venky.swf.db.Database;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTask;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTaskBuilder;
 import com.venky.swf.sql.Select;
-import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
-import in.succinct.plugins.ecommerce.db.model.participation.Facility;
+import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceSkuUpdateQueue;
-import in.succinct.plugins.ecommerce.integration.unicommerce.UniCommerce;
+import in.succinct.plugins.ecommerce.integration.MarketPlace;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,9 +40,7 @@ public class MarketPlaceCatalogSyncAgent implements Task, AgentSeederTaskBuilder
     @Override
     public void execute() {
         MarketPlaceSkuUpdateQueue.entries(skuId,facilityId).forEach(e-> e.destroy());
-        Sku sku = Database.getTable(Sku.class).get(skuId);
-        Facility facility = Database.getTable(Facility.class).get(facilityId);
-        UniCommerce.getInstance(facility).sync(sku);
+        MarketPlace.get(facilityId).forEach(mp->mp.getWarehouseActionHandler().sync(Inventory.find(facilityId,skuId)));
     }
 
     @Override

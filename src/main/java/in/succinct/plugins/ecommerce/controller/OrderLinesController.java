@@ -27,7 +27,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 	}
 	
 	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Reject order fulfillment")
-	public View cancel(int orderLineId) {
+	public View reject(int orderLineId) {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
 		orderLine.reject(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
         if (getIntegrationAdaptor() != null) {
@@ -36,7 +36,17 @@ public class OrderLinesController extends ModelController<OrderLine> {
             return back();
         }
 	}
-	
+	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Cancel Order Line")
+	public View cancel(int orderLineId) {
+		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
+		orderLine.cancel("No Longer Required",OrderLine.CANCELLATION_INITIATOR_USER);
+		if (getIntegrationAdaptor() != null) {
+			return getIntegrationAdaptor().createResponse(getPath(), orderLine,null,getIgnoredParentModels(), getIncludedModelFields());
+		}else {
+			return back();
+		}
+	}
+
 	@SingleRecordAction(icon="glyphicon-gift", tooltip="Pack")
 	public View pack(int orderLineId) {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);

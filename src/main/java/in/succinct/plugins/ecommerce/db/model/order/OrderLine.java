@@ -18,7 +18,9 @@ import com.venky.swf.db.annotations.column.validations.Enumeration;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.plugins.calendar.db.model.WorkSlot;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator.ATP;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
@@ -65,8 +67,17 @@ public interface OrderLine extends Model {
     public Timestamp getDeliveryExpectedNoLaterThan();
     public void setDeliveryExpectedNoLaterThan(Timestamp ts);
 
+    public Long getInventoryId();
+    public void setInventoryId(Long id);
+    public Inventory getInventory();
 
-    //@PROTECTION(Kind.NON_EDITABLE)
+    @IS_NULLABLE
+    public Long getWorkSlotId();
+    public void setWorkSlotId(Long id);
+    public WorkSlot getWorkSlot();
+
+
+	//@PROTECTION(Kind.NON_EDITABLE)
 	public double getOrderedQuantity();
 	public void setOrderedQuantity(double quantity);
 
@@ -146,6 +157,10 @@ public interface OrderLine extends Model {
 	public double getReturnedQuantity();
 	public void setReturnedQuantity(double returnedQuantity);
 
+
+	@IS_VIRTUAL
+	public double getRemainingCancellableQuantity();
+
 	@IS_NULLABLE
 	@Index
 	public Timestamp getReturnedTs();
@@ -199,11 +214,15 @@ public interface OrderLine extends Model {
 	public Map<String,OrderLineAttribute> getAttributeMap();
 	public void saveAttributeMap(Map<String,OrderLineAttribute> map);
 	public OrderLineAttribute getAttribute(String name); 
-	
+
+	public void pack();
 	public void pack(double quantity);
 	public void pack(String unitNumber);
-	
-	
+
+
+	@IS_VIRTUAL
+	public double getToDeliverQuantity();
+
 	@IS_VIRTUAL
 	public double getToShipQuantity();
 
@@ -227,6 +246,10 @@ public interface OrderLine extends Model {
 
 	@IS_VIRTUAL
 	public Inventory getInventory(boolean lock,long skuId);
+
+	@IS_VIRTUAL
+    public List<Inventory> getInventories(boolean lock,long skuId);
+
 
 	public void ship();
 	public void deliver();
@@ -252,7 +275,7 @@ public interface OrderLine extends Model {
     public void cancel(String reason, String initiator, double quantity);
 
     public void acknowledge();
-    public void acknowledge(Map<Long,Map<Long,Bucket>> skuATP, Bucket acknowledgedLineCount, Bucket rejectedLineCount , boolean cancelOnShortage);
+    public void acknowledge(Map<Long,List<ATP>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage );
 
     public void manifest();
 
@@ -297,4 +320,5 @@ public interface OrderLine extends Model {
     //public OrderLine getFreeAgainstLine();
 
 
+	public List<OrderLineItemAttributeValue> getOrderLineItemAttributeValues();
 }

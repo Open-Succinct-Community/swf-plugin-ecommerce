@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.extensions.catalog;
 
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import com.venky.swf.db.Database;
@@ -37,6 +38,13 @@ public class BeforeSaveSku extends BeforeModelSaveExtension<Sku>{
             sku.setWeight(item.getWeight());
             sku.setWeightUOMId(item.getWeightUOMId());
         }
+
+        if (!helper.isVoid(sku.getItem().getAssetCodeId())){
+			AssetCode assetCode = sku.getItem().getAssetCode();
+			if (!helper.isVoid(assetCode.getGstPct())){
+				sku.setTaxRate(assetCode.getGstPct());
+			}
+		}
 
 	}
 

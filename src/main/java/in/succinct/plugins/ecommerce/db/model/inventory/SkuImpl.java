@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
+import com.venky.core.math.DoubleHolder;
 import com.venky.swf.db.table.ModelImpl;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class SkuImpl extends ModelImpl<Sku> {
         Sku sku = getProxy();
         SkuDiscountPlan plan = getActiveDiscountPlan();
         if (plan != null){
-            return sku.getMaxRetailPrice() * (1.0 - plan.getGeneralDiscountPct()/100.0);
+            return new DoubleHolder(sku.getMaxRetailPrice() * (1.0 - plan.getGeneralDiscountPct()/100.0),2).getHeldDouble().doubleValue();
         }
         return sku.getMaxRetailPrice();
     }

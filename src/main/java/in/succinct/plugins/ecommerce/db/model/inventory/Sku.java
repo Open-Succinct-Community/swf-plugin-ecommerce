@@ -180,4 +180,8 @@ public interface Sku extends Model,Container, CompanySpecific {
 
 
 	List<Attachment> getAttachments();
+
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	public boolean isPublishedToMarketPlace();
+	public void setPublishedToMarketPlace(boolean publishedToMarketPlace);
 }

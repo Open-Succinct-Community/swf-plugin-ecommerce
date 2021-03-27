@@ -36,8 +36,10 @@ import org.json.simple.JSONObject;
 
 import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserActionHandler {
 
@@ -447,7 +449,8 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
     }
     private void removeId(Object o){
         if (o instanceof JSONObject){
-            for (Object name : ((JSONObject)o).keySet()){
+            Set<Object> names = new HashSet<>((JSONObject)o).keySet());
+            for (Object name : names){
                 if ("Id".equals(name)){
                     ((JSONObject)o).remove(name);
                 }else {

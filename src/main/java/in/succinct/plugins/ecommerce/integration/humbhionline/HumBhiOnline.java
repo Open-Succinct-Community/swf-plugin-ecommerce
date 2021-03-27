@@ -451,7 +451,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (o instanceof JSONObject){
             Set<Object> names = new HashSet<>(((JSONObject)o).keySet());
             for (Object name : names){
-                if ("Id".equals(name)){
+                if ("Id".equals(name) || "Company".equals(name)){
                     ((JSONObject)o).remove(name);
                 }else {
                     Object value = ((JSONObject)o).get(name);

@@ -444,6 +444,8 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         if (user.getRawRecord().isNewRecord()){
             user.setNotificationEnabled(false);
         }
+        user.setCityId(user.getPinCode().getCityId());
+        user.setStateId(user.getPinCode().getStateId());
         user.save();
         return user;
     }

@@ -96,10 +96,12 @@ public class ApiController extends Controller {
         map.put(Inventory.class, ModelReflector.instance(Inventory.class).getFields());
         List<String> itemFields = ModelReflector.instance(Item.class).getUniqueFields();
         itemFields.add("ASSET_CODE_ID");
+        itemFields.add("ID");
 
         map.put(Item.class, itemFields);
 
         List<String> skuFields = ModelReflector.instance(Sku.class).getUniqueFields();
+        skuFields.add("ID");
         skuFields.add("MAX_RETAIL_PRICE");
         skuFields.add("TAX_RATE");
 

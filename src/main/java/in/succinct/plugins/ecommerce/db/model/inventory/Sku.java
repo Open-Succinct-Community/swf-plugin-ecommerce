@@ -26,6 +26,7 @@ import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 
+import java.sql.Date;
 import java.util.List;
 
 
@@ -184,4 +185,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
 	public boolean isPublishedToMarketPlace();
 	public void setPublishedToMarketPlace(boolean publishedToMarketPlace);
+
+	public Date getExpectedToBeAvailableBy();
+	public void setExpectedToBeAvailableBy(Date date);
 }

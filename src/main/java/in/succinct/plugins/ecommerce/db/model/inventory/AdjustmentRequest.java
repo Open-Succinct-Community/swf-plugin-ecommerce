@@ -57,16 +57,16 @@ public interface AdjustmentRequest extends Model {
                 FormatHelper<T> skuHelper = FormatHelper.instance(skuElement);
 
                 T itemElement = skuHelper.getElementAttribute("Item");
-                FormatHelper<T> itemHelper = FormatHelper.instance(itemElement);
+                if (itemElement != null){
+                    FormatHelper<T> itemHelper = FormatHelper.instance(itemElement);
 
-                T uomElement = skuHelper.getElementAttribute("PackagingUOM");
-                if (uomElement != null) {
-                    UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class, helper.getFormatClass()).read(uomElement);
-                    uom.save();
-                } else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))) {
-                    skuHelper.setAttribute("Name", itemHelper.getAttribute("Name"));
-                }
-                if (itemElement != null) {
+                    T uomElement = skuHelper.getElementAttribute("PackagingUOM");
+                    if (uomElement != null) {
+                        UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class, helper.getFormatClass()).read(uomElement);
+                        uom.save();
+                    } else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))) {
+                        skuHelper.setAttribute("Name", itemHelper.getAttribute("Name"));
+                    }
                     T assetCodeElement = itemHelper.getElementAttribute("AssetCode");
                     if (ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))) {
                         itemHelper.removeElementAttribute("AssetCode");

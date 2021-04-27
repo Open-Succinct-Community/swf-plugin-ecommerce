@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.service;
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
@@ -80,6 +81,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public void setCancellationReasonId(Long id);
     public ServiceCancellationReason getCancellationReason();
 
+    @COLUMN_SIZE(1024)
     public String getRemarks();
     public void setRemarks(String  remarks);
 

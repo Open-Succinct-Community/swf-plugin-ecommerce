@@ -80,7 +80,7 @@ public interface ServiceOrder extends ExtendedEntity<ServiceOrderAttribute,Servi
     public Long getCancellationReasonId();
     public void setCancellationReasonId(Long id);
     public ServiceCancellationReason getCancellationReason();
-
+    
     @COLUMN_SIZE(1024)
     public String getRemarks();
     public void setRemarks(String  remarks);

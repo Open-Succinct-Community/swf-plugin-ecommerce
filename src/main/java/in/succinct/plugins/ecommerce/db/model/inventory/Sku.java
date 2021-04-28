@@ -177,7 +177,10 @@ public interface Sku extends Model,Container, CompanySpecific {
 	@IS_VIRTUAL
 	public Long getActiveDiscountPlanId();
     public SkuDiscountPlan getActiveDiscountPlan();
-
+	
+	@Index
+	public boolean isPrescriptionNeed();
+	public  void isPrescriptionNeed(boolean prescriptionNeed);
 
 
 	List<Attachment> getAttachments();

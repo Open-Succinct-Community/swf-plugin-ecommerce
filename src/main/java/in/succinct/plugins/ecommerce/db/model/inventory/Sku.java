@@ -180,8 +180,8 @@ public interface Sku extends Model,Container, CompanySpecific {
 	
 	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
 	@Index
-	public boolean isPrescriptionNeed();
-	public  void isPrescriptionNeed(boolean prescriptionNeed);
+	public boolean isPrescriptionRequired();
+	public  void isPrescriptionRequired(boolean prescriptionNeed);
 
 
 	List<Attachment> getAttachments();

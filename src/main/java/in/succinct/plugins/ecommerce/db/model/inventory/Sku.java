@@ -178,6 +178,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public Long getActiveDiscountPlanId();
     public SkuDiscountPlan getActiveDiscountPlan();
 	
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
 	@Index
 	public boolean isPrescriptionNeed();
 	public  void isPrescriptionNeed(boolean prescriptionNeed);

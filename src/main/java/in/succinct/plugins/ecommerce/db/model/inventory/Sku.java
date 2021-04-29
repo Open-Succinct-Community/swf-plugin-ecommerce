@@ -196,7 +196,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public void setPrescriptionRequired(boolean prescriptionRequired);
 
 	@Index
-	@COLUMN_DEF(StandardDefault.BOOLEAN_TRUE)
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
 	public boolean getActive();
 	public  void setActive(boolean isActive);
 

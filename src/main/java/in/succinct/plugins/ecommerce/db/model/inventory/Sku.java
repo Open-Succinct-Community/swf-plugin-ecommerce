@@ -197,7 +197,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 
 	@Index
 	@COLUMN_DEF(StandardDefault.BOOLEAN_TRUE)
-	public boolean getIsActive();
-	public  void setIsActive(boolean isActive);
+	public boolean getActive();
+	public  void setActive(boolean isActive);
 
 }

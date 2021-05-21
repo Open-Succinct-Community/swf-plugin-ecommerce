@@ -178,9 +178,7 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public Long getActiveDiscountPlanId();
     public SkuDiscountPlan getActiveDiscountPlan();
 	
-	@Index
-	public boolean isPrescriptionNeed();
-	public  void isPrescriptionNeed(boolean prescriptionNeed);
+	
 
 
 	List<Attachment> getAttachments();
@@ -191,4 +189,15 @@ public interface Sku extends Model,Container, CompanySpecific {
 
 	public Date getExpectedToBeAvailableBy();
 	public void setExpectedToBeAvailableBy(Date date);
+	
+	@Index
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	public boolean getPrescriptionRequired();
+	public void setPrescriptionRequired(boolean prescriptionRequired);
+
+	@Index
+	@COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+	public boolean getActive();
+	public  void setActive(boolean isActive);
+
 }

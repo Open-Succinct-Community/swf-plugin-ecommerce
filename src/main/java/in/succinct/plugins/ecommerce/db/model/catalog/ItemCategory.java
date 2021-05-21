@@ -14,4 +14,7 @@ public interface ItemCategory extends ItemCategorization {
 	public  void setItemId( long id) ;
 	public Item getItem();
 
+	@UNIQUE_KEY
+	public Long getMasterItemCategoryValueId();
+
 }

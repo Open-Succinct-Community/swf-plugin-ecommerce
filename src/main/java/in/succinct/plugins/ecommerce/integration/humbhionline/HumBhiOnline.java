@@ -13,6 +13,8 @@ import com.venky.swf.integration.FormatHelper;
 import com.venky.swf.integration.api.Call;
 import com.venky.swf.integration.api.HttpMethod;
 import com.venky.swf.integration.api.InputFormat;
+import com.venky.swf.plugins.background.core.Task;
+import com.venky.swf.plugins.background.core.TaskManager;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.routing.Config;
 import com.venky.swf.sql.Expression;
@@ -34,7 +36,9 @@ import in.succinct.plugins.ecommerce.integration.MarketPlace.WarehouseActionHand
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
+import java.awt.print.Book;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -208,10 +212,13 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
                 .inputFormat(InputFormat.FORM_FIELDS)
                 .headers(getDefaultHeaders()).input(params).getResponseAsJson();
         JSONArray  orderList = (JSONArray) orders.get("Orders");
+        List<Task> tasks = new ArrayList<>();
+
         for (int i = 0; i < orderList.size() ; i ++){
             JSONObject orderJson = (JSONObject)orderList.get(i);
-            book(orderJson);
+            tasks.add(new BookOrder(orderJson,marketPlaceIntegration));
         }
+        TaskManager.instance().executeAsync(tasks,false);
     }
 
     public String getMarketPlaceOrderNumber(Order order){
@@ -311,6 +318,22 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
                 "REFERENCE", Operator.EQ, getOrderPrefix()+ hboOrderNumber)).execute();
         for (Order order :orders){
             order.deliver();
+        }
+    }
+    public static class BookOrder implements Task {
+        JSONObject marketjson = null;
+        MarketPlaceIntegration integration ;
+        public BookOrder(JSONObject marketJson, MarketPlaceIntegration integration){
+            this.marketjson = marketJson;
+            this.integration = integration;
+        }
+        public BookOrder(){
+
+        }
+
+        @Override
+        public void execute() {
+            getInstance(integration).book(marketjson);
         }
     }
     @Override

@@ -324,6 +324,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         }
         Order order = Database.getTable(Order.class).newRecord();
         order.setReference(getOrderPrefix() + marketOrderHelper.getAttribute("Id"));
+        order.setMarketPlaceIntegrationId(marketPlaceIntegration.getId());
         order.setShipByDate(order.getReflector().getJdbcTypeHelper().getTypeRef(Timestamp.class).getTypeConverter().
                 valueOf(marketOrderHelper.getAttribute("ShipByDate")));
         order.setShipAfterDate(order.getReflector().getJdbcTypeHelper().getTypeRef(Timestamp.class).getTypeConverter().

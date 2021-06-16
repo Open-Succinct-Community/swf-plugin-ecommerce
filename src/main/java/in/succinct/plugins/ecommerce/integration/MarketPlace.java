@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.integration;
 
+import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
@@ -37,8 +38,10 @@ public interface MarketPlace {
         }
         return order;
     }
-
     public static List<MarketPlace> get(long facilityId){
+        return get(facilityId,null);
+    }
+    public static List<MarketPlace> get(long facilityId,String integrationName){
         Facility facility = Database.getTable(Facility.class).get(facilityId);
         List<MarketPlace> marketPlaces = new ArrayList<>();
         if (facility == null || facility.getPreferredMarketPlaceIntegrations().isEmpty()){
@@ -47,10 +50,14 @@ public interface MarketPlace {
         for (MarketPlaceIntegration integration : facility.getPreferredMarketPlaceIntegrations()){
             switch (integration.getName()) {
                 case "HumBhiOnline":
-                    marketPlaces.add(HumBhiOnline.getInstance(integration));
+                    if (integrationName == null || ObjectUtil.equals(integrationName,integration.getName())) {
+                        marketPlaces.add(HumBhiOnline.getInstance(integration));
+                    }
                     break;
                 case "UniCommerce":
-                    marketPlaces.add(UniCommerce.getInstance(integration));
+                    if (integrationName == null || ObjectUtil.equals(integrationName,integration.getName())) {
+                        marketPlaces.add(UniCommerce.getInstance(integration));
+                    }
                     break;
                 default:
                     throw new RuntimeException(String.format("% not a valid market place integrator!",integration.getName()));

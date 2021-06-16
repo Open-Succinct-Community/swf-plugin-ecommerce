@@ -14,6 +14,7 @@ import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import com.venky.swf.plugins.collab.db.model.user.User;
+import in.succinct.plugins.ecommerce.db.model.participation.MarketPlaceIntegration;
 import in.succinct.plugins.ecommerce.db.model.participation.PreferredCarrier;
 
 import java.sql.Date;
@@ -175,4 +176,9 @@ public interface Order extends Model, CompanySpecific {
 
     @IS_VIRTUAL
     public User getShipFromContact();
+
+    @IS_NULLABLE
+    public Long getMarketPlaceIntegrationId();
+    public void setMarketPlaceIntegrationId(Long id);
+    public MarketPlaceIntegration getMarketplaceIntegration();
 }

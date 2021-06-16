@@ -8,20 +8,23 @@ import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 public interface Attachment extends com.venky.swf.plugins.attachment.db.model.Attachment {
-    @PROTECTION(Kind.NON_EDITABLE)
     @UNIQUE_KEY
+    public String getAttachmentContentName();
+
+    @PROTECTION(Kind.NON_EDITABLE)
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
     public Long getFacilityId();
     public void setFacilityId(Long id);
     public Facility getFacility();
 
     @PROTECTION(Kind.NON_EDITABLE)
-    @UNIQUE_KEY
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
     public Long getSkuId();
     public void setSkuId(Long id);
     public Sku   getSku();
 
     @PROTECTION(Kind.NON_EDITABLE)
-    @UNIQUE_KEY
+    @UNIQUE_KEY(allowMultipleRecordsWithNull = false)
     public Long getServiceId();
     public void setServiceId(Long id);
     public Service getService();

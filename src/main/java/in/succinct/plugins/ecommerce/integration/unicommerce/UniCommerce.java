@@ -303,6 +303,7 @@ public class UniCommerce implements MarketPlace, WarehouseActionHandler, UserAct
         }
         Order order = Database.getTable(Order.class).newRecord();
         order.setReference("UC-" + saleOrder.get("code"));
+        order.setMarketPlaceIntegrationId(marketPlaceIntegration.getId());
         order.setCreatedAt(new Timestamp(order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter().valueOf(saleOrder.get("created"))));
         order.setUpdatedAt(new Timestamp(order.getReflector().getJdbcTypeHelper().getTypeRef(Long.class).getTypeConverter().valueOf(saleOrder.get("updated"))));
         order.setPreferredCarrierName(PreferredCarrier.MARKET_PLACE);

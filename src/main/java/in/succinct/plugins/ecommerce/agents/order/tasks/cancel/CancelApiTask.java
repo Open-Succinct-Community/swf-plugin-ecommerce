@@ -5,15 +5,15 @@ import com.venky.swf.db.Database;
 import com.venky.swf.plugins.background.core.Task;
 
 public class CancelApiTask implements Task{
-    private int orderLineId;
+    private long orderLineId;
     private String initiator;
     private String reason;
     private Double quantity;
 
-    public CancelApiTask(int orderLineId, String initiator, String reason){
+    public CancelApiTask(long orderLineId, String initiator, String reason){
         this(orderLineId,initiator,reason,(Double)null);
     }
-    public CancelApiTask(int orderLineId, String initiator, String reason, Double quantity) {
+    public CancelApiTask(long orderLineId, String initiator, String reason, Double quantity) {
         this.orderLineId = orderLineId;
         this.initiator = initiator ;
         this.reason = reason;

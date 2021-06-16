@@ -180,5 +180,5 @@ public interface Order extends Model, CompanySpecific {
     @IS_NULLABLE
     public Long getMarketPlaceIntegrationId();
     public void setMarketPlaceIntegrationId(Long id);
-    public MarketPlaceIntegration getMarketplaceIntegration();
+    public MarketPlaceIntegration getMarketPlaceIntegration();
 }

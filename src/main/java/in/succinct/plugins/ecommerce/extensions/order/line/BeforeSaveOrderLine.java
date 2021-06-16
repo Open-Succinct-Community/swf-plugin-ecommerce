@@ -193,7 +193,7 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine> {
             Registry.instance().callExtensions("OrderLine." + Order.FULFILLMENT_STATUS_RETURNED + ".quantity", orderLine, qtyReturnedNow);
         }
         if (isBeingFullyCancelled(orderLine) && order.getMarketPlaceIntegrationId() != null) {
-            MarketPlace.get(orderLine.getShipFromId(),order.getMarketplaceIntegration().getName()).forEach(mp -> mp.getWarehouseActionHandler().reject(orderLine));
+            MarketPlace.get(orderLine.getShipFromId(),order.getMarketPlaceIntegration().getName()).forEach(mp -> mp.getWarehouseActionHandler().reject(orderLine));
         }
 
 

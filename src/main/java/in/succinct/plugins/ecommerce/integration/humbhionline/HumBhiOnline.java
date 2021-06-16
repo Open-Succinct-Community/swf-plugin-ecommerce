@@ -107,14 +107,17 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         JSONObject companyJson = new JSONObject();
         companyJson.put("Name","MANDI");
 
-        JSONObject assetCodeJson = new JSONObject();
         Sku sku = inventory.getSku();
         Item item = sku.getItem();
-        assetCodeJson.put("Code",item.getHsn());
 
         JSONObject itemJson = new JSONObject();
         itemJson.put("Name", sku.getPackagingUOMId() == null ? inventory.getSku().getName() : item.getName() ) ; //Sku name is mapped to item name on hbo.
-        itemJson.put("AssetCode",assetCodeJson);
+
+        if (!ObjectUtil.isVoid(item.getHsn())){
+            JSONObject assetCodeJson = new JSONObject();
+            assetCodeJson.put("Code",item.getHsn());
+            itemJson.put("AssetCode",assetCodeJson);
+        }
         itemJson.put("Company",companyJson);
 
         JSONObject uomJson = new JSONObject();
@@ -157,7 +160,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         JSONObject attachmentJSON= new JSONObject();
 
         attachmentParams.put("Attachment", attachmentJSON);
-        attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + "/resources/cdn/wiggles/image/" + sku.getSmallImageUrl());
+        attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + sku.getSmallImageUrl());
         attachmentJSON.put("Sku",skuJson);
         call = new Call<>();
         if (call.url(marketPlaceIntegration.getBaseUrl() +"/attachments/save").inputFormat(InputFormat.JSON).input(attachmentParams).method(HttpMethod.POST).

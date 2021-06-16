@@ -68,7 +68,7 @@ public interface AdjustmentRequest extends Model {
                         skuHelper.setAttribute("Name", itemHelper.getAttribute("Name"));
                     }
                     T assetCodeElement = itemHelper.getElementAttribute("AssetCode");
-                    if (ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))) {
+                    if (assetCodeElement != null && ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))) {
                         itemHelper.removeElementAttribute("AssetCode");
                     }
 

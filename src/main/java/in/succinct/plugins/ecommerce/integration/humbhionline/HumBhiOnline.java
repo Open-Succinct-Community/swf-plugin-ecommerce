@@ -156,22 +156,22 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
             throw new RuntimeException(call.getError());
         }
 
-        JSONObject attachmentParams = new JSONObject();
-        JSONObject attachmentJSON= new JSONObject();
-
-        attachmentParams.put("Attachment", attachmentJSON);
         if (!ObjectUtil.isVoid(sku.getSmallImageUrl())){
+            JSONObject attachmentParams = new JSONObject();
+            JSONObject attachmentJSON= new JSONObject();
+
+            attachmentParams.put("Attachment", attachmentJSON);
             if (sku.getSmallImageUrl().contains("/attachment")){ //Prashant's nonsense.!
                 attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + sku.getSmallImageUrl());
             }else {
                 attachmentJSON.put("UploadUrl", Config.instance().getServerBaseUrl() + "/resources/cdn/wiggles/image/" + sku.getSmallImageUrl());
             }
-        }
-        attachmentJSON.put("Sku",skuJson);
-        call = new Call<>();
-        if (call.url(marketPlaceIntegration.getBaseUrl() +"/attachments/save").inputFormat(InputFormat.JSON).input(attachmentParams).method(HttpMethod.POST).
-                headers(headers).hasErrors()){
-            throw new RuntimeException(call.getError());
+            attachmentJSON.put("Sku",skuJson);
+            call = new Call<>();
+            if (call.url(marketPlaceIntegration.getBaseUrl() +"/attachments/save").inputFormat(InputFormat.JSON).input(attachmentParams).method(HttpMethod.POST).
+                    headers(headers).hasErrors()){
+                throw new RuntimeException(call.getError());
+            }
         }
 
     }

@@ -1,16 +1,14 @@
 package in.succinct.plugins.ecommerce.controller;
 
-import com.venky.swf.controller.ModelController;
 import com.venky.swf.db.model.Model;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.path.Path;
-import in.succinct.plugins.ecommerce.db.model.assets.Asset;
+import com.venky.swf.controller.ModelController;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

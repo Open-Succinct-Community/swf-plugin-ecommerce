@@ -26,6 +26,7 @@ public interface ProductContent extends Model {
     public void setDisplaySequence(int displaySequence);
 
 
+    @COLUMN_SIZE(4096)
     public String getValue();
     public void setValue(String value);
 }

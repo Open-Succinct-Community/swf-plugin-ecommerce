@@ -37,9 +37,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.acknowledge();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+            return show(order);
         }else {
             return back();
         }
@@ -49,9 +47,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.backorder();
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+			return show(order);
 		}else {
 			return back();
 		}
@@ -62,9 +58,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.reject();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+            return show(order);
         }else {
             return back();
         }
@@ -74,9 +68,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.cancel("No Longer Required",OrderLine.CANCELLATION_INITIATOR_USER);
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+			return show(order);
 		}else {
 			return back();
 		}
@@ -107,9 +99,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.pack();
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+            return show(order);
         }else {
             return back();
         }
@@ -160,9 +150,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.ship();
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,
-					getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(), getIncludedModelFields());
+			return show(order);
 		}else {
 			return back();
 		}
@@ -173,9 +161,7 @@ public class OrdersController extends ModelController<Order> {
 		Order order = Database.getTable(Order.class).get(orderId);
 		order.deliver();
 		if (getIntegrationAdaptor() != null) {
-			return getIntegrationAdaptor().createResponse(getPath(), order,getIncludedFields() == null ? null : Arrays.asList(getIncludedFields()),
-					getIgnoredParentModels(),
-					getIncludedModelFields());
+			return show(order);
 		}else {
 			return back();
 		}
@@ -195,7 +181,7 @@ public class OrdersController extends ModelController<Order> {
 
         TaskManager.instance().executeAsync(tasks,false);
         if (getIntegrationAdaptor() != null) {
-            return getIntegrationAdaptor().createResponse(getPath(),  Database.getTable(Order.class).get(orderId),null,getIgnoredParentModels(), getIncludedModelFields());
+			return show(orderId);
         }else {
             return back();
         }

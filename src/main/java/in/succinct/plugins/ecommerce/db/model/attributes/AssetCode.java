@@ -1,10 +1,12 @@
 package in.succinct.plugins.ecommerce.db.model.attributes;
 
 import com.venky.core.collections.SequenceSet;
+import com.venky.swf.db.annotations.column.COLUMN_DEF;
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
+import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.HAS_DESCRIPTION_FIELD;
@@ -76,4 +78,9 @@ public interface AssetCode extends Model {
     public static List<Long> getDeliverySkuIds(){
         return DataSecurityFilter.getIds(getDeliverySkus());
     }
+
+    @COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
+    boolean isDeliveredElectronically();
+    public void setDeliveredElectronically(boolean deliveredElectronically);
+
 }

@@ -93,10 +93,8 @@ public class InventoryCalculator {
 					workSlotCapacityConsumed.increment(demand.getQuantity().doubleValue());
 				});
 
-				for (WorkSlot workSlot : inventory.getWorkCalendar().getWorkSlots()) {
-					total.increment(inventory.getQuantity());
-					total.decrement(workSlotCapacityConsumed.doubleValue());
-				}
+				total.increment(inventory.getQuantity());
+				total.decrement(workSlotCapacityConsumed.doubleValue());
 
 			}else {
 				pendShip.forEach(demand->{

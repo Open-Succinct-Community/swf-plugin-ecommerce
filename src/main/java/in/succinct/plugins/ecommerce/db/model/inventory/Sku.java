@@ -195,4 +195,6 @@ public interface Sku extends Model,Container, CompanySpecific {
 	public boolean isActive();
 	public  void setActive(boolean isActive);
 
+	@IS_VIRTUAL
+	public double getGeneralDiscountPct();
 }

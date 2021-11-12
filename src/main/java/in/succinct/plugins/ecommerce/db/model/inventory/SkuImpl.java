@@ -1,6 +1,7 @@
 package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.core.math.DoubleHolder;
+import com.venky.core.util.ObjectHolder;
 import com.venky.swf.db.table.ModelImpl;
 
 import java.util.ArrayList;
@@ -13,14 +14,19 @@ public class SkuImpl extends ModelImpl<Sku> {
     public SkuImpl(){
         super();
     }
+
+
+    private ObjectHolder<SkuDiscountPlan> activeDiscountPlan = null;
     public SkuDiscountPlan getActiveDiscountPlan(){
-        List<SkuDiscountPlan> plans = getProxy().getDiscountPlans();
-        //The default order by is @ORDER_BY("SKU_ID , EFFECTIVE_FROM DESC")
-        SkuDiscountPlan active = null;
-        if (plans.size() > 0){
-            active = plans.get(0);
+        if (activeDiscountPlan == null){
+            activeDiscountPlan = new ObjectHolder<>(null);
+            List<SkuDiscountPlan> plans = getProxy().getDiscountPlans();
+            //The default order by is @ORDER_BY("SKU_ID , EFFECTIVE_FROM DESC")
+            if (plans.size() > 0){
+                activeDiscountPlan.set(plans.get(0));
+            }
         }
-        return active;
+        return activeDiscountPlan.get();
     }
 
     public Long getActiveDiscountPlanId(){
@@ -41,6 +47,15 @@ public class SkuImpl extends ModelImpl<Sku> {
             activeSkuDiscountPlans.add(plans.get(0).getRawRecord().getAsProxy(ActiveSkuDiscountPlan.class));
         }
         return activeSkuDiscountPlans;
+    }
+
+    public double getGeneralDiscountPct(){
+        Sku sku = getProxy();
+        SkuDiscountPlan plan = getActiveDiscountPlan();
+        if (plan !=null){
+            return plan.getGeneralDiscountPct();
+        }
+        return 0.0D;
     }
 
     public double getSellingPrice(){

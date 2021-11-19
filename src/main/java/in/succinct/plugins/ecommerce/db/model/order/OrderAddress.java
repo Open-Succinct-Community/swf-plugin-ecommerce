@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.db.model.order;
 
 
 import com.venky.swf.db.annotations.column.COLUMN_DEF;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.validations.Enumeration;
@@ -36,6 +37,9 @@ public interface OrderAddress extends Model, Address {
 
 	public String getLastName();
 	public void setLastName(String name);
+
+	@IS_VIRTUAL
+	public String getLongName();
 
 	public  static final String ADDRESS_TYPE_SHIP_TO = "ST";
 	public  static final String ADDRESS_TYPE_BILL_TO = "BT";

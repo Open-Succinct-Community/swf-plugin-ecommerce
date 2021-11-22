@@ -15,7 +15,7 @@ import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 @EXPORTABLE(false)
 
 @ORDER_BY(" ORDER_ID, ADDRESS_TYPE DESC ")
-public interface OrderAddress extends Model, Address {
+public interface OrderAddress extends Model, PersonAddress {
 	@UNIQUE_KEY
 	public long getOrderId();
 	public void setOrderId(long id); 
@@ -31,15 +31,6 @@ public interface OrderAddress extends Model, Address {
 	public Long getFacilityId();
 	public void setFacilityId(Long id);
 	public Facility getFacility();
-
-	public String getFirstName();
-	public void setFirstName(String name);
-
-	public String getLastName();
-	public void setLastName(String name);
-
-	@IS_VIRTUAL
-	public String getLongName();
 
 	public  static final String ADDRESS_TYPE_SHIP_TO = "ST";
 	public  static final String ADDRESS_TYPE_BILL_TO = "BT";

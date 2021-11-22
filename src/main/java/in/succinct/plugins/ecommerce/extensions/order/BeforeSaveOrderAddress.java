@@ -1,11 +1,13 @@
 package in.succinct.plugins.ecommerce.extensions.order;
 
+import com.venky.core.string.StringUtil;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.plugins.collab.db.model.participants.admin.Address;
 import com.venky.swf.plugins.collab.db.model.user.User;
 import com.venky.swf.plugins.collab.db.model.user.UserFacility;
 import com.venky.swf.plugins.collab.extensions.beforesave.BeforeSaveAddress;
 import in.succinct.plugins.ecommerce.db.model.order.OrderAddress;
+import in.succinct.plugins.ecommerce.db.model.order.PersonAddress;
 import org.apache.commons.math3.analysis.function.Add;
 
 import java.util.StringTokenizer;
@@ -46,5 +48,7 @@ public class BeforeSaveOrderAddress extends BeforeSaveAddress<OrderAddress> {
             }
         }
         super.beforeSave(oAddress);
+        PersonAddress.fixNames(oAddress);
+
     }
 }

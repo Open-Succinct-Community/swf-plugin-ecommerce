@@ -2,6 +2,7 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 
 import com.venky.swf.db.annotations.column.COLUMN_SIZE;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
+import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.ORDER_BY;
 import com.venky.swf.db.model.Model;
@@ -11,6 +12,8 @@ public interface ProductContent extends Model {
     @UNIQUE_KEY
     public long getSkuId();
     public void setSkuId(long skuId);
+
+    @Index
     public Sku getSku();
 
     @UNIQUE_KEY

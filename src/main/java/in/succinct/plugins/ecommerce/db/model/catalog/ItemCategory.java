@@ -11,10 +11,9 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 public interface ItemCategory extends ItemCategorization {
 	@PARTICIPANT
 	@UNIQUE_KEY
+	@Index
 	public long getItemId();
 	public  void setItemId( long id) ;
-
-	@Index
 	public Item getItem();
 
 	@UNIQUE_KEY

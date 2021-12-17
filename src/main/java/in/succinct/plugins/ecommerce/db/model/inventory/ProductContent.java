@@ -10,10 +10,9 @@ import com.venky.swf.db.model.Model;
 @ORDER_BY("DISPLAY_SEQUENCE")
 public interface ProductContent extends Model {
     @UNIQUE_KEY
+    @Index
     public long getSkuId();
     public void setSkuId(long skuId);
-
-    @Index
     public Sku getSku();
 
     @UNIQUE_KEY

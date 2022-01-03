@@ -13,8 +13,10 @@ import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
+import in.succinct.plugins.ecommerce.db.model.attributes.AttributeValue;
 import in.succinct.plugins.ecommerce.db.model.order.OrderLine;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -119,30 +121,12 @@ public class ItemImpl extends ModelImpl<Item>{
         if (item.getReflector().isVoid(item.getAssetCodeId())){
             return;
         }
-
-        Set<Long> attributeIdsAllowed = new HashSet<>();
-        for (AssetCodeAttribute assetCodeAttribute : item.getAssetCode().getAssetCodeAttributes()) {
-            if (ObjectUtil.equals(assetCodeAttribute.getAttributeType(), AssetCodeAttribute.ATTRIBUTE_TYPE_CATALOG)){
-                attributeIdsAllowed.add(assetCodeAttribute.getAttributeId());
-            }
+        List<AttributeValue> attributeValues = new ArrayList<>();
+        for (ItemAttributeValue itemAttributeValue : item.getAttributeValues()) {
+            attributeValues.add(itemAttributeValue.getAttributeValue());
         }
 
-        StringBuilder builder = new StringBuilder();
-        builder.append(item.getAssetCodeId());
-
-        SortedSet<Long> attributeValueIds = new TreeSet<>();
-        if (!item.getRawRecord().isNewRecord()){
-            item.getAttributeValues().forEach(a->{
-                if (attributeIdsAllowed.contains(a.getAttributeValue().getAttributeId())){
-                    attributeValueIds.add(a.getAttributeValueId());
-                }else {
-                    a.destroy();
-                }
-            });
-        }
-        builder.append(attributeValueIds);
-
-        item.setItemHash(Encryptor.encrypt(builder.toString()));
+        item.setItemHash(Item.hash(item.getAssetCode(),attributeValues));
         item.save();
     }
 

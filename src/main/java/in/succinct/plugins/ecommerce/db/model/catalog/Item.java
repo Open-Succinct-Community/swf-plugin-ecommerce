@@ -1,13 +1,8 @@
 package in.succinct.plugins.ecommerce.db.model.catalog;
 
+import com.venky.digest.Encryptor;
 import com.venky.swf.db.annotations.column.IS_NULLABLE;
 import com.venky.swf.db.annotations.column.IS_VIRTUAL;
-import com.venky.swf.plugins.collab.db.model.CompanySpecific;
-import in.succinct.plugins.ecommerce.db.model.assets.Asset;
-import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
-import in.succinct.plugins.ecommerce.db.model.inventory.Container;
-import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
-import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
@@ -16,12 +11,23 @@ import com.venky.swf.db.annotations.column.ui.PROTECTION.Kind;
 import com.venky.swf.db.annotations.model.MENU;
 import com.venky.swf.db.annotations.model.validations.UniqueKeyValidator;
 import com.venky.swf.db.model.Model;
+import com.venky.swf.plugins.collab.db.model.CompanySpecific;
 import com.venky.swf.sql.Conjunction;
 import com.venky.swf.sql.Expression;
 import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
+import in.succinct.plugins.ecommerce.db.model.assets.Asset;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
+import in.succinct.plugins.ecommerce.db.model.attributes.AttributeValue;
+import in.succinct.plugins.ecommerce.db.model.inventory.Container;
+import in.succinct.plugins.ecommerce.db.model.inventory.Sku;
 
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 @MENU("Catalog")
 public interface Item extends Container, Model, CompanySpecific {
@@ -89,6 +95,7 @@ public interface Item extends Container, Model, CompanySpecific {
 
 	public List<ItemAttributeValue> getAttributeValues();
 
+	@UNIQUE_KEY
 	public String getItemHash();
 	public void setItemHash(String hash);
 
@@ -97,4 +104,22 @@ public interface Item extends Container, Model, CompanySpecific {
 
 	@IS_VIRTUAL
 	public String getHsn();
+
+	public static String hash(AssetCode assetCode, Collection<AttributeValue> attributeValues){
+		Set<Long> allowedAttributeIds = new HashSet<>();
+		assetCode.getAssetCodeAttributes().forEach(a->allowedAttributeIds.add(a.getAttributeId()));
+
+		StringBuilder builder = new StringBuilder();
+		builder.append(assetCode.getId());
+
+		SortedSet<Long> attributeValueIds = new TreeSet<>();
+		for  (AttributeValue value : attributeValues){
+			if (allowedAttributeIds.contains(value.getAttributeId())) {
+				attributeValueIds.add(value.getId());
+			}
+		}
+
+		builder.append(attributeValueIds);
+		return Encryptor.encrypt(builder.toString());
+	}
 }

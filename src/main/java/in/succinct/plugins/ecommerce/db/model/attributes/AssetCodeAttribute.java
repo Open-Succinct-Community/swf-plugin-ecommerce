@@ -20,6 +20,7 @@ public interface AssetCodeAttribute extends Model {
 
 
     @IS_NULLABLE(false)
+    @UNIQUE_KEY
     public long getAttributeId();
     public void setAttributeId(long AttributeId);
     public Attribute getAttribute();

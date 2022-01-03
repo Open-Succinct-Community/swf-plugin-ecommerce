@@ -34,7 +34,7 @@ public class BeforeValidateItemAttributeValue extends BeforeModelValidateExtensi
             });
         }
         if (allowedAttributeIds.isEmpty()){
-            throw new RuntimeException("Don't what what asset code the item " + model.getItem().getName() + " belongs to.");
+            throw new RuntimeException("Select attributes based on the asset code the item " + model.getItem().getName() + " belongs to.");
         }
         if (!allowedAttributeIds.contains(model.getAttributeValue().getAttributeId())){
             throw new RuntimeException("Not a valid attribute for an item with asset_code of " + model.getItem().getAssetCode().getLongDescription());

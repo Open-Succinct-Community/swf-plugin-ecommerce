@@ -1,4 +1,6 @@
 /target/
 /.settings/
-/overrideProperties/
-/.idea/
+.commit
+**/.idea/
+**/.flattened-pom.xml
+derby.log

@@ -7,7 +7,6 @@ import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.AssetAttributeValue;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
-import in.succinct.plugins.ecommerce.db.model.catalog.ItemAttributeValue;
 
 import java.util.HashSet;
 import java.util.Set;

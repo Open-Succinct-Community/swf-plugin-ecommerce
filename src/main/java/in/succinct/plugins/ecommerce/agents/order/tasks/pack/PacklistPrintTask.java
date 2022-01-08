@@ -1,5 +1,6 @@
 package in.succinct.plugins.ecommerce.agents.order.tasks.pack;
 
+import com.venky.cache.Cache;
 import com.venky.core.util.ObjectUtil;
 import com.venky.swf.db.Database;
 import com.venky.swf.db.annotations.column.ui.mimes.MimeType;
@@ -87,8 +88,18 @@ public class PacklistPrintTask extends EntityTask<Order> {
 
 
         Map<Class<? extends Model>,List<String>> entityFieldMap = getEntityFieldMap();
+        Map<Class<? extends Model>,List<Class<? extends Model>>> childModelMap = new Cache<Class<? extends Model>, List<Class<? extends Model>>>() {
+            @Override
+            protected List<Class<? extends Model>> getValue(Class<? extends Model> aClass) {
+                return new ArrayList<>();
+            }
+        };
 
-        Map<String, Object> root =TemplateEngine.getInstance().formatEntityMap(entityMap,entityFieldMap);
+        childModelMap.put(Order.class, Arrays.asList(OrderLine.class,OrderAddress.class));
+
+
+        Map<String, Object> root =TemplateEngine.getInstance().formatEntityMap(entityMap,entityFieldMap,childModelMap);
+
 
         String courier = order.getAttribute("courier").getValue();
         root.put("Courier",courier);

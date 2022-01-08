@@ -14,6 +14,7 @@ import in.succinct.plugins.ecommerce.agents.demand.OpendDemandIncrementor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.OrderStatusMonitor;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelApiTask;
 import in.succinct.plugins.ecommerce.agents.order.tasks.cancel.CancelOrderTask;
+import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.inventory.Inventory;
 import in.succinct.plugins.ecommerce.db.model.order.Order;
@@ -144,14 +145,13 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine> {
                 object.put("OrderLineId", orderLine.getId());
                 object.put("OrderId", orderLine.getOrderId());
                 inventory.adjust(-1.0D * qtyShippedNow, object.toString());
-                inventory.save();
-            } else {
+            } else if (!AssetCode.getDeliverySkuIds().contains(orderLine.getSkuId())){
                 inventory = Database.getTable(Inventory.class).newRecord();
                 inventory.setSkuId(orderLine.getSkuId());
                 inventory.setFacilityId(orderLine.getShipFromId());
                 inventory.setQuantity(0.0);
-                inventory.save();
             }
+            inventory.save();
             tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyShippedNow, demandDate, orderLine.getWorkSlot()));
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
             Registry.instance().callExtensions("OrderLine." + Order.FULFILLMENT_STATUS_SHIPPED + ".quantity", orderLine, qtyShippedNow);

@@ -95,7 +95,7 @@ public interface Item extends Container, Model, CompanySpecific {
 
 	public List<ItemAttributeValue> getAttributeValues();
 
-	@UNIQUE_KEY
+	@UNIQUE_KEY(allowMultipleRecordsWithNull = false)
 	public String getItemHash();
 	public void setItemHash(String hash);
 

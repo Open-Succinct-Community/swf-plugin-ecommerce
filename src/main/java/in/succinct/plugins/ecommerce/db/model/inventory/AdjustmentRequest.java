@@ -14,6 +14,7 @@ import in.succinct.plugins.ecommerce.db.model.attributes.AssetCode;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
 import in.succinct.plugins.ecommerce.db.model.catalog.UnitOfMeasure;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -81,6 +82,7 @@ public interface AdjustmentRequest extends Model {
                 if (assetCode != null && !assetCode.getReflector().isVoid(assetCode.getGstPct())) {
                     sku.setTaxRate(assetCode.getGstPct());
                 }
+                sku.setUpdatedAt(new Timestamp(System.currentTimeMillis()));
                 sku.save();
             }
 

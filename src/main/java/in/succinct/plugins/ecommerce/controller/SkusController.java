@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-public class SkusController extends ModelController<Sku> {
+public class SkusController<T extends Sku> extends ModelController<T> {
     public SkusController(Path path) {
         super(path);
     }

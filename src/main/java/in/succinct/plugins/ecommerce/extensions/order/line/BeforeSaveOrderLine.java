@@ -151,8 +151,10 @@ public class BeforeSaveOrderLine extends BeforeModelSaveExtension<OrderLine> {
                 inventory.setFacilityId(orderLine.getShipFromId());
                 inventory.setQuantity(0.0);
             }
-            inventory.save();
-            tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyShippedNow, demandDate, orderLine.getWorkSlot()));
+            if (inventory != null){
+                inventory.save();
+                tasks.add(new OpendDemandIncrementor(inventory.getId(), -1 * qtyShippedNow, demandDate, orderLine.getWorkSlot()));
+            }
             tasks.add(new OrderStatusMonitor(orderLine.getOrderId()));
             Registry.instance().callExtensions("OrderLine." + Order.FULFILLMENT_STATUS_SHIPPED + ".quantity", orderLine, qtyShippedNow);
         }

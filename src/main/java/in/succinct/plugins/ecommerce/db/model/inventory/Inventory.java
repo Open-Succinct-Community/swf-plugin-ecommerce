@@ -57,6 +57,7 @@ public interface Inventory extends Model, CompanySpecific {
 	public void setQuantity(double quantity);
 
 	@IS_VIRTUAL
+	@Index
 	public boolean isPublished();
 
 	@IS_NULLABLE

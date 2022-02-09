@@ -187,6 +187,7 @@ public interface OrderLine extends Model {
 	public static final String CANCELLATION_REASON_WRONG_PRICE = "WRONG_PRICE";
     public static final String CANCELLATION_REASON_PARTIAL_CANCEL_NOT_SUPPORTED = "PARTIAL_CANCEL_NOT_SUPPORTED";
     public static final String CANCELLATION_REASON_PARTIAL_LINE_CANCEL_NOT_SUPPORTED = "PARTIAL_LINE_CANCEL_NOT_SUPPORTED";
+	public static final String CANCELLATION_REASON_NOT_REQUIRED = "NOT_REQUIRED";
 
     public static final String CANCELLATION_INITIATOR_COMPANY = "Company";
     public static final String CANCELLATION_INITIATOR_USER = "User";

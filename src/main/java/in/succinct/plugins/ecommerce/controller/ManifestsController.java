@@ -16,7 +16,7 @@ public class ManifestsController extends ModelController<Manifest> {
 	}
 
     @SingleRecordAction(icon="glyphicon-refresh", tooltip="Print Manifest(Refresh)")
-	public View refresh(int manifestId){
+	public View refresh(long manifestId){
         Manifest manifest = Database.getTable(Manifest.class).get(manifestId);
         manifest.setImage(null);
         manifest.setImageContentName(null);
@@ -26,7 +26,7 @@ public class ManifestsController extends ModelController<Manifest> {
     }
 	
 	@SingleRecordAction(icon="glyphicon-print", tooltip="Print Manifest")
-	public View download(int manifestId) {
+	public View download(long manifestId) {
 		Manifest manifest = Database.getTable(Manifest.class).get(manifestId); 
 		if (manifest.getImageContentSize() == 0) {
 			//manifest.downloadManifest(manifest);
@@ -34,14 +34,14 @@ public class ManifestsController extends ModelController<Manifest> {
 		return new RedirectorView(getPath(), getPath().controllerPath() + "/view/"+manifestId );
 	}
 	@SingleRecordAction(icon="glyphicon-road",tooltip="Close Manifest")
-	public View close(int manifestId) { 
+	public View close(long manifestId) { 
 		Manifest manifest = Database.getTable(Manifest.class).get(manifestId); 
 		manifest.close();
 		return back();
 	}
 
 	@SingleRecordAction(icon="glyphicon-gift",tooltip="Track Orders")
-	public View track(int manifestId){
+	public View track(long manifestId){
 		Manifest manifest = Database.getTable(Manifest.class).get(manifestId);
 		manifest.track();
 		return back();

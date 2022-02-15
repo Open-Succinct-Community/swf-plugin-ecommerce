@@ -43,7 +43,9 @@ public interface AdjustmentRequest extends Model {
         List<T> adjustmentElements = helper.getArrayElements("AdjustmentRequest");
         if (adjustmentElements.isEmpty()) {
             T adjustmentElement = helper.getElementAttribute("AdjustmentRequest");
-            adjustmentElements.add(adjustmentElement);
+            if (adjustmentElement != null) {
+                adjustmentElements.add(adjustmentElement);
+            }
         }
 
         List<AdjustmentRequest> requests = new ArrayList<>();

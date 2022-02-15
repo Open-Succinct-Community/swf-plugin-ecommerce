@@ -16,7 +16,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 	}
 	
 	@SingleRecordAction(icon="glyphicon-thumbs-up",tooltip="Accept Order for Fulfillment")
-	public View acknowledge(int orderLineId) {
+	public View acknowledge(long orderLineId) {
 		OrderLine ol = Database.getTable(OrderLine.class).get(orderLineId);
 		ol.acknowledge();
         if (getIntegrationAdaptor() != null) {
@@ -27,7 +27,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 	}
 	
 	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Reject order fulfillment")
-	public View reject(int orderLineId) {
+	public View reject(long orderLineId) {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
 		orderLine.reject(OrderLine.CANCELLATION_REASON_OUT_OF_STOCK);
         if (getIntegrationAdaptor() != null) {
@@ -37,7 +37,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
         }
 	}
 	@SingleRecordAction(icon="glyphicon-thumbs-down",tooltip="Cancel Order Line")
-	public View cancel(int orderLineId) {
+	public View cancel(long orderLineId) {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
 		orderLine.cancel("No Longer Required",OrderLine.CANCELLATION_INITIATOR_USER);
 		if (getIntegrationAdaptor() != null) {
@@ -48,7 +48,7 @@ public class OrderLinesController extends ModelController<OrderLine> {
 	}
 
 	@SingleRecordAction(icon="glyphicon-gift", tooltip="Pack")
-	public View pack(int orderLineId) {
+	public View pack(long orderLineId) {
 		OrderLine orderLine = Database.getTable(OrderLine.class).get(orderLineId);
 		orderLine.pack(orderLine.getToPackQuantity());
         TaskManager.instance().executeAsync(new OrderStatusMonitor(orderLine.getOrderId()),false);

@@ -8,7 +8,6 @@ import com.venky.swf.db.annotations.column.UNIQUE_KEY;
 import com.venky.swf.db.annotations.column.defaulting.StandardDefault;
 import com.venky.swf.db.annotations.column.indexing.Index;
 import com.venky.swf.db.annotations.column.pm.PARTICIPANT;
-import com.venky.swf.db.annotations.column.relationship.CONNECTED_VIA;
 import com.venky.swf.db.annotations.column.ui.HIDDEN;
 import com.venky.swf.db.annotations.model.EXPORTABLE;
 import com.venky.swf.db.annotations.model.MENU;
@@ -21,7 +20,6 @@ import com.venky.swf.sql.Operator;
 import com.venky.swf.sql.Select;
 import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.demand.Demand;
-import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 
 import java.util.List;

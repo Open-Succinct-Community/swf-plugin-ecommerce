@@ -167,6 +167,7 @@ public interface Order extends Model, CompanySpecific {
     @IS_NULLABLE
     public String getHoldReason();
     public void setHoldReason(String reason);
+    public static final String HOLD_REASON_CATALOG_INCOMPLETE = "New item!";
 
     @IS_VIRTUAL
     public Date getExpectedDeliveryDate();

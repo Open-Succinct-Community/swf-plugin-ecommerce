@@ -158,9 +158,10 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 
 	public boolean isPublished(){
 		Inventory inventory = getProxy();
-		if (inventory.getRawRecord().isNewRecord()){
+		/* if (inventory.getRawRecord().isNewRecord()){
 			return false;
-		}
+		} Can  be external inventory
+		*/
 		return inventory.isInfinite() || inventory.getQuantity() > 0;
 	}
 

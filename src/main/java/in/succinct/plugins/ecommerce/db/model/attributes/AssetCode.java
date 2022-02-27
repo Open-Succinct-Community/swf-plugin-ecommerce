@@ -24,38 +24,7 @@ import java.util.List;
 
 @MENU("Inventory")
 @HAS_DESCRIPTION_FIELD("LONG_DESCRIPTION")
-public interface AssetCode extends Model {
-    @Index
-    @IS_NULLABLE(false)
-    @UNIQUE_KEY
-    public String getCode();
-    public void setCode(String code);
-
-    @Index
-    @IS_NULLABLE(false)
-    @COLUMN_SIZE(4096)
-    public String getDescription();
-    public void setDescription(String description);
-
-
-    @IS_NULLABLE
-    public Long getRentalAssetCodeId();
-    public void setRentalAssetCodeId(Long RentalAssetCodeId);
-    public AssetCode getRentalAssetCode();
-
-
-    @IS_VIRTUAL
-    @Index
-    public String getLongDescription();
-
-    public Double getGstPct();
-    public void setGstPct(Double gstPct);
-
-    @IS_VIRTUAL
-    public boolean isHsn();
-
-    @IS_VIRTUAL
-    public boolean isSac();
+public interface AssetCode extends com.venky.swf.plugins.gst.db.model.assets.AssetCode {
 
     public List<AssetCodeAttribute> getAssetCodeAttributes();
 
@@ -78,9 +47,4 @@ public interface AssetCode extends Model {
     public static List<Long> getDeliverySkuIds(){
         return DataSecurityFilter.getIds(getDeliverySkus());
     }
-
-    @COLUMN_DEF(StandardDefault.BOOLEAN_FALSE)
-    boolean isDeliveredElectronically();
-    public void setDeliveredElectronically(boolean deliveredElectronically);
-
 }

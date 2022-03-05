@@ -68,7 +68,7 @@ public interface AdjustmentRequest extends Model {
                         UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class, helper.getFormatClass()).read(uomElement);
                         uom.save();
                     } else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))) {
-                        skuHelper.setAttribute("Name", itemHelper.getAttribute("Name"));
+                        skuHelper.setAttribute("Name", (String)itemHelper.getAttribute("Name"));
                     }
                     T assetCodeElement = itemHelper.getElementAttribute("AssetCode");
                     if (assetCodeElement != null && ObjectUtil.isVoid(FormatHelper.instance(assetCodeElement).getAttribute("Code"))) {

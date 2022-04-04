@@ -54,6 +54,11 @@ public interface Inventory extends Model, CompanySpecific {
 	public double getQuantity();
 	public void setQuantity(double quantity);
 
+	@COLUMN_DEF(StandardDefault.BOOLEAN_TRUE)
+	public boolean isEnabled();
+	public void setEnabled(boolean enabled);
+
+
 	@IS_VIRTUAL
 	@Index
 	public boolean isPublished();

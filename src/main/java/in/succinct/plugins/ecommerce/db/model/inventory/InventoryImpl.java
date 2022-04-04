@@ -162,7 +162,7 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 			return false;
 		} Can  be external inventory
 		*/
-		return inventory.isInfinite() || inventory.getQuantity() > 0;
+		return inventory.isEnabled() && ( inventory.isInfinite() || inventory.getQuantity() > 0);
 	}
 
 }

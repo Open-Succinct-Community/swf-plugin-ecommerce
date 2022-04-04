@@ -20,6 +20,7 @@ import in.succinct.plugins.ecommerce.db.model.assets.Asset;
 import in.succinct.plugins.ecommerce.db.model.assets.Capability;
 import in.succinct.plugins.ecommerce.db.model.attributes.AssetCodeAttribute;
 import in.succinct.plugins.ecommerce.db.model.catalog.Item;
+import in.succinct.plugins.ecommerce.db.model.inventory.InventoryCalculator.ATP;
 import in.succinct.plugins.ecommerce.db.model.participation.Company;
 import in.succinct.plugins.ecommerce.db.model.participation.Facility;
 import org.apache.lucene.document.Document;
@@ -162,7 +163,8 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 			return false;
 		} Can  be external inventory
 		*/
-		return inventory.isEnabled() && ( inventory.isInfinite() || inventory.getQuantity() > 0);
+		InventoryCalculator inventoryCalculator = new InventoryCalculator(inventory.getSku(),inventory.getFacility());
+		return inventory.isEnabled() && ( inventory.isInfinite() || inventoryCalculator.getTotalInventory() > 0);
 	}
 
 }

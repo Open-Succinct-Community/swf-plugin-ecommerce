@@ -276,6 +276,7 @@ public interface OrderLine extends Model {
     public void cancel(String reason, String initiator, double quantity);
 
     public void acknowledge();
+	public void acknowledge(boolean force);
     public void acknowledge(Map<Long,List<ATP>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage );
 
     public void manifest();

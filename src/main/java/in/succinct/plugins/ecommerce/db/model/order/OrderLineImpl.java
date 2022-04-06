@@ -101,8 +101,8 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
 	public void pack(double quantity) {
 		OrderLine orderLine = getProxy();
 		double quantityAcknowledged = orderLine.getAcknowledgedQuantity();
-		if (quantityAcknowledged < quantity){
-		    orderLine.acknowledge();
+		if (quantityAcknowledged < quantity + orderLine.getPackedQuantity()){
+		    orderLine.acknowledge(true);
         }
 
 		double remainingQuantityToPack = orderLine.getToPackQuantity();
@@ -160,7 +160,7 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         if (quantity > remainingShippableQuantity ){
             throw new IllegalArgumentException("Quantity " + quantity + " Exceeds quantity remaining to be shipped" +  remainingShippableQuantity);
         }
-        if (ol.getPackedQuantity() < quantity){
+        if (ol.getPackedQuantity() < quantity + ol.getShippedQuantity()){
             ol.pack(quantity - ol.getPackedQuantity());
         }
         ol.setShippedQuantity(ol.getShippedQuantity() + quantity);
@@ -287,15 +287,22 @@ public class OrderLineImpl  extends ModelImpl<OrderLine>{
         cancel("","");
     }
     public void acknowledge(){
-        Map<Long, List<ATP>> skuATP = new Cache<Long, List<ATP>>() {
-            @Override
-            protected List<ATP> getValue(Long skuId) {
-                return new ArrayList<>();
-            }
-        };
-        Bucket acknowlededCounter = new Bucket();
-        Bucket rejectCounter= new Bucket();
-        acknowledge(skuATP,acknowlededCounter,rejectCounter,false);
+        acknowledge(false);
+    }
+    public void acknowledge(boolean force){
+        if (force) {
+            getProxy().setAcknowledgedQuantity(getRemainingCancellableQuantity());
+        }else {
+            Map<Long, List<ATP>> skuATP = new Cache<Long, List<ATP>>() {
+                @Override
+                protected List<ATP> getValue(Long skuId) {
+                    return new ArrayList<>();
+                }
+            };
+            Bucket acknowlededCounter = new Bucket();
+            Bucket rejectCounter= new Bucket();
+            acknowledge(skuATP,acknowlededCounter,rejectCounter,false);
+        }
     }
 	public void acknowledge(Map<Long,List<ATP>> skuATP, Bucket acknowledgedLineCounter, Bucket rejectLineCounter, boolean cancelOnShortage ){
         OrderLine ol = getProxy();

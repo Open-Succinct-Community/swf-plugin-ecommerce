@@ -56,6 +56,13 @@ public class InventoryCalculator {
 		});
 		return total.doubleValue();
 	}
+	public Double getPendingShip(){
+		Bucket total = new Bucket();
+		getInventory().forEach(atp->{
+			total.increment(atp.getPendingShipQuantity().doubleValue());
+		});
+		return total.doubleValue();
+	}
 	
 	public static class ATP { 
 		Inventory inventory;
@@ -78,12 +85,21 @@ public class InventoryCalculator {
 			return slot.getId();
 		}
 		Bucket total = null;
+		Bucket pendShipQuantity = null;
+
+		public Bucket getPendingShipQuantity(){
+			if (pendShipQuantity != null){
+				return pendShipQuantity;
+			}
+			getQuantity();
+			return pendShipQuantity;
+		}
         public Bucket getQuantity() {
         	if (total != null){
 				return total;
 			}
 			total = new Bucket();
-			Bucket pendShipQuantity = new Bucket();
+			pendShipQuantity = new Bucket();
 			boolean isItemRentable = inventory.getSku().getItem().isRentable();
 
 			if (isItemRentable){

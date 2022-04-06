@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.db.model.inventory;
 import com.venky.core.util.ObjectUtil;
 import com.venky.digest.Encryptor;
 import com.venky.swf.db.Database;
+import com.venky.swf.db.annotations.column.IS_VIRTUAL;
 import com.venky.swf.db.model.reflection.ModelReflector;
 import com.venky.swf.db.table.ModelImpl;
 import com.venky.swf.plugins.background.core.TaskManager;
@@ -156,6 +157,17 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 		}
 		return calendar;
 	}
+	private InventoryCalculator inventoryCalculator = null;
+	public InventoryCalculator getInventoryCalculator(){
+		Inventory inventory = getProxy();
+		if (inventory.getRawRecord().isNewRecord()){
+			return null;
+		}
+		if (inventoryCalculator == null){
+			inventoryCalculator = new InventoryCalculator(getProxy().getSku(),getProxy().getFacility());
+		}
+		return inventoryCalculator;
+	}
 
 	public boolean isPublished(){
 		Inventory inventory = getProxy();
@@ -163,8 +175,26 @@ public class InventoryImpl extends  ModelImpl<Inventory> {
 			return false;
 		} Can  be external inventory
 		*/
-		InventoryCalculator inventoryCalculator = new InventoryCalculator(inventory.getSku(),inventory.getFacility());
-		return inventory.isEnabled() && ( inventory.isInfinite() || inventoryCalculator.getTotalInventory() > 0);
+		InventoryCalculator inventoryCalculator = getInventoryCalculator();
+
+		return inventory.isEnabled() && ( inventory.isInfinite() || (inventoryCalculator != null && inventoryCalculator.getTotalInventory() > 0));
 	}
+
+	public double  getAvailableToPromise() {
+		InventoryCalculator calculator = getInventoryCalculator();
+		if (calculator == null){
+			return 0;
+		}
+		return calculator.getTotalInventory();
+	}
+
+	public double getDemandQuantity() {
+		InventoryCalculator calculator = getInventoryCalculator();
+		if (calculator == null){
+			return 0;
+		}
+		return calculator.getPendingShip();
+	}
+
 
 }

@@ -3,6 +3,7 @@ package in.succinct.plugins.ecommerce.agents.order.tasks;
 import com.venky.core.date.DateUtils;
 import com.venky.extension.Registry;
 import com.venky.swf.plugins.background.core.AsyncTaskManager;
+import com.venky.swf.plugins.background.core.AsyncTaskManagerFactory;
 import com.venky.swf.plugins.background.core.Task;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTask;
 import com.venky.swf.plugins.background.core.agent.AgentSeederTaskBuilder;
@@ -60,7 +61,7 @@ public class AcknowledgeOrderTask implements Task, AgentSeederTaskBuilder  {
         return new AgentSeederTask() {
 
             long lastId = -1L;
-            int numTasksToBuffer = 2 * AsyncTaskManager.getInstance().getNumWorkers() + 10;
+            int numTasksToBuffer = 2 * getAsyncTaskManager().getNumWorkers() + 10;
             @Override
             public List<Task> getTasks() {
                 Select select = new Select().from(Order.class);

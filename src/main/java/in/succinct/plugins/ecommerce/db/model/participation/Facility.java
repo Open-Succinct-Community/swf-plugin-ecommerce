@@ -15,18 +15,13 @@ public interface Facility extends com.venky.swf.plugins.collab.db.model.particip
 	public String getInvoicePrefix();
 	public void setInvoicePrefix(String invoicePrefix);
 
-	public List<FacilityCategory> getFacilityCategories();
-	
+
 	public List<Inventory> getInventoryList();
 
 	public List<PreferredCarrier> getPreferredCarriers();
 
 	public List<MarketPlaceIntegration> getPreferredMarketPlaceIntegrations();
 
-	@IS_NULLABLE
-	public Long getWorkCalendarId();
-	public void setWorkCalendarId(Long WorkCalendarId);
-	public WorkCalendar getWorkCalendar();
 
 	public List<Attachment> getAttachments();
 

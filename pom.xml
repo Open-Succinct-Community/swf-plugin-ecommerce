@@ -9,7 +9,7 @@
     <artifactId>swf-plugin-ecommerce</artifactId>
     <name>swf-plugin-ecommerce</name>
     <description>swf-plugin-ecommerce</description>
-    <version>2.11</version>
+    <version>2.12-SNAPSHOT</version>
 
     <url>http://maven.apache.org</url>
     <licenses>
@@ -42,7 +42,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>swf-plugin-collab</artifactId>
+            <artifactId>swf-plugin-mobilesignup</artifactId>
             <version>[2.10,3.0)</version>
         </dependency>
         <dependency>
@@ -51,11 +51,6 @@
             <version>[2.10,3.0)</version>
         </dependency>
 
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>swf-plugin-calendar</artifactId>
-            <version>[2.10,3.0)</version>
-        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>

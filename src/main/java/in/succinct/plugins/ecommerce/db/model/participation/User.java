@@ -10,7 +10,7 @@ import in.succinct.plugins.ecommerce.db.model.service.ServiceResource;
 import java.sql.Date;
 import java.util.List;
 
-public interface User extends com.venky.swf.plugins.collab.db.model.user.User {
+public interface User extends com.venky.swf.plugins.mobilesignup.db.model.User {
     @CONNECTED_VIA("USER_ID")
     @HIDDEN
     public List<ServiceResource> getServiceResources();

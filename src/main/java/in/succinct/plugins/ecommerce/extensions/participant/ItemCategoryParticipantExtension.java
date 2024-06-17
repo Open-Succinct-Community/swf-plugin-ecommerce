@@ -16,7 +16,7 @@ public class ItemCategoryParticipantExtension extends ParticipantExtension<ItemC
 		registerExtension(new ItemCategoryParticipantExtension());
 	}
 	@Override
-	protected List<Long> getAllowedFieldValues(User user, ItemCategory partiallyFilledModel, String fieldName) {
+	public List<Long> getAllowedFieldValues(User user, ItemCategory partiallyFilledModel, String fieldName) {
 	    List<Long> ret = null;
 		if (fieldName.equals("ITEM_ID")){
             ret = new SequenceSet<>();

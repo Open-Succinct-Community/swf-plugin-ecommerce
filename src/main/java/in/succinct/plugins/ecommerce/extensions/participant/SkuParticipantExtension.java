@@ -21,7 +21,7 @@ public class SkuParticipantExtension extends CompanySpecificParticipantExtension
 		registerExtension(new SkuParticipantExtension());
 	}
 	@Override
-	protected List<Long> getAllowedFieldValues(User user, Sku partiallyFilledModel, String fieldName) {
+	public List<Long> getAllowedFieldValues(User user, Sku partiallyFilledModel, String fieldName) {
 	    List<Long> ret = null;
 		if (fieldName.equals("ITEM_ID")){
 		    ret = new SequenceSet<>();

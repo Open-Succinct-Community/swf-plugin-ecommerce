@@ -473,7 +473,7 @@ public class HumBhiOnline implements MarketPlace , WarehouseActionHandler, UserA
         removeId(juser);
 
         // This may not be email format
-        User user = ModelIOFactory.getReader(User.class,JSONObject.class).read(juser);
+        User user = ModelIOFactory.getReader(User.class,JSONObject.class).read(juser,false);
         if (user.getRawRecord().isNewRecord()){
             user.setNotificationEnabled(false);
         }

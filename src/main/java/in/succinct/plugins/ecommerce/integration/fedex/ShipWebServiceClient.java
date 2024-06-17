@@ -544,7 +544,7 @@ public class ShipWebServiceClient {
         addressRecip.setPostalCode(shipTo.getPinCode().getPinCode());
         addressRecip.setCountryCode(shipTo.getCountry().getIsoCode());
         addressRecip.setCountryName(shipTo.getCountry().getName());
-        addressRecip.setResidential(new Boolean(true));
+        addressRecip.setResidential(Boolean.TRUE);
 
         recipient.setAddress(addressRecip);
         return recipient;
@@ -565,7 +565,7 @@ public class ShipWebServiceClient {
         addressRecip.setPostalCode("110010");
         addressRecip.setCountryCode("IN");
         addressRecip.setCountryName("INDIA");
-        addressRecip.setResidential(new Boolean(false));
+        addressRecip.setResidential(Boolean.FALSE);
         contactAndAddress.setAddress(addressRecip);
         return contactAndAddress;
     }

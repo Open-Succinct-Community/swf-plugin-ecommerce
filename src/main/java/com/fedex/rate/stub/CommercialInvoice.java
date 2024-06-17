@@ -20,7 +20,8 @@ package com.fedex.rate.stub;
  * element. Commercial Invoice support consists of maximum of 99 commodity
  * line items.
  */
-public class CommercialInvoice  implements java.io.Serializable {
+public class
+CommercialInvoice  implements java.io.Serializable {
     /* Any comments that need to be communicated about this shipment. */
     private java.lang.String[] comments;
 

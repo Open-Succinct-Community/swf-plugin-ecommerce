@@ -65,7 +65,7 @@ public interface AdjustmentRequest extends Model {
 
                     T uomElement = skuHelper.getElementAttribute("PackagingUOM");
                     if (uomElement != null) {
-                        UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class, helper.getFormatClass()).read(uomElement);
+                        UnitOfMeasure uom = ModelIOFactory.getReader(UnitOfMeasure.class, helper.getFormatClass()).read(uomElement,false);
                         uom.save();
                     } else if (ObjectUtil.isVoid(skuHelper.getAttribute("Name"))) {
                         skuHelper.setAttribute("Name", (String)itemHelper.getAttribute("Name"));
@@ -75,11 +75,11 @@ public interface AdjustmentRequest extends Model {
                         itemHelper.removeElementAttribute("AssetCode");
                     }
 
-                    Item item = ModelIOFactory.getReader(Item.class, helper.getFormatClass()).read(itemElement);
+                    Item item = ModelIOFactory.getReader(Item.class, helper.getFormatClass()).read(itemElement,false);
                     item.save();
                 }
 
-                Sku sku = ModelIOFactory.getReader(Sku.class, helper.getFormatClass()).read(skuElement);
+                Sku sku = ModelIOFactory.getReader(Sku.class, helper.getFormatClass()).read(skuElement,false);
                 AssetCode assetCode = sku.getItem().getAssetCode();
                 if (assetCode != null && !assetCode.getReflector().isVoid(assetCode.getGstPct())) {
                     sku.setTaxRate(assetCode.getGstPct());
@@ -88,12 +88,12 @@ public interface AdjustmentRequest extends Model {
                 sku.save();
             }
 
-            Inventory inventory = ModelIOFactory.getReader(Inventory.class, helper.getFormatClass()).read(inventoryElement);
+            Inventory inventory = ModelIOFactory.getReader(Inventory.class, helper.getFormatClass()).read(inventoryElement,false);
             if (inventory.getRawRecord().isNewRecord()) {
                 inventory.save();//Ensure parent exists
             }
 
-            AdjustmentRequest request = ModelIOFactory.getReader(AdjustmentRequest.class, helper.getFormatClass()).read(adjustmentElement);
+            AdjustmentRequest request = ModelIOFactory.getReader(AdjustmentRequest.class, helper.getFormatClass()).read(adjustmentElement,false);
             request.setInventoryId(inventory.getId());
             request.save();
             requests.add(request);

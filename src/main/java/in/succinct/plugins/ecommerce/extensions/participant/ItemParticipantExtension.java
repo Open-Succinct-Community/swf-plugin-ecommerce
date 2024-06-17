@@ -18,7 +18,7 @@ public class ItemParticipantExtension extends CompanySpecificParticipantExtensio
 		registerExtension(new ItemParticipantExtension());
 	}
 	@Override
-	protected List<Long> getAllowedFieldValues(User user, Item partiallyFilledModel, String fieldName) {
+	public List<Long> getAllowedFieldValues(User user, Item partiallyFilledModel, String fieldName) {
 		if (fieldName.equals("LENGTH_U_O_M_ID") || fieldName.equals("WIDTH_U_O_M_ID") || fieldName.equals("HEIGHT_U_O_M_ID")){
 			ModelReflector<UnitOfMeasure> ref = ModelReflector.instance(UnitOfMeasure.class);
 			return DataSecurityFilter.getIds(DataSecurityFilter.getRecordsAccessible(UnitOfMeasure.class, user, new Expression(ref.getPool(), "MEASURES", Operator.EQ, "Length")));

@@ -21,7 +21,7 @@ public class InventoryParticipantExtension extends CompanySpecificParticipantExt
 		registerExtension(new InventoryParticipantExtension());
 	}
 	@Override
-	protected List<Long> getAllowedFieldValues(User user, Inventory partiallyFilledModel, String fieldName) {
+	public List<Long> getAllowedFieldValues(User user, Inventory partiallyFilledModel, String fieldName) {
 	    List<Long> ret = null;
 
 		if (fieldName.equals("SKU_ID") ){

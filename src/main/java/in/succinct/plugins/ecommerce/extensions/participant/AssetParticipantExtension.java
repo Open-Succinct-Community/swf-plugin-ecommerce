@@ -17,7 +17,7 @@ public class AssetParticipantExtension extends CompanySpecificParticipantExtensi
 		registerExtension(new AssetParticipantExtension());
 	}
 	@Override
-	protected List<Long> getAllowedFieldValues(User user, Asset partiallyFilledModel, String fieldName) {
+	public List<Long> getAllowedFieldValues(User user, Asset partiallyFilledModel, String fieldName) {
 		return super.getAllowedFieldValues(user,partiallyFilledModel,fieldName);
 	}
 

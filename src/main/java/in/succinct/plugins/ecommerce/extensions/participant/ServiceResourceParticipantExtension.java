@@ -17,7 +17,7 @@ public class ServiceResourceParticipantExtension extends ParticipantExtension<Se
         registerExtension(new ServiceResourceParticipantExtension());
     }
     @Override
-    protected List<Long> getAllowedFieldValues(User user, ServiceResource partiallyFilledModel, String fieldName) {
+    public List<Long> getAllowedFieldValues(User user, ServiceResource partiallyFilledModel, String fieldName) {
         com.venky.swf.plugins.collab.db.model.user.User u = user.getRawRecord().getAsProxy(com.venky.swf.plugins.collab.db.model.user.User.class);
 
         if (ObjectUtil.equals(fieldName,"SERVICE_ID")){
